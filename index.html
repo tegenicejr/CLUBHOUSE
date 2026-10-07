@@ -7,22 +7,51 @@
   <link rel="manifest" href="manifest.json">
   <link rel="stylesheet" href="style.css">
   <style>
-    /* SVGアイコンがカード枠に綺麗に収まるスタイル補正 */
+    /* SVGアイコン表示補正 */
     .game-icon-box svg {
       width: 100%;
       height: 100%;
       display: block;
       border-radius: 16px;
     }
+
+    /* 歯車ボタンの押しやすさ向上 */
+    .gear-btn {
+      font-size: 24px;
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 10px;
+      line-height: 1;
+      touch-action: manipulation;
+    }
+
+    /* 設定モーダルの確実な表示制御 */
+    .modal-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.6);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 99999;
+      backdrop-filter: blur(4px);
+    }
+    .modal-overlay.hidden {
+      display: none !important;
+    }
   </style>
 </head>
 <body>
 
-  <!-- ヘッダー（右上に歯車ボタンのみ配置） -->
+  <!-- ヘッダー -->
   <header>
     <div class="brand-title">Oh LOVE games</div>
     <div class="header-right">
-      <button id="btn-settings-open" class="gear-btn" aria-label="Settings">⚙️</button>
+      <button id="btn-settings-open" class="gear-btn" type="button" aria-label="Settings">⚙️</button>
     </div>
   </header>
 
@@ -80,66 +109,47 @@
           <div class="game-icon-box">
             <svg class="title-symbol-svg" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" width="100%" height="100%">
               <defs>
-                <!-- 盤面フェルトグラデーション -->
                 <radialGradient id="emblemBg" cx="50%" cy="50%" r="50%">
                   <stop offset="0%" stop-color="#1e4e32"/>
                   <stop offset="70%" stop-color="#143521"/>
                   <stop offset="100%" stop-color="#0a1c11"/>
                 </radialGradient>
-                <!-- 真鍮リムグラデーション -->
                 <linearGradient id="brassBorder" x1="0%" y1="0%" x2="100%" y2="100%">
                   <stop offset="0%" stop-color="#fff2b2"/>
                   <stop offset="35%" stop-color="#d4af37"/>
                   <stop offset="70%" stop-color="#8a671c"/>
                   <stop offset="100%" stop-color="#e8ca74"/>
                 </linearGradient>
-                <!-- 白（象牙）駒グラデーション -->
                 <radialGradient id="ivoryShade" cx="35%" cy="30%" r="70%">
                   <stop offset="0%" stop-color="#ffffff"/>
                   <stop offset="65%" stop-color="#eee6d3"/>
                   <stop offset="100%" stop-color="#b8aa88"/>
                 </radialGradient>
-                <!-- 黒（漆黒）駒グラデーション -->
                 <radialGradient id="onyxShade" cx="35%" cy="30%" r="70%">
                   <stop offset="0%" stop-color="#464a52"/>
                   <stop offset="60%" stop-color="#1c1e22"/>
                   <stop offset="100%" stop-color="#08090a"/>
                 </radialGradient>
-                <!-- 駒ドロップシャドウ -->
                 <filter id="checkerShadow" x="-30%" y="-30%" width="160%" height="160%">
                   <feDropShadow dx="0" dy="6" stdDeviation="5" flood-color="#000000" flood-opacity="0.65"/>
                 </filter>
               </defs>
-
-              <!-- 外枠：八角形風の真鍮ベゼルプレート -->
               <rect x="10" y="10" width="180" height="180" rx="40" fill="url(#emblemBg)" stroke="url(#brassBorder)" stroke-width="4"/>
               <rect x="18" y="18" width="164" height="164" rx="32" fill="none" stroke="rgba(212,175,55,0.3)" stroke-width="1.5"/>
-
-              <!-- 上下対向の三角ポイント（クリムゾン & アイボリー） -->
-              <!-- 上側三角 -->
               <polygon points="40,20 62,92 18,92" fill="#8c1e17" opacity="0.95"/>
               <polygon points="80,20 102,92 58,92" fill="#dfd1b3" opacity="0.95"/>
               <polygon points="120,20 142,92 98,92" fill="#8c1e17" opacity="0.95"/>
               <polygon points="160,20 182,92 138,92" fill="#dfd1b3" opacity="0.95"/>
-
-              <!-- 下側三角 -->
               <polygon points="40,180 62,108 18,108" fill="#dfd1b3" opacity="0.95"/>
               <polygon points="80,180 102,108 58,108" fill="#8c1e17" opacity="0.95"/>
               <polygon points="120,180 142,108 98,108" fill="#dfd1b3" opacity="0.95"/>
               <polygon points="160,180 182,108 138,108" fill="#8c1e17" opacity="0.95"/>
-
-              <!-- 中央の仕切りバー -->
               <line x1="100" y1="20" x2="100" y2="180" stroke="#2d1408" stroke-width="6" opacity="0.6"/>
-
-              <!-- バックギャモン象徴：2色の対峙する立体駒（チェッカー） -->
-              <!-- 黒（漆黒）チェッカー（左） -->
               <g filter="url(#checkerShadow)">
                 <circle cx="76" cy="100" r="30" fill="url(#onyxShade)" stroke="#4a4d53" stroke-width="2"/>
                 <circle cx="76" cy="100" r="21" fill="none" stroke="rgba(255,255,255,0.22)" stroke-width="1.5"/>
                 <circle cx="76" cy="100" r="10" fill="none" stroke="rgba(212,175,55,0.4)" stroke-width="1"/>
               </g>
-
-              <!-- 白（象牙）チェッカー（右・手前に重なる） -->
               <g filter="url(#checkerShadow)">
                 <circle cx="124" cy="100" r="30" fill="url(#ivoryShade)" stroke="#b8ab8b" stroke-width="2"/>
                 <circle cx="124" cy="100" r="21" fill="none" stroke="rgba(138,120,90,0.45)" stroke-width="1.5"/>
@@ -161,11 +171,10 @@
     <div class="modal-box">
       <div class="modal-header">
         <h2 id="modal-settings-title">⚙️ 設定</h2>
-        <button id="btn-close-modal" class="close-x-btn">✕</button>
+        <button id="btn-close-modal" class="close-x-btn" type="button">✕</button>
       </div>
       
       <div class="modal-body">
-        <!-- 1. 言語選択 (8言語) -->
         <div class="setting-row">
           <label id="lbl-lang">言語 (Language)</label>
           <select id="select-lang" class="custom-select">
@@ -180,42 +189,38 @@
           </select>
         </div>
 
-        <!-- 2. サウンド (効果音) -->
         <div class="setting-row">
           <label id="lbl-sound">効果音 (Sound FX)</label>
           <div class="btn-group">
-            <button id="btn-sound-on" class="toggle-choice-btn">ON</button>
-            <button id="btn-sound-off" class="toggle-choice-btn">OFF</button>
+            <button id="btn-sound-on" class="toggle-choice-btn" type="button">ON</button>
+            <button id="btn-sound-off" class="toggle-choice-btn" type="button">OFF</button>
           </div>
         </div>
 
-        <!-- 3. 振動 (バイブレーション) -->
         <div class="setting-row">
           <label id="lbl-vib">振動 (Vibration)</label>
           <div class="btn-group">
-            <button id="btn-vib-on" class="toggle-choice-btn">ON</button>
-            <button id="btn-vib-off" class="toggle-choice-btn">OFF</button>
+            <button id="btn-vib-on" class="toggle-choice-btn" type="button">ON</button>
+            <button id="btn-vib-off" class="toggle-choice-btn" type="button">OFF</button>
           </div>
         </div>
 
-        <!-- 4. アニメーション速度 -->
         <div class="setting-row">
           <label id="lbl-speed">アニメーション速度</label>
           <div class="btn-group">
-            <button id="btn-speed-normal" class="toggle-choice-btn">通常</button>
-            <button id="btn-speed-fast" class="toggle-choice-btn">高速</button>
+            <button id="btn-speed-normal" class="toggle-choice-btn" type="button">通常</button>
+            <button id="btn-speed-fast" class="toggle-choice-btn" type="button">高速</button>
           </div>
         </div>
       </div>
 
       <div class="modal-footer">
-        <button id="btn-modal-close-bottom" class="primary-btn">とじる</button>
+        <button id="btn-modal-close-bottom" class="primary-btn" type="button">とじる</button>
       </div>
     </div>
   </div>
 
   <script>
-    // 8言語対応辞書
     const I18N = {
       ja: {
         title: 'CLUB HOUSE',
@@ -333,7 +338,6 @@
 
     class ClubHouseApp {
       constructor() {
-        // 保存された設定の読み込み（2048キーとも同期）
         this.currentLang = localStorage.getItem('2048_lang') || localStorage.getItem('clubhouse_lang') || 'ja';
         this.isMuted = (localStorage.getItem('2048_muted') || localStorage.getItem('clubhouse_muted')) === 'true';
         this.isVib = (localStorage.getItem('2048_vibration') || localStorage.getItem('clubhouse_vibration')) !== 'false';
@@ -375,10 +379,4 @@
         const t = I18N[this.currentLang] || I18N.ja;
         document.documentElement.lang = this.currentLang;
 
-        this.titleText.textContent = t.title;
-        this.descText.textContent = t.subtitle;
-        this.desc2048.textContent = t.desc2048;
-        this.descBg.textContent = t.descBg;
-
-        this.settingsTitle.textContent = t.settingsTitle;
-        this.lblLang.textContent
+        if (this.titleText)
