@@ -7,7 +7,6 @@
   <link rel="manifest" href="manifest.json">
   <link rel="stylesheet" href="style.css">
   <style>
-    /* アイコン埋め込み用の最適化スタイル */
     .game-icon svg {
       width: 100%;
       height: 100%;
@@ -63,38 +62,117 @@
         <div class="game-icon">
           <svg class="title-symbol-svg" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" width="100%" height="100%">
             <defs>
+              <!-- 盤面フェルトグラデーション -->
               <radialGradient id="emblemBg" cx="50%" cy="50%" r="50%">
                 <stop offset="0%" stop-color="#1e4e32"/>
                 <stop offset="70%" stop-color="#143521"/>
                 <stop offset="100%" stop-color="#0a1c11"/>
               </radialGradient>
+              <!-- 真鍮リムグラデーション -->
               <linearGradient id="brassBorder" x1="0%" y1="0%" x2="100%" y2="100%">
                 <stop offset="0%" stop-color="#fff2b2"/>
                 <stop offset="35%" stop-color="#d4af37"/>
                 <stop offset="70%" stop-color="#8a671c"/>
                 <stop offset="100%" stop-color="#e8ca74"/>
               </linearGradient>
+              <!-- 白（象牙）駒グラデーション -->
               <radialGradient id="ivoryShade" cx="35%" cy="30%" r="70%">
                 <stop offset="0%" stop-color="#ffffff"/>
                 <stop offset="65%" stop-color="#eee6d3"/>
                 <stop offset="100%" stop-color="#b8aa88"/>
               </radialGradient>
+              <!-- 黒（漆黒）駒グラデーション -->
               <radialGradient id="onyxShade" cx="35%" cy="30%" r="70%">
                 <stop offset="0%" stop-color="#464a52"/>
                 <stop offset="60%" stop-color="#1c1e22"/>
                 <stop offset="100%" stop-color="#08090a"/>
               </radialGradient>
+              <!-- 駒ドロップシャドウ -->
               <filter id="checkerShadow" x="-30%" y="-30%" width="160%" height="160%">
                 <feDropShadow dx="0" dy="6" stdDeviation="5" flood-color="#000000" flood-opacity="0.65"/>
               </filter>
             </defs>
+
+            <!-- 外枠：八角形風の真鍮ベゼルプレート -->
             <rect x="10" y="10" width="180" height="180" rx="40" fill="url(#emblemBg)" stroke="url(#brassBorder)" stroke-width="4"/>
             <rect x="18" y="18" width="164" height="164" rx="32" fill="none" stroke="rgba(212,175,55,0.3)" stroke-width="1.5"/>
+
+            <!-- 上下対向の三角ポイント（クリムゾン & アイボリー） -->
+            <!-- 上側三角 -->
             <polygon points="40,20 62,92 18,92" fill="#8c1e17" opacity="0.95"/>
             <polygon points="80,20 102,92 58,92" fill="#dfd1b3" opacity="0.95"/>
             <polygon points="120,20 142,92 98,92" fill="#8c1e17" opacity="0.95"/>
             <polygon points="160,20 182,92 138,92" fill="#dfd1b3" opacity="0.95"/>
+
+            <!-- 下側三角 -->
             <polygon points="40,180 62,108 18,108" fill="#dfd1b3" opacity="0.95"/>
             <polygon points="80,180 102,108 58,108" fill="#8c1e17" opacity="0.95"/>
             <polygon points="120,180 142,108 98,108" fill="#dfd1b3" opacity="0.95"/>
-            <polygon points="160,
+            <polygon points="160,180 182,108 138,108" fill="#8c1e17" opacity="0.95"/>
+
+            <!-- 中央の仕切りバー -->
+            <line x1="100" y1="20" x2="100" y2="180" stroke="#2d1408" stroke-width="6" opacity="0.6"/>
+
+            <!-- バックギャモン象徴：2色の対峙する立体駒（チェッカー） -->
+            <!-- 黒（漆黒）チェッカー（左） -->
+            <g filter="url(#checkerShadow)">
+              <circle cx="76" cy="100" r="30" fill="url(#onyxShade)" stroke="#4a4d53" stroke-width="2"/>
+              <circle cx="76" cy="100" r="21" fill="none" stroke="rgba(255,255,255,0.22)" stroke-width="1.5"/>
+              <circle cx="76" cy="100" r="10" fill="none" stroke="rgba(212,175,55,0.4)" stroke-width="1"/>
+            </g>
+
+            <!-- 白（象牙）チェッカー（右・手前に重なる） -->
+            <g filter="url(#checkerShadow)">
+              <circle cx="124" cy="100" r="30" fill="url(#ivoryShade)" stroke="#b8ab8b" stroke-width="2"/>
+              <circle cx="124" cy="100" r="21" fill="none" stroke="rgba(138,120,90,0.45)" stroke-width="1.5"/>
+              <circle cx="124" cy="100" r="10" fill="none" stroke="rgba(212,175,55,0.6)" stroke-width="1"/>
+            </g>
+          </svg>
+        </div>
+        <div class="game-info">
+          <div class="game-name">Backgammon</div>
+          <div class="game-meta" data-i18n="tag_board">BOARD GAME</div>
+        </div>
+      </a>
+    </main>
+
+    <!-- 共通設定モーダル -->
+    <div id="settingsModal" class="modal hidden">
+      <div class="modal-backdrop"></div>
+      <div class="modal-card">
+        <div class="modal-header">
+          <h2 data-i18n="settings_title">共通設定</h2>
+          <button id="closeSettingsBtn" class="close-btn">&times;</button>
+        </div>
+        <div class="modal-body">
+          <div class="setting-item">
+            <span data-i18n="setting_lang">言語</span>
+            <select id="langSelect">
+              <option value="ja">日本語</option>
+              <option value="en">English</option>
+              <option value="zh">中文</option>
+              <option value="ko">한국어</option>
+              <option value="es">Español</option>
+              <option value="fr">Français</option>
+              <option value="de">Deutsch</option>
+              <option value="ru">Русский</option>
+            </select>
+          </div>
+          <div class="setting-item">
+            <span data-i18n="setting_sound">サウンド</span>
+            <input type="checkbox" id="soundToggle">
+          </div>
+          <div class="setting-item">
+            <span data-i18n="setting_vibrate">振動</span>
+            <input type="checkbox" id="vibrateToggle">
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const I18N = {
+      ja: { settings_title: '共通設定', setting_lang: '言語', setting_sound: '効果音', setting_vibrate: 'バイブレーション', tag_puzzle: 'パズル', tag_board: 'ボードゲーム' },
+      en: { settings_title: 'Settings', setting_lang: 'Language', setting_sound: 'Sound FX', setting_vibrate: 'Vibration', tag_puzzle: 'PUZZLE', tag_board: 'BOARD GAME' },
+      zh: { settings_title: '通用设置', setting_
