@@ -14,6 +14,31 @@
       display: block;
       border-radius: 12px;
     }
+
+    /* 歯車ボタンのクリック判定を最大化 */
+    .gear-btn {
+      position: relative;
+      z-index: 1000;
+      cursor: pointer;
+      -webkit-user-select: none;
+      user-select: none;
+    }
+
+    /* モーダル表示の完全強制上書き */
+    #settings-modal {
+      display: none;
+      position: fixed;
+      inset: 0;
+      width: 100vw;
+      height: 100vh;
+      background: rgba(0, 0, 0, 0.8);
+      z-index: 999999 !important;
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
   </style>
 </head>
 <body>
@@ -22,7 +47,7 @@
   <header>
     <div class="brand-title">Oh LOVE games</div>
     <div class="header-right">
-      <button id="btn-settings-open" class="gear-btn" type="button" aria-label="Settings">⚙️</button>
+      <button id="btn-settings-open" class="gear-btn" type="button" aria-label="Settings" onclick="openClubModal()">⚙️</button>
     </div>
   </header>
 
@@ -138,11 +163,11 @@
   </main>
 
   <!-- ⚙️ 設定モーダル -->
-  <div id="settings-modal" class="modal-overlay hidden">
+  <div id="settings-modal" onclick="if(event.target === this) closeClubModal()">
     <div class="modal-box">
       <div class="modal-header">
         <h2 id="modal-settings-title">⚙️ 設定</h2>
-        <button id="btn-close-modal" class="close-x-btn" type="button">✕</button>
+        <button id="btn-close-modal" class="close-x-btn" type="button" onclick="closeClubModal()">✕</button>
       </div>
       
       <div class="modal-body">
@@ -186,7 +211,7 @@
       </div>
 
       <div class="modal-footer">
-        <button id="btn-modal-close-bottom" class="primary-btn" type="button">とじる</button>
+        <button id="btn-modal-close-bottom" class="primary-btn" type="button" onclick="closeClubModal()">とじる</button>
       </div>
     </div>
   </div>
@@ -251,33 +276,79 @@
       }
     };
 
-    function initClubHouse() {
-      let currentLang = localStorage.getItem('2048_lang') || localStorage.getItem('clubhouse_lang') || 'ja';
-      let isMuted = (localStorage.getItem('2048_muted') || localStorage.getItem('clubhouse_muted')) === 'true';
-      let isVib = (localStorage.getItem('2048_vibration') || localStorage.getItem('clubhouse_vibration')) !== 'false';
-      let speed = localStorage.getItem('2048_speed') || localStorage.getItem('clubhouse_speed') || 'normal';
+    let currentLang = localStorage.getItem('2048_lang') || localStorage.getItem('clubhouse_lang') || 'ja';
+    let isMuted = (localStorage.getItem('2048_muted') || localStorage.getItem('clubhouse_muted')) === 'true';
+    let isVib = (localStorage.getItem('2048_vibration') || localStorage.getItem('clubhouse_vibration')) !== 'false';
+    let speed = localStorage.getItem('2048_speed') || localStorage.getItem('clubhouse_speed') || 'normal';
 
+    function openClubModal() {
       const modal = document.getElementById('settings-modal');
-      const btnOpen = document.getElementById('btn-settings-open');
-      const btnCloseX = document.getElementById('btn-close-modal');
-      const btnCloseB = document.getElementById('btn-modal-close-bottom');
+      if (modal) modal.style.display = 'flex';
+    }
 
-      const selectLang = document.getElementById('select-lang');
-      const btnSoundOn = document.getElementById('btn-sound-on');
-      const btnSoundOff = document.getElementById('btn-sound-off');
-      const btnVibOn = document.getElementById('btn-vib-on');
-      const btnVibOff = document.getElementById('btn-vib-off');
-      const btnSpeedNorm = document.getElementById('btn-speed-normal');
-      const btnSpeedFast = document.getElementById('btn-speed-fast');
+    function closeClubModal() {
+      const modal = document.getElementById('settings-modal');
+      if (modal) modal.style.display = 'none';
+    }
 
-      function sync() {
-        ['clubhouse', '2048', 'bg'].forEach(prefix => {
-          localStorage.setItem(`${prefix}_lang`, currentLang);
-          localStorage.setItem(`${prefix}_muted`, isMuted);
-          localStorage.setItem(`${prefix}_vibration`, isVib);
-          localStorage.setItem(`${prefix}_speed`, speed);
-        });
-      }
+    function syncAllSettings() {
+      ['clubhouse', '2048', 'bg'].forEach(prefix => {
+        localStorage.setItem(`${prefix}_lang`, currentLang);
+        localStorage.setItem(`${prefix}_muted`, isMuted);
+        localStorage.setItem(`${prefix}_vibration`, isVib);
+        localStorage.setItem(`${prefix}_speed`, speed);
+      });
+    }
 
-      function renderUI() {
-        const t = I18N[currentLang] || I18N.ja;
+    function renderClubUI() {
+      const t = I18N[currentLang] || I18N.ja;
+      document.documentElement.lang = currentLang;
+
+      document.getElementById('title-text').textContent = t.title;
+      document.getElementById('desc-text').textContent = t.subtitle;
+      document.getElementById('card-desc-2048').textContent = t.desc2048;
+      document.getElementById('card-desc-bg').textContent = t.descBg;
+
+      document.getElementById('modal-settings-title').textContent = t.settingsTitle;
+      document.getElementById('lbl-lang').textContent = t.langLabel;
+      document.getElementById('lbl-sound').textContent = t.soundLabel;
+      document.getElementById('lbl-vib').textContent = t.vibLabel;
+      document.getElementById('lbl-speed').textContent = t.speedLabel;
+      document.getElementById('btn-speed-normal').textContent = t.speedNormal;
+      document.getElementById('btn-speed-fast').textContent = t.speedFast;
+      document.getElementById('btn-modal-close-bottom').textContent = t.close;
+
+      document.getElementById('select-lang').value = currentLang;
+      document.getElementById('btn-sound-on').classList.toggle('active', !isMuted);
+      document.getElementById('btn-sound-off').classList.toggle('active', isMuted);
+      document.getElementById('btn-vib-on').classList.toggle('active', isVib);
+      document.getElementById('btn-vib-off').classList.toggle('active', !isVib);
+      document.getElementById('btn-speed-normal').classList.toggle('active', speed === 'normal');
+      document.getElementById('btn-speed-fast').classList.toggle('active', speed === 'fast');
+    }
+
+    // イベント登録
+    document.getElementById('select-lang').addEventListener('change', (e) => {
+      currentLang = e.target.value;
+      syncAllSettings();
+      renderClubUI();
+    });
+
+    document.getElementById('btn-sound-on').addEventListener('click', () => { isMuted = false; syncAllSettings(); renderClubUI(); });
+    document.getElementById('btn-sound-off').addEventListener('click', () => { isMuted = true; syncAllSettings(); renderClubUI(); });
+
+    document.getElementById('btn-vib-on').addEventListener('click', () => {
+      isVib = true;
+      syncAllSettings();
+      renderClubUI();
+      if ('vibrate' in navigator) navigator.vibrate(10);
+    });
+    document.getElementById('btn-vib-off').addEventListener('click', () => { isVib = false; syncAllSettings(); renderClubUI(); });
+
+    document.getElementById('btn-speed-normal').addEventListener('click', () => { speed = 'normal'; syncAllSettings(); renderClubUI(); });
+    document.getElementById('btn-speed-fast').addEventListener('click', () => { speed = 'fast'; syncAllSettings(); renderClubUI(); });
+
+    renderClubUI();
+  </script>
+</body>
+</html>
