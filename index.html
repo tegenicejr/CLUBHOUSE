@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="ja">
+<html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
@@ -63,7 +63,7 @@
         </svg>
       </div>
       <h1 id="title-text">CLUB HOUSE</h1>
-      <p id="desc-text" class="subtitle">ボードゲーム・パズルコレクション</p>
+      <p id="desc-text" class="subtitle">Board Game &amp; Puzzle Collection</p>
     </div>
 
     <!-- ゲーム選択カード -->
@@ -94,7 +94,7 @@
           </div>
           <div class="game-meta">
             <h2>2048</h2>
-            <p id="card-desc-2048">タイルを重ねて伝説の数字を目指すパズル</p>
+            <p id="card-desc-2048">Merge tiles to reach the legend.</p>
           </div>
         </div>
       </a>
@@ -155,7 +155,7 @@
           </div>
           <div class="game-meta">
             <h2>Backgammon</h2>
-            <p id="card-desc-bg">サイコロと戦略の伝統ボードゲーム</p>
+            <p id="card-desc-bg">Classic dice &amp; strategy board game.</p>
           </div>
         </div>
       </a>
@@ -166,16 +166,16 @@
   <div id="settings-modal" onclick="if(event.target === this) closeClubModal()">
     <div class="modal-box">
       <div class="modal-header">
-        <h2 id="modal-settings-title">⚙️ 設定</h2>
+        <h2 id="modal-settings-title">⚙️ Settings</h2>
         <button id="btn-close-modal" class="close-x-btn" type="button" onclick="closeClubModal()">✕</button>
       </div>
       
       <div class="modal-body">
         <div class="setting-row">
-          <label id="lbl-lang">言語 (Language)</label>
+          <label id="lbl-lang">Language</label>
           <select id="select-lang" class="custom-select">
-            <option value="ja">日本語</option>
             <option value="en">English</option>
+            <option value="ja">日本語</option>
             <option value="zh-CN">简体中文</option>
             <option value="zh-TW">繁體中文</option>
             <option value="ko">한국어</option>
@@ -186,7 +186,7 @@
         </div>
 
         <div class="setting-row">
-          <label id="lbl-sound">効果音 (Sound FX)</label>
+          <label id="lbl-sound">Sound FX</label>
           <div class="btn-group">
             <button id="btn-sound-on" class="toggle-choice-btn" type="button">ON</button>
             <button id="btn-sound-off" class="toggle-choice-btn" type="button">OFF</button>
@@ -194,7 +194,7 @@
         </div>
 
         <div class="setting-row">
-          <label id="lbl-vib">振動 (Vibration)</label>
+          <label id="lbl-vib">Vibration</label>
           <div class="btn-group">
             <button id="btn-vib-on" class="toggle-choice-btn" type="button">ON</button>
             <button id="btn-vib-off" class="toggle-choice-btn" type="button">OFF</button>
@@ -202,35 +202,35 @@
         </div>
 
         <div class="setting-row">
-          <label id="lbl-speed">アニメーション速度</label>
+          <label id="lbl-speed">Animation Speed</label>
           <div class="btn-group">
-            <button id="btn-speed-normal" class="toggle-choice-btn" type="button">通常</button>
-            <button id="btn-speed-fast" class="toggle-choice-btn" type="button">高速</button>
+            <button id="btn-speed-normal" class="toggle-choice-btn" type="button">Normal</button>
+            <button id="btn-speed-fast" class="toggle-choice-btn" type="button">Fast</button>
           </div>
         </div>
       </div>
 
       <div class="modal-footer">
-        <button id="btn-modal-close-bottom" class="primary-btn" type="button" onclick="closeClubModal()">とじる</button>
+        <button id="btn-modal-close-bottom" class="primary-btn" type="button" onclick="closeClubModal()">Close</button>
       </div>
     </div>
   </div>
 
   <script>
     const I18N = {
-      ja: {
-        title: 'CLUB HOUSE', subtitle: 'ボードゲーム・パズルコレクション',
-        desc2048: 'タイルを重ねて伝説の数字を目指すパズル', descBg: 'サイコロと戦略の伝統ボードゲーム',
-        settingsTitle: '⚙️ 設定', langLabel: '言語 (Language)',
-        soundLabel: '効果音 (Sound FX)', vibLabel: '振動 (Vibration)',
-        speedLabel: 'アニメーション速度', speedNormal: '通常', speedFast: '高速', close: 'とじる'
-      },
       en: {
         title: 'CLUB HOUSE', subtitle: 'Board Game & Puzzle Collection',
         desc2048: 'Merge tiles to reach the legend.', descBg: 'Classic dice & strategy board game.',
         settingsTitle: '⚙️ Settings', langLabel: 'Language',
         soundLabel: 'Sound FX', vibLabel: 'Vibration',
         speedLabel: 'Animation Speed', speedNormal: 'Normal', speedFast: 'Fast', close: 'Close'
+      },
+      ja: {
+        title: 'CLUB HOUSE', subtitle: 'ボードゲーム・パズルコレクション',
+        desc2048: 'タイルを重ねて伝説の数字を目指すパズル', descBg: 'サイコロと戦略の伝統ボードゲーム',
+        settingsTitle: '⚙️ 設定', langLabel: '言語 (Language)',
+        soundLabel: '効果音 (Sound FX)', vibLabel: '振動 (Vibration)',
+        speedLabel: 'アニメーション速度', speedNormal: '通常', speedFast: '高速', close: 'とじる'
       },
       'zh-CN': {
         title: 'CLUB HOUSE', subtitle: '桌游与益智游戏馆',
@@ -248,7 +248,7 @@
       },
       ko: {
         title: 'CLUB HOUSE', subtitle: '보드게임 & 퍼즐 컬렉션',
-        desc2048: '타일을 합쳐 전설의 숫자에 도달하세요.', descBg: '주사위와戦略의 전통 보드게임.',
+        desc2048: '타일을 합쳐 전설의 숫자에 도달하세요.', descBg: '주사위와 전략의 전통 보드게임.',
         settingsTitle: '⚙️ 설정', langLabel: '언어',
         soundLabel: '효과음', vibLabel: '진동',
         speedLabel: '애니메이션 속도', speedNormal: '보통', speedFast: '빠름', close: '닫기'
@@ -276,10 +276,11 @@
       }
     };
 
-    let currentLang = localStorage.getItem('2048_lang') || localStorage.getItem('clubhouse_lang') || 'ja';
-    let isMuted = (localStorage.getItem('2048_muted') || localStorage.getItem('clubhouse_muted')) === 'true';
-    let isVib = (localStorage.getItem('2048_vibration') || localStorage.getItem('clubhouse_vibration')) !== 'false';
-    let speed = localStorage.getItem('2048_speed') || localStorage.getItem('clubhouse_speed') || 'normal';
+    // デフォルト言語を 'en' に設定
+    let currentLang = localStorage.getItem('clubhouse_lang') || localStorage.getItem('2048_lang') || localStorage.getItem('bg_lang') || 'en';
+    let isMuted = (localStorage.getItem('clubhouse_muted') || localStorage.getItem('2048_muted')) === 'true';
+    let isVib = (localStorage.getItem('clubhouse_vibration') || localStorage.getItem('2048_vibration')) !== 'false';
+    let speed = localStorage.getItem('clubhouse_speed') || localStorage.getItem('2048_speed') || 'normal';
 
     function openClubModal() {
       const modal = document.getElementById('settings-modal');
@@ -301,7 +302,7 @@
     }
 
     function renderClubUI() {
-      const t = I18N[currentLang] || I18N.ja;
+      const t = I18N[currentLang] || I18N.en;
       document.documentElement.lang = currentLang;
 
       document.getElementById('title-text').textContent = t.title;
