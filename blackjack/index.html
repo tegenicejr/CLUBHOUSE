@@ -25,16 +25,116 @@
       </header>
 
       <main class="title-content">
-        <div class="symbol-container">
-          <div class="symbol-card left">
-            <span class="symbol-rank">A</span>
-            <span class="symbol-suit">♠</span>
-          </div>
-          <div class="symbol-card right">
-            <span class="symbol-rank">J</span>
-            <span class="symbol-suit">♦</span>
-          </div>
-          <div class="symbol-chip">BJ</div>
+        <!-- 案C: トリプル・カードファン ＆ 立体カジノチップスタック（インラインSVG） -->
+        <div class="symbol-container-fan">
+          <svg class="fan-emblem-svg" viewBox="0 0 320 200" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+              <!-- カード用立体シャドウ -->
+              <filter id="fanShadow" x="-20%" y="-20%" width="150%" height="150%">
+                <feDropShadow dx="0" dy="8" stdDeviation="6" flood-color="#000000" flood-opacity="0.65"/>
+              </filter>
+              <!-- チップ用シャドウ -->
+              <filter id="chipShadow" x="-30%" y="-30%" width="160%" height="160%">
+                <feDropShadow dx="0" dy="4" stdDeviation="4" flood-color="#000000" flood-opacity="0.5"/>
+              </filter>
+              <!-- カード裏面パターン（クラシック・ジオメトリック） -->
+              <pattern id="cardPattern" width="10" height="10" patternUnits="userSpaceOnUse">
+                <rect width="10" height="10" fill="#7f1d1d"/>
+                <circle cx="5" cy="5" r="3" fill="none" stroke="#991b1b" stroke-width="1"/>
+                <line x1="0" y1="0" x2="10" y2="10" stroke="#991b1b" stroke-width="0.8"/>
+                <line x1="10" y1="0" x2="0" y2="10" stroke="#991b1b" stroke-width="0.8"/>
+              </pattern>
+              <!-- ゴールドメタリックグラデーション -->
+              <linearGradient id="goldRimGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stop-color="#fff2a3"/>
+                <stop offset="50%" stop-color="#e6b742"/>
+                <stop offset="100%" stop-color="#926c15"/>
+              </linearGradient>
+            </defs>
+
+            <!-- 1. 背景の光彩オーラ -->
+            <ellipse cx="160" cy="110" rx="110" ry="60" fill="#e6b742" opacity="0.08"/>
+
+            <!-- 2. カードファン（3枚展開） -->
+            <!-- カード1: 左・裏面（赤幾何学） -->
+            <g transform="translate(100, 115) rotate(-22)" filter="url(#fanShadow)">
+              <rect x="-42" y="-62" width="84" height="124" rx="7" fill="#f8fafc" stroke="#cbd5e1" stroke-width="1.5"/>
+              <rect x="-37" y="-57" width="74" height="114" rx="4" fill="url(#cardPattern)" stroke="#ffffff" stroke-width="1.5"/>
+            </g>
+
+            <!-- カード2: 右・10♠（漆黒） -->
+            <g transform="translate(220, 115) rotate(22)" filter="url(#fanShadow)">
+              <rect x="-42" y="-62" width="84" height="124" rx="7" fill="#ffffff" stroke="#cbd5e1" stroke-width="1.5"/>
+              <!-- インナー枠線 -->
+              <rect x="-38" y="-58" width="76" height="116" rx="4" fill="none" stroke="rgba(0,0,0,0.06)" stroke-width="1"/>
+              <!-- 左上インデックス -->
+              <text x="-34" y="-40" font-family="'Times New Roman', serif" font-weight="900" font-size="14" fill="#0f172a">10</text>
+              <path d="M -29 -36 C -33 -32 -37 -28 -34 -25 C -32 -23 -30 -24 -29 -26 C -28 -24 -26 -23 -24 -25 C -21 -28 -25 -32 -29 -36 Z M -30 -25 L -28 -25 L -29 -22 Z" fill="#0f172a"/>
+              <!-- センターシンボル -->
+              <path d="M 0 -18 C -14 -2 -24 10 -14 20 C -7 25 0 18 0 14 C 0 18 7 25 14 20 C 24 10 14 -2 0 -18 Z M -3 16 L 3 16 L 2 26 L -2 26 Z" fill="#0f172a"/>
+              <!-- 右下インデックス -->
+              <g transform="rotate(180)">
+                <text x="-34" y="-40" font-family="'Times New Roman', serif" font-weight="900" font-size="14" fill="#0f172a">10</text>
+                <path d="M -29 -36 C -33 -32 -37 -28 -34 -25 C -32 -23 -30 -24 -29 -26 C -28 -24 -26 -23 -24 -25 C -21 -28 -25 -32 -29 -36 Z M -30 -25 L -28 -25 L -29 -22 Z" fill="#0f172a"/>
+              </g>
+            </g>
+
+            <!-- カード3: 中央前面・A♠（マスター・ゴールド装飾） -->
+            <g transform="translate(160, 95)" filter="url(#fanShadow)">
+              <rect x="-44" y="-66" width="88" height="132" rx="7" fill="#ffffff" stroke="#cbd5e1" stroke-width="1.5"/>
+              <rect x="-40" y="-62" width="80" height="124" rx="4" fill="none" stroke="url(#goldRimGrad)" stroke-width="1.2"/>
+              <!-- 左上インデックス -->
+              <text x="-34" y="-42" font-family="'Times New Roman', serif" font-weight="900" font-size="17" fill="#0f172a">A</text>
+              <path d="M -29 -36 C -33 -32 -37 -28 -34 -25 C -32 -23 -30 -24 -29 -26 C -28 -24 -26 -23 -24 -25 C -21 -28 -25 -32 -29 -36 Z M -30 -25 L -28 -25 L -29 -22 Z" fill="#0f172a"/>
+              <!-- センタースペード（クラウン＆オーナメント） -->
+              <path d="M 0 -24 C -18 -4 -30 10 -17 22 C -8 28 0 20 0 15 C 0 20 8 28 17 22 C 30 10 18 -4 0 -24 Z M -4 18 L 4 18 L 3 30 L -3 30 Z" fill="#0f172a"/>
+              <circle cx="0" cy="-2" r="3" fill="#e6b742"/>
+              <!-- 右下インデックス -->
+              <g transform="rotate(180)">
+                <text x="-34" y="-42" font-family="'Times New Roman', serif" font-weight="900" font-size="17" fill="#0f172a">A</text>
+                <path d="M -29 -36 C -33 -32 -37 -28 -34 -25 C -32 -23 -30 -24 -29 -26 C -28 -24 -26 -23 -24 -25 C -21 -28 -25 -32 -29 -36 Z M -30 -25 L -28 -25 L -29 -22 Z" fill="#0f172a"/>
+              </g>
+            </g>
+
+            <!-- 3. 手前の立体カジノチップスタック（左：ブルー＆レッド、右：ブラック500スタック） -->
+            <!-- 左チップスタック（手前左下） -->
+            <g transform="translate(68, 155)" filter="url(#chipShadow)">
+              <!-- チップ1: 底（青50） -->
+              <path d="M -28 0 C -28 -7 28 -7 28 0 L 28 7 C 28 14 -28 14 -28 7 Z" fill="#1e3a8a"/>
+              <ellipse cx="0" cy="0" rx="28" ry="7" fill="#2563eb" stroke="#ffffff" stroke-width="1.2" stroke-dasharray="8 6"/>
+              <!-- チップ2: 中（赤10） -->
+              <g transform="translate(0, -6)">
+                <path d="M -28 0 C -28 -7 28 -7 28 0 L 28 7 C 28 14 -28 14 -28 7 Z" fill="#991b1b"/>
+                <ellipse cx="0" cy="0" rx="28" ry="7" fill="#dc2626" stroke="#ffffff" stroke-width="1.2" stroke-dasharray="8 6"/>
+              </g>
+              <!-- チップ3: 頂上（緑100） -->
+              <g transform="translate(0, -12)">
+                <path d="M -28 0 C -28 -7 28 -7 28 0 L 28 7 C 28 14 -28 14 -28 7 Z" fill="#14532d"/>
+                <ellipse cx="0" cy="0" rx="28" ry="7" fill="#16a34a" stroke="#ffffff" stroke-width="1.2" stroke-dasharray="8 6"/>
+                <ellipse cx="0" cy="0" rx="16" ry="4" fill="none" stroke="#ffffff" stroke-width="1"/>
+                <text x="0" y="2.5" font-family="sans-serif" font-weight="900" font-size="8" fill="#ffffff" text-anchor="middle">100</text>
+              </g>
+            </g>
+
+            <!-- 右チップスタック（手前右下：ゴールド＆ハイローラーブラック） -->
+            <g transform="translate(252, 155)" filter="url(#chipShadow)">
+              <!-- チップ1: 底（黒500） -->
+              <path d="M -28 0 C -28 -7 28 -7 28 0 L 28 7 C 28 14 -28 14 -28 7 Z" fill="#09090b"/>
+              <ellipse cx="0" cy="0" rx="28" ry="7" fill="#18181b" stroke="#eab308" stroke-width="1.2" stroke-dasharray="8 6"/>
+              <!-- チップ2: 中（黒500） -->
+              <g transform="translate(0, -6)">
+                <path d="M -28 0 C -28 -7 28 -7 28 0 L 28 7 C 28 14 -28 14 -28 7 Z" fill="#09090b"/>
+                <ellipse cx="0" cy="0" rx="28" ry="7" fill="#18181b" stroke="#eab308" stroke-width="1.2" stroke-dasharray="8 6"/>
+              </g>
+              <!-- チップ3: 頂上（プレミアムゴールド 500） -->
+              <g transform="translate(0, -12)">
+                <path d="M -28 0 C -28 -7 28 -7 28 0 L 28 7 C 28 14 -28 14 -28 7 Z" fill="#78590c"/>
+                <ellipse cx="0" cy="0" rx="28" ry="7" fill="#18181b" stroke="url(#goldRimGrad)" stroke-width="1.8"/>
+                <ellipse cx="0" cy="0" rx="17" ry="4.5" fill="none" stroke="url(#goldRimGrad)" stroke-width="1.2"/>
+                <text x="0" y="3" font-family="sans-serif" font-weight="900" font-size="8.5" fill="#fde047" text-anchor="middle">500</text>
+              </g>
+            </g>
+          </svg>
         </div>
 
         <!-- 全言語共通固定タイトル -->
