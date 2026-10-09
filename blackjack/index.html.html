@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <meta name="theme-color" content="#072615">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <title>Blackjack - Games Clubhouse</title>
+  <link rel="manifest" href="./manifest.json">
+  <link rel="icon" type="image/svg+xml" href="./icon.svg">
+  <link rel="stylesheet" href="./style.css">
+</head>
+<body>
+  <div id="app-root">
+
+    <!-- 1. TITLE / START SCREEN OVERLAY -->
+    <div id="title-screen" class="screen-view active">
+      <header class="title-header">
+        <a href="../" id="link-clubhouse-title" class="back-clubhouse" aria-label="Back to Clubhouse">‹ CLUB HOUSE</a>
+        <div class="header-balance-badge">
+          <span class="chip-icon">🪙</span>
+          <span id="title-chips-display">1,000</span>
+        </div>
+      </header>
+
+      <main class="title-content">
+        <div class="symbol-container">
+          <div class="symbol-card left">
+            <span class="symbol-rank">A</span>
+            <span class="symbol-suit">♠</span>
+          </div>
+          <div class="symbol-card right">
+            <span class="symbol-rank">J</span>
+            <span class="symbol-suit">♦</span>
+          </div>
+          <div class="symbol-chip">BJ</div>
+        </div>
+
+        <h1 class="game-logo" data-i18n="gameTitle">BLACKJACK</h1>
+        <p class="game-subtitle" data-i18n="gameSubtitle">Casino Club Edition</p>
+
+        <div class="title-menu">
+          <button id="btn-start-game" class="btn-primary" data-i18n="btnStart">ゲームスタート</button>
+          <button id="btn-resume-game" class="btn-primary hidden" data-i18n="btnResume">つづきから</button>
+          <div class="title-sub-buttons">
+            <button id="btn-rules" class="btn-secondary" data-i18n="btnRules">あそびかた</button>
+            <button id="btn-achievements" class="btn-secondary" data-i18n="btnRecords">戦績・役</button>
+            <button id="btn-settings-title" class="btn-secondary" data-i18n="btnSettings">⚙️ 設定</button>
+          </div>
+        </div>
+      </main>
+
+      <footer class="title-footer">
+        <span>© Games Clubhouse Casino Collection</span>
+      </footer>
+    </div>
+
+    <!-- 2. MAIN TABLE SCREEN -->
+    <div id="game-screen" class="screen-view">
+      <header class="table-header">
+        <div class="header-left">
+          <button id="btn-to-title" class="btn-header-back" data-i18n="btnBackTitle">‹ タイトルへ</button>
+        </div>
+        <div class="header-center">
+          <div class="table-title">BLACKJACK</div>
+          <div class="deck-shoe-indicator">
+            <span data-i18n="shoeLabel">Shoe</span>: <span id="shoe-count">312</span>
+          </div>
+        </div>
+        <div class="header-right">
+          <button id="btn-sound-toggle" class="btn-icon" aria-label="Toggle Sound">🔊</button>
+          <button id="btn-settings-table" class="btn-icon" aria-label="Settings">⚙️</button>
+        </div>
+      </header>
+
+      <div class="felt-table">
+        <!-- Table Markings -->
+        <div class="felt-arc-rules">
+          <span>BLACKJACK PAYS 3 TO 2</span>
+          <span>DEALER MUST STAND ON 17 AND MUST DRAW TO 16</span>
+        </div>
+
+        <!-- Dealer Area -->
+        <div class="hand-area dealer-area">
+          <div class="area-badge">
+            <span data-i18n="dealerLabel">DEALER</span>
+            <span id="dealer-score" class="score-pill">0</span>
+          </div>
+          <div id="dealer-cards" class="card-lane"></div>
+        </div>
+
+        <!-- Center Notification Toast / Status -->
+        <div id="table-toast" class="table-toast-banner hidden">
+          <span id="toast-text"></span>
+        </div>
+
+        <!-- Player Area -->
+        <div class="hand-area player-area">
+          <div class="area-badge">
+            <span data-i18n="playerLabel">PLAYER</span>
+            <span id="player-score" class="score-pill">0</span>
+          </div>
+          <div id="player-cards" class="card-lane"></div>
+        </div>
+
+        <!-- Betting Spot & Chips On Felt -->
+        <div class="betting-board">
+          <div id="bet-spot" class="bet-spot">
+            <div id="bet-chip-stack" class="chip-stack"></div>
+            <span id="bet-spot-text" data-i18n="placeBetPrompt">PLACE BET</span>
+            <span id="current-bet-display" class="current-bet-amount hidden">0</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Bottom Control Panel -->
+      <footer class="table-footer-controls">
+        <div class="footer-status-bar">
+          <div class="status-stat">
+            <span class="stat-label" data-i18n="balanceLabel">残高</span>
+            <span id="player-chips" class="stat-value">1,000</span>
+          </div>
+          <div class="status-stat">
+            <span class="stat-label" data-i18n="currentBetLabel">ベット額</span>
+            <span id="player-bet" class="stat-value">0</span>
+          </div>
+        </div>
+
+        <!-- Chip Selector (Betting Phase) -->
+        <div id="chip-controls" class="action-panel-chips">
+          <div class="chip-selector-group">
+            <button class="casino-chip chip-10" data-value="10">10</button>
+            <button class="casino-chip chip-50" data-value="50">50</button>
+            <button class="casino-chip chip-100" data-value="100">100</button>
+            <button class="casino-chip chip-500" data-value="500">500</button>
+          </div>
+          <div class="chip-btn-actions">
+            <button id="btn-clear-bet" class="btn-chip-action" data-i18n="btnClear">クリア</button>
+            <button id="btn-deal" class="btn-chip-action deal-action disabled" data-i18n="btnDeal">ディール</button>
+          </div>
+        </div>
+
+        <!-- In-game Actions (Playing Phase) -->
+        <div id="action-controls" class="action-panel-play hidden">
+          <button id="btn-double" class="btn-game-action opt-double" data-i18n="btnDouble">ダブル</button>
+          <button id="btn-split" class="btn-game-action opt-split" data-i18n="btnSplit">スプリット</button>
+          <button id="btn-hit" class="btn-game-action opt-hit" data-i18n="btnHit">ヒット</button>
+          <button id="btn-stand" class="btn-game-action opt-stand" data-i18n="btnStand">スタンド</button>
+        </div>
+      </footer>
+    </div>
+
+    <!-- 3. MODAL: 3-STAGE SEQUENCE (LUCKY CUT) -->
+    <div id="modal-sequence" class="modal-backdrop hidden">
+      <div class="modal-dialog card-dialog">
+        <div class="modal-header-icon">🎲</div>
+        <h3 id="seq-step-title" class="dialog-title" data-i18n="seqStep1Title">シュー開始・ダイスカット</h3>
+        
+        <!-- Step 1: Pre-explanation -->
+        <div id="seq-step-1" class="seq-step-body">
+          <p class="dialog-text" data-i18n="seqStep1Desc">
+            カジノテーブルへようこそ。日本の伝統作法に則り、サイコロを振ってシャッフル後のカット数を決定しゲームを開始します。
+          </p>
+          <button id="btn-seq-roll" class="btn-primary" data-i18n="btnRollDice">サイコロを振る</button>
+        </div>
+
+        <!-- Step 2: Rolling Action Display -->
+        <div id="seq-step-2" class="seq-step-body hidden">
+          <div class="dice-stage">
+            <div id="standard-dice" class="standard-dice rolling">
+              <span class="pip center red"></span>
+            </div>
+          </div>
+          <p class="dialog-subtext" data-i18n="seqRolling">ダイスロール中...</p>
+        </div>
+
+        <!-- Step 3: Result & Ready -->
+        <div id="seq-step-3" class="seq-step-body hidden">
+          <div class="dice-stage">
+            <div id="result-dice" class="standard-dice face-1">
+              <!-- Rendered via CSS/JS -->
+            </div>
+          </div>
+          <p id="seq-result-message" class="dialog-highlight-text"></p>
+          <p class="dialog-text" data-i18n="seqStep3Desc">準備が整いました。テーブルへ着席してください。</p>
+          <button id="btn-seq-confirm" class="btn-primary" data-i18n="btnStartMatch">対局開始</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- 4. MODAL: SETTINGS -->
+    <div id="modal-settings" class="modal-backdrop hidden">
+      <div class="modal-dialog">
+        <div class="dialog-top">
+          <h3 class="dialog-title" data-i18n="settingsTitle">⚙️ ゲーム設定</h3>
+          <button class="btn-close-modal" id="btn-close-settings">×</button>
+        </div>
+
+        <div class="settings-list">
+          <div class="setting-item">
+            <label for="select-language" data-i18n="labelLanguage">言語 (Language)</label>
+            <select id="select-language" class="setting-dropdown">
+              <option value="en">English</option>
+              <option value="ja">日本語</option>
+              <option value="zh-CN">简体中文</option>
+              <option value="zh-TW">繁體中文</option>
+              <option value="ko">한국어</option>
+              <option value="es">Español</option>
+              <option value="fr">Français</option>
+              <option value="pt">Português</option>
+            </select>
+          </div>
+
+          <div class="setting-item">
+            <label for="toggle-sound" data-i18n="labelSound">効果音 (BGM/SE)</label>
+            <input type="checkbox" id="toggle-sound" class="setting-switch" checked>
+          </div>
+
+          <div class="setting-item">
+            <label for="toggle-vibrate" data-i18n="labelHaptics">振動・ハプティクス</label>
+            <input type="checkbox" id="toggle-vibrate" class="setting-switch" checked>
+          </div>
+
+          <div class="setting-item">
+            <label for="select-speed" data-i18n="labelSpeed">演出スピード</label>
+            <select id="select-speed" class="setting-dropdown">
+              <option value="1" data-i18n="speedNormal">通常 (Normal)</option>
+              <option value="1.5" data-i18n="speedFast">高速 (Fast)</option>
+            </select>
+          </div>
+
+          <div class="setting-item danger-zone">
+            <button id="btn-reset-data" class="btn-danger" data-i18n="btnResetData">戦績・データ初期化</button>
+          </div>
+        </div>
+
+        <button id="btn-save-settings" class="btn-primary" data-i18n="btnConfirm">閉じる</button>
+      </div>
+    </div>
+
+    <!-- 5. MODAL: RULES / HOW TO PLAY -->
+    <div id="modal-rules" class="modal-backdrop hidden">
+      <div class="modal-dialog modal-scrollable">
+        <div class="dialog-top">
+          <h3 class="dialog-title" data-i18n="rulesTitle">📖 あそびかた</h3>
+          <button class="btn-close-modal" id="btn-close-rules">×</button>
+        </div>
+        <div class="rules-body">
+          <section class="rule-section">
+            <h4 data-i18n="rule1Head">1. 基本目的</h4>
+            <p data-i18n="rule1Text">カードの合計値を「21」に最も近づけた方が勝ちとなります。ただし21を超えると「バースト」となり即座に敗北します。</p>
+          </section>
+          <section class="rule-section">
+            <h4 data-i18n="rule2Head">2. カードの数え方</h4>
+            <div class="rule-cards-example">
+              <div class="rule-card">2〜10: 数字通り</div>
+              <div class="rule-card">J, Q, K: 10として計算</div>
+              <div class="rule-card">A: 1または11（有利な方）</div>
+            </div>
+          </section>
+          <section class="rule-section">
+            <h4 data-i18n="rule3Head">3. アクションの種類</h4>
+            <ul class="rule-list">
+              <li><strong data-i18n="btnHit">ヒット</strong>: もう1枚カードを引く。</li>
+              <li><strong data-i18n="btnStand">スタンド</strong>: 現在の枚数で勝負を確定する。</li>
+              <li><strong data-i18n="btnDouble">ダブル</strong>: 賭け金を倍にし、1枚だけ引いて終了。</li>
+              <li><strong data-i18n="btnSplit">スプリット</strong>: 最初の2枚が同数字の時、2手に分割して勝負。</li>
+            </ul>
+          </section>
+          <section class="rule-section">
+            <h4 data-i18n="rule4Head">4. ディーラーのルール</h4>
+            <p data-i18n="rule4Text">ディーラーは手札が「17以上」になるまで必ず引き続け、「17以上」に達したら必ずスタンドします。</p>
+          </section>
+        </div>
+        <button id="btn-rules-ack" class="btn-primary" data-i18n="btnGotIt">了解</button>
+      </div>
+    </div>
+
+    <!-- 6. MODAL: ACHIEVEMENTS / STATS -->
+    <div id="modal-achievements" class="modal-backdrop hidden">
+      <div class="modal-dialog modal-scrollable">
+        <div class="dialog-top">
+          <h3 class="dialog-title" data-i18n="statsTitle">🏆 戦績 & 実績</h3>
+          <button class="btn-close-modal" id="btn-close-achievements">×</button>
+        </div>
+        <div class="stats-overview">
+          <div class="stat-box">
+            <span class="stat-num" id="stat-games-played">0</span>
+            <span class="stat-lbl" data-i18n="statPlayed">プレイ数</span>
+          </div>
+          <div class="stat-box">
+            <span class="stat-num" id="stat-games-won">0</span>
+            <span class="stat-lbl" data-i18n="statWon">勝利数</span>
+          </div>
+          <div class="stat-box">
+            <span class="stat-num" id="stat-bj-count">0</span>
+            <span class="stat-lbl" data-i18n="statBJs">BJ回数</span>
+          </div>
+          <div class="stat-box">
+            <span class="stat-num" id="stat-win-rate">0%</span>
+            <span class="stat-lbl" data-i18n="statWinRate">勝率</span>
+          </div>
+        </div>
+
+        <h4 class="sub-heading" data-i18n="badgesHeading">獲得アチーブメント</h4>
+        <div id="achievements-list" class="badge-grid"></div>
+
+        <button id="btn-stats-ack" class="btn-primary" data-i18n="btnGotIt">了解</button>
+      </div>
+    </div>
+
+    <!-- 7. MODAL: CONFIRM / GENERIC DIALOG -->
+    <div id="modal-confirm" class="modal-backdrop hidden">
+      <div class="modal-dialog">
+        <h3 id="confirm-title" class="dialog-title">確認</h3>
+        <p id="confirm-message" class="dialog-text"></p>
+        <div class="dialog-dual-buttons">
+          <button id="btn-confirm-cancel" class="btn-secondary" data-i18n="btnCancel">キャンセル</button>
+          <button id="btn-confirm-ok" class="btn-primary" data-i18n="btnConfirm">OK</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- 8. MODAL: ROUND RESULT & SHARE -->
+    <div id="modal-round-result" class="modal-backdrop hidden">
+      <div class="modal-dialog result-dialog">
+        <div id="result-trophy-icon" class="result-icon">👑</div>
+        <h2 id="result-headline" class="result-title">YOU WIN!</h2>
+        <p id="result-payout-text" class="result-subtitle">+ 200 CHIPS</p>
+
+        <div class="result-hands-comparison">
+          <div class="result-hand-box">
+            <span data-i18n="playerLabel">PLAYER</span>
+            <span id="result-player-val" class="hand-val-num">21</span>
+          </div>
+          <div class="result-hand-box">
+            <span data-i18n="dealerLabel">DEALER</span>
+            <span id="result-dealer-val" class="hand-val-num">18</span>
+          </div>
+        </div>
+
+        <div class="result-actions">
+          <button id="btn-share-x" class="btn-share-x">
+            <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor">
+              <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
+            </svg>
+            <span data-i18n="btnShareX">Xで戦績を共有</span>
+          </button>
+          <button id="btn-next-round" class="btn-primary" data-i18n="btnNextRound">次のディールへ</button>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <script src="./storage.js"></script>
+  <script src="./audio.js"></script>
+  <script src="./game.js"></script>
+</body>
+</html>

@@ -1,0 +1,18 @@
+{
+  "name": "blackjack - Games Clubhouse",
+  "short_name": "Blackjack",
+  "description": "Authentic Casino Blackjack by Games Clubhouse",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#072615",
+  "theme_color": "#0b3820",
+  "icons": [
+    {
+      "src": "./icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}

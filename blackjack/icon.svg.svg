@@ -1,0 +1,47 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="100%" height="100%">
+  <defs>
+    <radialGradient id="feltBg" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#0e4b2b"/>
+      <stop offset="100%" stop-color="#051c0f"/>
+    </radialGradient>
+    <linearGradient id="goldRim" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#f7d070"/>
+      <stop offset="50%" stop-color="#c59b27"/>
+      <stop offset="100%" stop-color="#8c6d13"/>
+    </linearGradient>
+    <filter id="cardShadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="3" dy="8" stdDeviation="6" flood-color="#000" flood-opacity="0.6"/>
+    </filter>
+  </defs>
+
+  <!-- Background Base -->
+  <rect width="512" height="512" rx="100" fill="url(#feltBg)"/>
+  <rect width="496" height="496" x="8" y="8" rx="92" fill="none" stroke="url(#goldRim)" stroke-width="6"/>
+
+  <!-- Card Back (A of Spades) -->
+  <g transform="translate(180, 240) rotate(-14) translate(-100, -145)" filter="url(#cardShadow)">
+    <rect width="200" height="290" rx="14" fill="#ffffff" stroke="#d5d5d5" stroke-width="2"/>
+    <text x="22" y="44" font-family="'Times New Roman', serif" font-size="34" font-weight="bold" fill="#111111">A</text>
+    <path d="M 28 55 C 28 50, 18 64, 28 75 C 38 64, 28 50, 28 55 Z M 25 73 L 31 73 L 28 80 Z" fill="#111111" transform="translate(-6, -8) scale(1.1)"/>
+    <!-- Center Spade -->
+    <path d="M 100 115 C 80 150, 40 185, 75 210 C 95 220, 100 200, 100 195 C 100 200, 105 220, 125 210 C 160 185, 120 150, 100 115 Z" fill="#111111"/>
+    <path d="M 92 205 L 108 205 L 104 225 L 96 225 Z" fill="#111111"/>
+  </g>
+
+  <!-- Card Front (J of Diamonds) -->
+  <g transform="translate(320, 260) rotate(12) translate(-100, -145)" filter="url(#cardShadow)">
+    <rect width="200" height="290" rx="14" fill="#fcfcfc" stroke="#d5d5d5" stroke-width="2"/>
+    <text x="22" y="44" font-family="'Times New Roman', serif" font-size="34" font-weight="bold" fill="#b91c1c">J</text>
+    <polygon points="28,52 35,64 28,76 21,64" fill="#b91c1c"/>
+    <!-- Center Diamond -->
+    <polygon points="100,105 135,145 100,185 65,145" fill="#b91c1c"/>
+    <circle cx="100" cy="145" r="16" fill="url(#goldRim)"/>
+  </g>
+
+  <!-- Casino Chip Accent -->
+  <g transform="translate(140, 390)" filter="url(#cardShadow)">
+    <circle cx="0" cy="0" r="44" fill="#1e3a8a" stroke="#fff" stroke-width="4" stroke-dasharray="14 10"/>
+    <circle cx="0" cy="0" r="32" fill="none" stroke="url(#goldRim)" stroke-width="3"/>
+    <text x="0" y="8" font-family="sans-serif" font-size="20" font-weight="900" fill="#ffffff" text-anchor="middle">BJ</text>
+  </g>
+</svg>
