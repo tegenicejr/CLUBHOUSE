@@ -16,9 +16,9 @@
       filter: drop-shadow(0 12px 22px rgba(16, 172, 132, 0.35)) !important;
     }
 
-    /* ブラックジャック用ステージグラデーション */
+    /* ブラックジャック用ステージグラデーション（深緑カジノトーン） */
     .banner-bj {
-      background: linear-gradient(135deg, #a29bfe 0%, #6c5ce7 50%, #4834d4 100%);
+      background: radial-gradient(circle at 50% 50%, rgba(17, 84, 46, 0.4) 0%, rgba(8, 43, 23, 0.8) 100%), #0d381e;
     }
 
     #settings-modal {
@@ -205,49 +205,123 @@
         </div>
       </a>
 
-      <!-- 3. ブラックジャック (新規追加) -->
+      <!-- 3. ブラックジャック (差し替え済み) -->
       <a href="blackjack/index.html" class="game-card">
         <div class="card-banner banner-bj">
           <span class="card-tag" data-i18n="tag_card">Card Game</span>
           <div class="icon-stage">
-            <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="100%" height="100%">
               <defs>
-                <filter id="bjShadow" x="-20%" y="-20%" width="140%" height="140%">
-                  <feDropShadow dx="0" dy="8" stdDeviation="6" flood-color="#000000" flood-opacity="0.35"/>
+                <!-- 1. 深緑カジノフェルト背景 -->
+                <radialGradient id="feltBg" cx="50%" cy="45%" r="65%">
+                  <stop offset="0%" stop-color="#11542e"/>
+                  <stop offset="65%" stop-color="#082b17"/>
+                  <stop offset="100%" stop-color="#03140a"/>
+                </radialGradient>
+
+                <!-- 2. 外周ゴールドフレーム -->
+                <linearGradient id="goldBorderGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                  <stop offset="0%" stop-color="#fff5ba"/>
+                  <stop offset="25%" stop-color="#e6b742"/>
+                  <stop offset="50%" stop-color="#9a7418"/>
+                  <stop offset="75%" stop-color="#fced8f"/>
+                  <stop offset="100%" stop-color="#684c0c"/>
+                </linearGradient>
+
+                <!-- 3. チップ用ゴールドリム -->
+                <linearGradient id="chipGold" x1="0%" y1="0%" x2="100%" y2="100%">
+                  <stop offset="0%" stop-color="#ffe885"/>
+                  <stop offset="50%" stop-color="#d4af37"/>
+                  <stop offset="100%" stop-color="#8a6713"/>
+                </linearGradient>
+
+                <!-- 4. カード多重ドロップシャドウ -->
+                <filter id="cardShadow" x="-25%" y="-25%" width="150%" height="150%">
+                  <feDropShadow dx="0" dy="16" stdDeviation="12" flood-color="#000000" flood-opacity="0.75"/>
                 </filter>
-                <linearGradient id="cardBgA" x1="0%" y1="0%" x2="0%" y2="100%">
-                  <stop offset="0%" stop-color="#ffffff"/>
-                  <stop offset="100%" stop-color="#f1f2f6"/>
-                </linearGradient>
-                <linearGradient id="chipGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-                  <stop offset="0%" stop-color="#ff4757"/>
-                  <stop offset="100%" stop-color="#c0392b"/>
-                </linearGradient>
+
+                <!-- 5. チップ多重ドロップシャドウ -->
+                <filter id="chipShadow" x="-35%" y="-35%" width="170%" height="170%">
+                  <feDropShadow dx="0" dy="14" stdDeviation="10" flood-color="#000000" flood-opacity="0.8"/>
+                </filter>
+
+                <!-- 正統派プレイングカード・スペード -->
+                <g id="spade">
+                  <path d="M 0,-45 
+                           C -3,-28 -34,-4 -34,18 
+                           C -34,32 -22,40 -9,40 
+                           C -2,40 0,36 0,30 
+                           C -1,36 -4,44 -14,48 
+                           L 14,48 
+                           C 4,44 1,36 0,30 
+                           C 0,36 2,40 9,40 
+                           C 22,40 34,32 34,18 
+                           C 34,-4 3,-28 0,-45 Z" 
+                        fill="#0f172a"/>
+                </g>
               </defs>
 
-              <g filter="url(#bjShadow)">
-                <!-- 1枚目：奥のカード（J of Spades） -->
-                <g transform="rotate(-14 75 90)">
-                  <rect x="35" y="30" width="70" height="105" rx="10" fill="url(#cardBgA)" stroke="#dfe4ea" stroke-width="2"/>
-                  <text x="44" y="52" font-family="-apple-system, sans-serif" font-weight="900" font-size="18" fill="#2f3542">J</text>
-                  <!-- スペードマーク -->
-                  <path d="M 47 62 C 44 65 41 68 41 71 C 41 74 43 75 45 75 C 46 75 47 74 47 74 L 46 78 L 48 78 L 47 74 C 47 74 48 75 49 75 C 51 75 53 74 53 71 C 53 68 50 65 47 62 Z" fill="#2f3542"/>
-                </g>
+              <!-- A. アプリアイコンベース（卓の深緑 ＆ ゴールドの淵） -->
+              <rect width="512" height="512" rx="112" fill="url(#feltBg)"/>
 
-                <!-- 2枚目：手前のカード（A of Hearts） -->
-                <g transform="rotate(10 115 95)">
-                  <rect x="75" y="30" width="70" height="105" rx="10" fill="url(#cardBgA)" stroke="#ffffff" stroke-width="2"/>
-                  <text x="84" y="52" font-family="-apple-system, sans-serif" font-weight="900" font-size="18" fill="#ff4757">A</text>
-                  <!-- ハートマーク -->
-                  <path d="M 87 64 C 87 64 81 59 81 55 C 81 53 83 51 85 51 C 86.5 51 87 52 87 52 C 87 52 87.5 51 89 51 C 91 51 93 53 93 55 C 93 59 87 64 87 64 Z" fill="#ff4757"/>
-                </g>
+              <!-- ゴールドの淵 -->
+              <rect x="10" y="10" width="492" height="492" rx="104" fill="none" stroke="url(#goldBorderGrad)" stroke-width="12"/>
+              <rect x="22" y="22" width="468" height="468" rx="92" fill="none" stroke="rgba(255, 245, 186, 0.35)" stroke-width="2"/>
 
-                <!-- カジノチップ（21の刻印） -->
-                <g transform="translate(108, 110)">
-                  <circle cx="28" cy="28" r="28" fill="url(#chipGrad)" stroke="#ffffff" stroke-width="3"/>
-                  <circle cx="28" cy="28" r="21" fill="none" stroke="#ffffff" stroke-width="2" stroke-dasharray="4, 3"/>
-                  <text x="28" y="36" font-family="-apple-system, sans-serif" font-weight="900" font-size="20" fill="#ffffff" text-anchor="middle">21</text>
+              <!-- B. トランプカード（J♠ と A♠） -->
+              <!-- 1. 背後：J♠（Jack of Spades） -->
+              <g transform="translate(180, 205) rotate(-15)" filter="url(#cardShadow)">
+                <rect x="-85" y="-125" width="170" height="250" rx="14" fill="#ffffff" stroke="#cbd5e1" stroke-width="2"/>
+                <text x="-66" y="-80" font-family="'Times New Roman', serif" font-weight="900" font-size="34" fill="#0f172a">J</text>
+                <use href="#spade" transform="translate(-54, -46) scale(0.3)"/>
+                <use href="#spade" transform="translate(0, -5) scale(0.75)"/>
+                <g transform="rotate(180)">
+                  <text x="-66" y="-80" font-family="'Times New Roman', serif" font-weight="900" font-size="34" fill="#0f172a">J</text>
+                  <use href="#spade" transform="translate(-54, -46) scale(0.3)"/>
                 </g>
+              </g>
+
+              <!-- 2. 前面：A♠（Ace of Spades） -->
+              <g transform="translate(325, 200) rotate(14)" filter="url(#cardShadow)">
+                <rect x="-85" y="-125" width="170" height="250" rx="14" fill="#ffffff" stroke="#cbd5e1" stroke-width="2"/>
+                <text x="-68" y="-78" font-family="'Times New Roman', serif" font-weight="900" font-size="36" fill="#0f172a">A</text>
+                <use href="#spade" transform="translate(-54, -44) scale(0.32)"/>
+                <use href="#spade" transform="translate(0, -6) scale(0.85)"/>
+                <g transform="rotate(180)">
+                  <text x="-68" y="-78" font-family="'Times New Roman', serif" font-weight="900" font-size="36" fill="#0f172a">A</text>
+                  <use href="#spade" transform="translate(-54, -44) scale(0.32)"/>
+                </g>
+              </g>
+
+              <!-- C. 複数色カジノチップ（赤・青・黒×金） -->
+              <!-- 1. 左下：カジノレッド（赤） -->
+              <g transform="translate(135, 400)" filter="url(#chipShadow)">
+                <path d="M -54 0 C -54 -17 54 -17 54 0 L 54 16 C 54 33 -54 33 -54 16 Z" fill="#881337"/>
+                <path d="M -54 3 L -54 16 M -36 11 L -36 24 M -18 15 L -18 28 M 0 16 L 0 29 M 18 15 L 18 28 M 36 11 L 36 24 M 54 3 L 54 16" stroke="#ffffff" stroke-width="3"/>
+                <ellipse cx="0" cy="0" rx="54" ry="17" fill="#e11d48" stroke="#ffffff" stroke-width="3"/>
+                <ellipse cx="0" cy="0" rx="43" ry="13" fill="none" stroke="#ffffff" stroke-width="2.5" stroke-dasharray="10 8"/>
+                <ellipse cx="0" cy="0" rx="28" ry="9" fill="#9f1239"/>
+                <text x="0" y="4" font-family="sans-serif" font-weight="900" font-size="11" fill="#ffffff" text-anchor="middle">10</text>
+              </g>
+
+              <!-- 2. 右下：ロイヤルブルー（青） -->
+              <g transform="translate(375, 400)" filter="url(#chipShadow)">
+                <path d="M -54 0 C -54 -17 54 -17 54 0 L 54 16 C 54 33 -54 33 -54 16 Z" fill="#1e3a8a"/>
+                <path d="M -54 3 L -54 16 M -36 11 L -36 24 M -18 15 L -18 28 M 0 16 L 0 29 M 18 15 L 18 28 M 36 11 L 36 24 M 54 3 L 54 16" stroke="#ffffff" stroke-width="3"/>
+                <ellipse cx="0" cy="0" rx="54" ry="17" fill="#2563eb" stroke="#ffffff" stroke-width="3"/>
+                <ellipse cx="0" cy="0" rx="43" ry="13" fill="none" stroke="#ffffff" stroke-width="2.5" stroke-dasharray="10 8"/>
+                <ellipse cx="0" cy="0" rx="28" ry="9" fill="#1d4ed8"/>
+                <text x="0" y="4" font-family="sans-serif" font-weight="900" font-size="11" fill="#ffffff" text-anchor="middle">50</text>
+              </g>
+
+              <!-- 3. 中央前面：ブラック＆ゴールド（黒×金） -->
+              <g transform="translate(256, 412)" filter="url(#chipShadow)">
+                <path d="M -68 0 C -68 -22 68 -22 68 0 L 68 20 C 68 42 -68 42 -68 20 Z" fill="#09090b"/>
+                <path d="M -68 4 L -68 20 M -45 14 L -45 30 M -22 19 L -22 35 M 0 20 L 0 36 M 22 19 L 22 35 M 45 14 L 45 30 M 68 4 L 68 20" stroke="url(#chipGold)" stroke-width="4.5"/>
+                <ellipse cx="0" cy="0" rx="68" ry="22" fill="#18181b" stroke="url(#chipGold)" stroke-width="4.5"/>
+                <ellipse cx="0" cy="0" rx="56" ry="18" fill="none" stroke="#fde047" stroke-width="3" stroke-dasharray="14 10"/>
+                <ellipse cx="0" cy="0" rx="38" ry="12" fill="#09090b" stroke="url(#chipGold)" stroke-width="2"/>
+                <text x="0" y="5" font-family="'Times New Roman', serif" font-weight="900" font-size="16" fill="url(#chipGold)" text-anchor="middle" letter-spacing="1">BJ</text>
               </g>
             </svg>
           </div>
@@ -446,7 +520,6 @@
     }
 
     function syncAllSettings() {
-      // 共通キー群にブラックジャック（bj）も追加
       ['clubhouse', '2048', 'bg', 'bj'].forEach(prefix => {
         localStorage.setItem(`${prefix}_lang`, currentLang);
         localStorage.setItem(`${prefix}_muted`, isMuted);
