@@ -257,7 +257,6 @@ button, select, input {
 }
 .btn-primary:active { transform: translateY(1px); }
 
-/* つづきからボタン：ゴールド強調 */
 .btn-primary.btn-resume {
   background: linear-gradient(180deg, #38bdf8 0%, #0284c7 60%, #0369a1 100%);
   color: #ffffff;
@@ -537,31 +536,6 @@ button, select, input {
 .opt-stand { background: linear-gradient(180deg, #dc2626, #b91c1c); }
 .opt-double { background: linear-gradient(180deg, #d97706, #b45309); }
 
-/* Japanese Standard Dice */
-.dice-stage { display: flex; justify-content: center; padding: 14px 0; }
-.standard-dice {
-  position: relative;
-  width: 64px;
-  height: 64px;
-  background: #fdfbf7;
-  border-radius: 12px;
-  border: 1px solid #ccc;
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  grid-template-rows: repeat(3, 1fr);
-  padding: 6px;
-}
-.pip { width: 11px; height: 11px; border-radius: 50%; background: #111; justify-self: center; align-self: center; }
-.pip.center.red {
-  grid-column: 2;
-  grid-row: 2;
-  width: 22px;
-  height: 22px;
-  background: radial-gradient(circle at 35% 35%, #ff4d4d 0%, #d91414 70%, #990000 100%);
-}
-.standard-dice.rolling { animation: roll3D 0.6s infinite ease-in-out; }
-@keyframes roll3D { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
-
 /* Modals */
 .modal-backdrop {
   position: fixed;
@@ -588,7 +562,6 @@ button, select, input {
 .dialog-title { font-size: 1.15rem; font-weight: 800; color: var(--color-gold-light); }
 .btn-close-modal { background: none; border: none; color: #aaa; font-size: 1.4rem; }
 .dialog-text { font-size: 0.88rem; line-height: 1.6; color: #ddd; margin-bottom: 14px; }
-.dialog-highlight-text { font-size: 1.05rem; font-weight: 800; color: var(--color-gold-light); margin-bottom: 8px; }
 .dialog-dual-buttons { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
 
 /* Confirmation Message Box */
