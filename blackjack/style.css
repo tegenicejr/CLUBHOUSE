@@ -257,6 +257,13 @@ button, select, input {
 }
 .btn-primary:active { transform: translateY(1px); }
 
+/* つづきからボタン：ゴールド強調 */
+.btn-primary.btn-resume {
+  background: linear-gradient(180deg, #38bdf8 0%, #0284c7 60%, #0369a1 100%);
+  color: #ffffff;
+  box-shadow: 0 4px 14px rgba(2, 132, 199, 0.5);
+}
+
 .btn-secondary {
   padding: 8px;
   font-size: 0.8rem;
@@ -403,7 +410,7 @@ button, select, input {
   gap: 2px;
 }
 
-/* Card Visuals */
+/* Cards */
 .card {
   position: relative;
   width: 44px;
@@ -580,28 +587,33 @@ button, select, input {
 .dialog-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; }
 .dialog-title { font-size: 1.15rem; font-weight: 800; color: var(--color-gold-light); }
 .btn-close-modal { background: none; border: none; color: #aaa; font-size: 1.4rem; }
-.dialog-text { font-size: 0.85rem; line-height: 1.6; color: #ddd; margin-bottom: 14px; }
+.dialog-text { font-size: 0.88rem; line-height: 1.6; color: #ddd; margin-bottom: 14px; }
 .dialog-highlight-text { font-size: 1.05rem; font-weight: 800; color: var(--color-gold-light); margin-bottom: 8px; }
 .dialog-dual-buttons { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
 
-/* Specified Confirmation Box & Notice Styling */
+/* Confirmation Message Box */
 .confirm-message-container {
   background: rgba(0, 0, 0, 0.35);
-  border: 1px solid rgba(220, 38, 38, 0.3);
   border-radius: 8px;
   padding: 12px;
   margin-bottom: 16px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+.confirm-message-container.warning-style {
+  border-color: rgba(220, 38, 38, 0.4);
 }
 .confirm-message-container p {
   margin-bottom: 0;
   white-space: pre-line;
+  line-height: 1.65;
+  font-size: 0.9rem;
+}
+.confirm-message-container.warning-style p {
   color: #fca5a5;
   font-weight: 600;
-  font-size: 0.9rem;
-  line-height: 1.65;
 }
 
-/* Polished High-Contrast Reset Danger Button */
+/* Danger Reset Button in Settings */
 .danger-zone {
   margin-top: 10px;
   padding-top: 12px;
@@ -623,17 +635,10 @@ button, select, input {
   font-size: 0.9rem;
   letter-spacing: 0.5px;
   box-shadow: 0 4px 12px rgba(127, 29, 29, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.2);
-  transition: transform 0.12s ease, filter 0.12s ease;
 }
+.btn-danger-styled:active { transform: translateY(1px) scale(0.98); }
 
-.btn-danger-styled:active {
-  transform: translateY(1px) scale(0.98);
-  filter: brightness(0.9);
-}
-
-.danger-icon {
-  font-size: 1.05rem;
-}
+.danger-icon { font-size: 1.05rem; }
 
 .btn-danger-confirm {
   padding: 10px;
