@@ -1,9 +1,7 @@
 /**
  * Games Clubhouse: Blackjack Game Engine
- * - Auto-save on exit to title
- * - Safe title-back confirmation (No warning icon, clean notice)
- * - Resume on top of Start Game, overwrite confirmation on new game
- * - Full CPU/async freeze during title overlay
+ * - Cancel & OK options for all confirm modals (Reset data / New game overwrite / Title exit)
+ * - Auto-save on exit, full engine pause on title view
  */
 
 const I18N = {
@@ -72,23 +70,22 @@ const I18N = {
     btnResetData: "戦績・データ初期化",
     btnCloseSettings: "閉じる",
 
-    // 1枚目：タイトルへ戻る（自動保存あり）の文言
+    // タイトルへ戻る（自動保存）
     confirmTitleBack: "タイトルへ戻る",
     confirmTitleBackMsg: "現在の対局状況は自動保存されます。\nいつでも「つづきから」再開できます。",
-    btnConfirmBackAction: "タイトルへ",
 
-    // 2枚目：セーブデータ上書きの文言
+    // セーブデータ上書き確認
     confirmOverwriteTitle: "新しくゲームを開始しますか？",
     confirmOverwriteMsg: "保存されている進行中のデータが消去されます。\nよろしいですか？",
-    btnConfirmOverwriteAction: "新しく開始",
 
-    // 初期化の文言
+    // データ初期化確認
     confirmResetTitle: "データを初期化しますか？",
     confirmResetMsg: "戦績や進行状況がすべて消去されます。\n元には戻せません。",
-    btnConfirmResetAction: "初期化する",
 
-    btnConfirm: "OK",
+    // ボタンの選択肢（キャンセルとOK）
     btnCancel: "キャンセル",
+    btnConfirm: "OK",
+
     btnShareX: "Xで戦績を共有",
     btnNextRound: "次のディールへ",
     shareTweet: "Games Clubhouseでブラックジャックをプレイ中！所持チップ: {chips}枚 ♠️🎲"
@@ -160,18 +157,16 @@ const I18N = {
 
     confirmTitleBack: "Return to Title",
     confirmTitleBackMsg: "Your current progress is automatically saved.\nYou can resume anytime.",
-    btnConfirmBackAction: "To Title",
 
     confirmOverwriteTitle: "Start New Game?",
     confirmOverwriteMsg: "Your saved progress will be overwritten and erased.\nAre you sure?",
-    btnConfirmOverwriteAction: "Start New",
 
     confirmResetTitle: "Reset all data?",
     confirmResetMsg: "All records, chips, and progress will be permanently erased.\nThis action cannot be undone.",
-    btnConfirmResetAction: "Reset",
 
-    btnConfirm: "Confirm",
     btnCancel: "Cancel",
+    btnConfirm: "OK",
+
     btnShareX: "Share on X",
     btnNextRound: "Next Deal",
     shareTweet: "Playing Blackjack on Games Clubhouse! Chips: {chips} ♠️🎲"
@@ -183,7 +178,6 @@ class BlackjackEngine {
     this.settings = window.storageManager.getSettings();
     this.stats = window.storageManager.getStats();
 
-    // 座席初期値（1Pのみ）
     this.seats = [
       { id: 0, type: 'human', name: '1P', hand: [], bet: 0, status: 'betting' },
       { id: 1, type: 'none',  name: '2P', hand: [], bet: 0, status: 'idle' },
@@ -196,7 +190,7 @@ class BlackjackEngine {
     this.deck = [];
     this.currentSeatTurn = 0;
     this.gameState = 'betting';
-    this.isGameActive = false; // タイトル画面裏でのCPU思考・進行完全停止フラグ
+    this.isGameActive = false;
 
     this.pendingConfirm = null;
 
@@ -238,7 +232,7 @@ class BlackjackEngine {
     this.btnStand = document.getElementById('btn-stand');
     this.btnDouble = document.getElementById('btn-double');
 
-    // モーダル関連
+    // モーダル要素
     this.modalSequence = document.getElementById('modal-sequence');
     this.seqStep1 = document.getElementById('seq-step-1');
     this.seqStep2 = document.getElementById('seq-step-2');
@@ -286,12 +280,11 @@ class BlackjackEngine {
   }
 
   bindEvents() {
-    // つづきから
     this.btnResumeGame.addEventListener('click', () => {
       this.resumeSavedGame();
     });
 
-    // ゲームスタート（セーブがある場合は2枚目の注意書きを表示）
+    // 新規ゲーム開始（セーブデータが存在する場合は上書き確認ダイアログを表示）
     this.btnStartGame.addEventListener('click', () => {
       const saved = window.storageManager.getSavedGameState();
       if (saved) {
@@ -299,8 +292,11 @@ class BlackjackEngine {
         this.confirmTitle.textContent = dict.confirmOverwriteTitle;
         this.confirmMessage.textContent = dict.confirmOverwriteMsg;
         this.confirmBox.classList.add('warning-style');
-        this.btnConfirmOk.className = 'btn-danger-confirm';
-        this.btnConfirmOk.textContent = dict.btnConfirmOverwriteAction;
+        
+        // 選択肢はキャンセルとOK
+        this.btnConfirmCancel.textContent = dict.btnCancel;
+        this.btnConfirmOk.textContent = dict.btnConfirm;
+        this.btnConfirmOk.className = 'btn-primary';
 
         this.pendingConfirm = () => {
           window.storageManager.clearGameState();
@@ -321,7 +317,7 @@ class BlackjackEngine {
       this.startFreshGame();
     });
 
-    // 座席切り替え
+    // 座席切り替え（なし ➔ CPU ➔ 人間 ➔ なし）
     document.querySelectorAll('.slot-type-btn').forEach(btn => {
       btn.addEventListener('click', (e) => {
         const seatIdx = parseInt(e.target.dataset.seat, 10);
@@ -381,20 +377,21 @@ class BlackjackEngine {
       this.showToast('+500 Chips Claimed!');
     });
 
-    // 1枚目：タイトルへ戻る（自動保存案内ダイアログ・クリーン表示）
+    // タイトルへ戻る（自動保存ダイアログ）
     this.btnToTitle.addEventListener('click', () => {
       const dict = I18N[this.settings.lang] || I18N.ja;
       this.confirmTitle.textContent = dict.confirmTitleBack;
       this.confirmMessage.textContent = dict.confirmTitleBackMsg;
       this.confirmBox.classList.remove('warning-style');
+      
+      // 選択肢はキャンセルとOK
+      this.btnConfirmCancel.textContent = dict.btnCancel;
+      this.btnConfirmOk.textContent = dict.btnConfirm;
       this.btnConfirmOk.className = 'btn-primary';
-      this.btnConfirmOk.textContent = dict.btnConfirmBackAction;
 
       this.pendingConfirm = () => {
-        // ゲーム進行を即時停止（裏でCPUを動かさない）
-        this.isGameActive = false;
+        this.isGameActive = false; // CPUおよび非同期処理を完全停止
         this.saveCurrentGame();
-
         this.gameScreen.classList.remove('active');
         this.titleScreen.classList.add('active');
         this.checkResumeAvailability();
@@ -402,7 +399,12 @@ class BlackjackEngine {
       this.modalConfirm.classList.remove('hidden');
     });
 
-    this.btnConfirmCancel.addEventListener('click', () => this.modalConfirm.classList.add('hidden'));
+    // ダイアログ共通ボタン
+    this.btnConfirmCancel.addEventListener('click', () => {
+      this.modalConfirm.classList.add('hidden');
+      this.pendingConfirm = null;
+    });
+
     this.btnConfirmOk.addEventListener('click', () => {
       this.modalConfirm.classList.add('hidden');
       if (this.pendingConfirm) {
@@ -411,7 +413,7 @@ class BlackjackEngine {
       }
     });
 
-    // モーダル遷移
+    // モーダル切り替え
     this.btnRules.addEventListener('click', () => this.modalRules.classList.remove('hidden'));
     this.btnCloseRules.addEventListener('click', () => this.modalRules.classList.add('hidden'));
     this.btnRulesAck.addEventListener('click', () => this.modalRules.classList.add('hidden'));
@@ -455,14 +457,17 @@ class BlackjackEngine {
       window.storageManager.saveSettings(this.settings);
     });
 
-    // 戦績・データ初期化ダイアログ
+    // 戦績・データ初期化ダイアログ（選択肢：キャンセルとOK）
     this.btnResetData.addEventListener('click', () => {
       const dict = I18N[this.settings.lang] || I18N.ja;
       this.confirmTitle.textContent = dict.confirmResetTitle;
       this.confirmMessage.textContent = dict.confirmResetMsg;
       this.confirmBox.classList.add('warning-style');
+
+      // 選択肢はキャンセルとOK
+      this.btnConfirmCancel.textContent = dict.btnCancel;
+      this.btnConfirmOk.textContent = dict.btnConfirm;
       this.btnConfirmOk.className = 'btn-danger-confirm';
-      this.btnConfirmOk.textContent = dict.btnConfirmResetAction;
 
       this.pendingConfirm = () => {
         window.storageManager.resetAllData();
@@ -483,7 +488,6 @@ class BlackjackEngine {
     });
   }
 
-  // 自動保存・復元ロジック
   saveCurrentGame() {
     const saveData = {
       deck: this.deck,
@@ -558,6 +562,9 @@ class BlackjackEngine {
       else if (type === 'cpu') btn.textContent = dict.slotCpu;
       else if (type === 'human') btn.textContent = dict.slotHuman;
     });
+
+    this.btnConfirmCancel.textContent = dict.btnCancel;
+    this.btnConfirmOk.textContent = dict.btnConfirm;
   }
 
   applySettings() {
@@ -710,7 +717,7 @@ class BlackjackEngine {
 
     for (let round = 0; round < 2; round++) {
       for (let i = 0; i < 4; i++) {
-        if (!this.isGameActive) return; // 中断ガード
+        if (!this.isGameActive) return;
         if (this.seats[i].type !== 'none') {
           await this.dealCardToSeat(i);
         }
@@ -800,7 +807,7 @@ class BlackjackEngine {
   }
 
   async advanceTurn() {
-    if (!this.isGameActive) return; // タイトル戻り時は完全停止
+    if (!this.isGameActive) return;
 
     while (this.currentSeatTurn < 4 && this.seats[this.currentSeatTurn].type === 'none') {
       this.currentSeatTurn++;
@@ -963,7 +970,7 @@ class BlackjackEngine {
 
     this.resultPayoutText.textContent = `${mainGain >= 0 ? '+' : ''}${mainGain} CHIPS`;
     window.storageManager.saveStats(this.stats);
-    window.storageManager.clearGameState(); // ラウンド決着時はセーブを消費
+    window.storageManager.clearGameState();
 
     this.updateBalanceUI();
     this.modalRoundResult.classList.remove('hidden');
