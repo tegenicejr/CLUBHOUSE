@@ -1,14 +1,12 @@
 /**
  * Games Clubhouse: Blackjack Game Engine
- * - Immediate table entry without dice sequence
- * - Strict Cancel / OK choice on all confirmation modals
- * - Auto-save on exit, full engine pause when outside game
+ * - Title: "BLACKJACK Casino Edition" fixed across all languages
+ * - Turn Seat: Simple clean indicator ("1P", "2P", "3P", "4P", "DEALER")
+ * - Slot Toggles: "1P", "2P", "3P", "4P" instead of "あなた / 人(交代)"
  */
 
 const I18N = {
   ja: {
-    gameTitle: "ブラックジャック",
-    gameSubtitle: "カジノクラブ・エディション",
     btnStart: "ゲームスタート",
     btnResume: "つづきから",
     btnRules: "あそびかた",
@@ -21,10 +19,8 @@ const I18N = {
     activeSeatLabel: "ターン席",
     currentBetLabel: "1P ベット額",
     tableSlotsTitle: "参加プレイヤー設定（最大4席）",
-    slotYou: "あなた",
     slotNone: "なし",
     slotCpu: "CPU",
-    slotHuman: "人(交代)",
     btnClear: "クリア",
     btnDeal: "ディール (Deal)",
     btnHit: "ヒット",
@@ -76,7 +72,6 @@ const I18N = {
     confirmResetTitle: "データを初期化しますか？",
     confirmResetMsg: "戦績や進行状況がすべて消去されます。\n元には戻せません。",
 
-    // ボタンの選択肢（キャンセルとOK）
     btnCancel: "キャンセル",
     btnConfirm: "OK",
 
@@ -85,8 +80,6 @@ const I18N = {
     shareTweet: "Games Clubhouseでブラックジャックをプレイ中！所持チップ: {chips}枚 ♠️🎲"
   },
   en: {
-    gameTitle: "BLACKJACK",
-    gameSubtitle: "Casino Club Edition",
     btnStart: "Start Game",
     btnResume: "Resume Game",
     btnRules: "How to Play",
@@ -99,10 +92,8 @@ const I18N = {
     activeSeatLabel: "Turn Seat",
     currentBetLabel: "1P Bet",
     tableSlotsTitle: "Table Seats Configuration (Max 4)",
-    slotYou: "You",
     slotNone: "None",
     slotCpu: "CPU",
-    slotHuman: "Human",
     btnClear: "Clear",
     btnDeal: "Deal Hands",
     btnHit: "Hit",
@@ -261,7 +252,6 @@ class BlackjackEngine {
       this.resumeSavedGame();
     });
 
-    // ゲームスタート：ダイス演出を挟まず即座に盤面へ
     this.btnStartGame.addEventListener('click', () => {
       const saved = window.storageManager.getSavedGameState();
       if (saved) {
@@ -285,11 +275,11 @@ class BlackjackEngine {
       }
     });
 
-    // 座席切り替え
+    // 座席切り替え（なし ➔ CPU ➔ 2P/3P/4P ➔ なし）
     document.querySelectorAll('.slot-type-btn').forEach(btn => {
       btn.addEventListener('click', (e) => {
         const seatIdx = parseInt(e.target.dataset.seat, 10);
-        if (seatIdx === 0) return;
+        if (seatIdx === 0) return; // 1Pは常に固定
 
         const cur = this.seats[seatIdx].type;
         let nextType = 'none';
@@ -311,7 +301,7 @@ class BlackjackEngine {
           e.target.textContent = dict.slotCpu;
         } else {
           e.target.classList.add('state-human');
-          e.target.textContent = dict.slotHuman;
+          e.target.textContent = `${seatIdx + 1}P`; // 人間交代時は "2P", "3P", "4P"
         }
       });
     });
@@ -366,7 +356,6 @@ class BlackjackEngine {
       this.modalConfirm.classList.remove('hidden');
     });
 
-    // 確認ダイアログボタン
     this.btnConfirmCancel.addEventListener('click', () => {
       this.modalConfirm.classList.add('hidden');
       this.pendingConfirm = null;
@@ -454,7 +443,6 @@ class BlackjackEngine {
     });
   }
 
-  // ダイスを挟まず即座に盤面へ遷移
   enterGameDirectly() {
     this.titleScreen.classList.remove('active');
     this.gameScreen.classList.add('active');
@@ -521,12 +509,19 @@ class BlackjackEngine {
     });
     this.selectLanguage.value = lang;
 
+    // 座席ボタンの更新（1P固定、2P-4Pは状態別）
     document.querySelectorAll('.slot-type-btn').forEach(btn => {
+      const seat = parseInt(btn.dataset.seat, 10);
       const type = btn.dataset.type;
-      if (type === 'human' && btn.dataset.seat === '0') btn.textContent = dict.slotYou;
-      else if (type === 'none') btn.textContent = dict.slotNone;
-      else if (type === 'cpu') btn.textContent = dict.slotCpu;
-      else if (type === 'human') btn.textContent = dict.slotHuman;
+      if (seat === 0) {
+        btn.textContent = '1P';
+      } else if (type === 'none') {
+        btn.textContent = dict.slotNone;
+      } else if (type === 'cpu') {
+        btn.textContent = dict.slotCpu;
+      } else {
+        btn.textContent = `${seat + 1}P`;
+      }
     });
 
     this.btnConfirmCancel.textContent = dict.btnCancel;
@@ -747,7 +742,8 @@ class BlackjackEngine {
     }
 
     const cur = this.seats[this.currentSeatTurn];
-    this.activeTurnIndicator.textContent = `${cur.name} (${cur.type.toUpperCase()})`;
+    // ターン席の表記をシンプルに "1P", "2P", "3P", "4P"
+    this.activeTurnIndicator.textContent = cur.name;
     this.renderSeats();
     this.saveCurrentGame();
 
