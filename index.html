@@ -7,7 +7,6 @@
   <link rel="manifest" href="manifest.json">
   <link rel="stylesheet" href="style.css">
   <style>
-    /* 案A用グローカラー調整 */
     .pop-icon-wrap {
       filter: drop-shadow(0 12px 22px rgba(16, 172, 132, 0.35)) !important;
     }
@@ -18,7 +17,7 @@
       inset: 0;
       width: 100vw;
       height: 100vh;
-      background: rgba(47, 53, 66, 0.5);
+      background: rgba(36, 42, 56, 0.5);
       z-index: 999999 !important;
       backdrop-filter: blur(8px);
       -webkit-backdrop-filter: blur(8px);
@@ -42,16 +41,15 @@
   <!-- メイン画面 -->
   <main>
     <div class="hero">
+      <div class="hero-pill-badge" data-i18n="hero_badge">★ ARCADE PORTAL</div>
       <!-- 案A：Capsule Game Boy（カプセル型携帯ゲーム機） -->
       <div class="pop-icon-wrap">
         <svg viewBox="0 0 100 100" class="pop-symbol-svg" xmlns="http://www.w3.org/2000/svg">
           <defs>
-            <!-- 本体（マカロンミント） -->
             <linearGradient id="cBody" x1="0%" y1="0%" x2="0%" y2="100%">
               <stop offset="0%" stop-color="#2ed573"/>
               <stop offset="100%" stop-color="#10ac84"/>
             </linearGradient>
-            <!-- スクリーン（ダークスレート） -->
             <linearGradient id="cScreen" x1="0%" y1="0%" x2="0%" y2="100%">
               <stop offset="0%" stop-color="#2f3542"/>
               <stop offset="100%" stop-color="#1e272e"/>
@@ -62,23 +60,13 @@
           </defs>
 
           <g filter="url(#cShadow)">
-            <!-- 丸みのあるゲーム機本体 -->
             <rect x="15" y="16" width="70" height="68" rx="22" fill="url(#cBody)"/>
-            <!-- 上部のぷっくりツヤ -->
             <path d="M 28 20 L 72 20 C 78 20 80 23 78 27 C 72 32 62 34 50 34 C 38 34 28 32 22 27 C 20 23 22 20 28 20 Z" fill="#ffffff" opacity="0.35"/>
-
-            <!-- ディスプレイ画面 -->
             <rect x="25" y="26" width="50" height="28" rx="10" fill="url(#cScreen)"/>
-            <!-- 画面内の文字：CH -->
             <text x="50" y="45" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-weight="900" font-size="14" fill="#ffffff" text-anchor="middle" letter-spacing="1">CH</text>
-            <!-- 画面の反射ハイライト -->
             <path d="M 27 28 L 65 28 L 55 42 L 27 42 Z" fill="#ffffff" opacity="0.12"/>
-
-            <!-- 操作部：左側の丸い十字キー -->
             <circle cx="36" cy="67" r="7" fill="#ffffff"/>
             <path d="M 33 67 L 39 67 M 36 64 L 36 70" stroke="#2f3542" stroke-width="2.5" stroke-linecap="round"/>
-
-            <!-- 操作部：右側のカラフルな2ボタン -->
             <circle cx="58" cy="70" r="5" fill="#ffa502"/>
             <circle cx="68" cy="63" r="5" fill="#ff4757"/>
           </g>
@@ -87,6 +75,12 @@
 
       <h1 id="title-text">CLUB HOUSE</h1>
       <p id="desc-text" class="subtitle">Playful Board &amp; Puzzle Game</p>
+    </div>
+
+    <!-- ゲーム一覧バー -->
+    <div class="section-bar">
+      <span class="section-bar-title" data-i18n="select_game">Choose a Game</span>
+      <span class="section-count-chip">2 GAMES</span>
     </div>
 
     <!-- ゲーム選択グリッド -->
@@ -123,6 +117,10 @@
             <div class="arrow-circle">›</div>
           </div>
           <p id="card-desc-2048">Slide and merge the numbers to reach the legendary tile!</p>
+          <div class="card-meta-chips">
+            <span class="meta-chip">1 Player</span>
+            <span class="meta-chip">Casual</span>
+          </div>
           <div class="play-action-btn" data-i18n="play_now">Play Now</div>
         </div>
       </a>
@@ -189,6 +187,10 @@
             <div class="arrow-circle">›</div>
           </div>
           <p id="card-desc-bg">Classic board game of tactical moves and dice rolling.</p>
+          <div class="card-meta-chips">
+            <span class="meta-chip">1-2 Players</span>
+            <span class="meta-chip">Strategy</span>
+          </div>
           <div class="play-action-btn" data-i18n="play_now">Play Now</div>
         </div>
       </a>
@@ -253,6 +255,7 @@
     const I18N = {
       en: {
         title: 'CLUB HOUSE', subtitle: 'Playful Board & Puzzle Game',
+        hero_badge: '★ ARCADE PORTAL', select_game: 'Choose a Game',
         nameBg: 'Backgammon',
         desc2048: 'Slide and merge the numbers to reach the legendary tile!',
         descBg: 'Classic board game of tactical moves and dice rolling.',
@@ -263,6 +266,7 @@
       },
       ja: {
         title: 'CLUB HOUSE', subtitle: 'ボードゲーム＆パズルコレクション',
+        hero_badge: '★ アーケードポータル', select_game: 'ゲームをえらぶ',
         nameBg: 'バックギャモン',
         desc2048: '数字のタイルをスライドして合体！伝説のタイルを目指そう。',
         descBg: 'サイコロと知略を駆使して戦う伝統のボードゲーム。',
@@ -273,6 +277,7 @@
       },
       'zh-CN': {
         title: 'CLUB HOUSE', subtitle: '经典桌游与益智馆',
+        hero_badge: '★ 游戏大厅', select_game: '选择游戏',
         nameBg: '双陆棋',
         desc2048: '滑动合并方块，挑战传说中的数字！',
         descBg: '结合掷骰与策略的传统双陆棋。',
@@ -283,6 +288,7 @@
       },
       'zh-TW': {
         title: 'CLUB HOUSE', subtitle: '經典桌遊與益智館',
+        hero_badge: '★ 遊戲大廳', select_game: '選擇遊戲',
         nameBg: '西洋雙陸棋',
         desc2048: '滑動合併方塊，挑戰傳說中的數字！',
         descBg: '結合擲骰與策略的傳統雙陸棋。',
@@ -293,6 +299,7 @@
       },
       ko: {
         title: 'CLUB HOUSE', subtitle: '보드게임 & 퍼즐 컬렉션',
+        hero_badge: '★ 아케이드 포털', select_game: '게임 선택',
         nameBg: '백개먼',
         desc2048: '타일을 합쳐 전설의 숫자에 도달하세요!',
         descBg: '주사위와 전략이 어우러진 전통 보드게임.',
@@ -303,6 +310,7 @@
       },
       es: {
         title: 'CLUB HOUSE', subtitle: 'Colección de Juegos y Puzzles',
+        hero_badge: '★ SALA ARCADE', select_game: 'Elegir Juego',
         nameBg: 'Backgammon',
         desc2048: '¡Combina fichas para alcanzar la leyenda!',
         descBg: 'Juego de mesa clásico de dados y estrategia.',
@@ -313,6 +321,7 @@
       },
       fr: {
         title: 'CLUB HOUSE', subtitle: 'Collection de Jeux & Puzzles',
+        hero_badge: '★ PORTAIL ARCADE', select_game: 'Choisir un Jeu',
         nameBg: 'Backgammon',
         desc2048: 'Fusionnez les tuiles pour atteindre la légende !',
         descBg: 'Jeu de dés et de stratégie légendaire.',
@@ -323,6 +332,7 @@
       },
       pt: {
         title: 'CLUB HOUSE', subtitle: 'Coleção de Jogos e Enigmas',
+        hero_badge: '★ PORTAL ARCADE', select_game: 'Escolha um Jogo',
         nameBg: 'Gamão',
         desc2048: 'Junte as peças até alcançar a lendária!',
         descBg: 'Jogo clássico de dados e tática.',
