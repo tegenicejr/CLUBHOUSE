@@ -64,7 +64,7 @@ const I18N = {
     btnResetData: "データ初期化",
     btnCloseSettings: "閉じる",
 
-    confirmTitleBack: "タイトルへ戻る",
+    confirmTitleBack: "タイトルへ戻りますか？",
     confirmTitleBackMsg: "現在のゲーム状況は自動保存されます。",
 
     confirmOverwriteTitle: "新しくゲームを開始しますか？",
