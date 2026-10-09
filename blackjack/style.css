@@ -353,7 +353,7 @@ button, select, input {
   font-size: 0.75rem;
 }
 
-/* Seats Layout */
+/* Seats Layout with Bankroll & Bets */
 .seats-container {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
@@ -370,7 +370,7 @@ button, select, input {
   display: flex;
   flex-direction: column;
   align-items: center;
-  min-height: 124px;
+  min-height: 130px;
   position: relative;
   transition: all 0.25s ease;
 }
@@ -390,9 +390,18 @@ button, select, input {
   gap: 3px;
   font-size: 0.65rem;
   font-weight: 800;
-  margin-bottom: 2px;
+  margin-bottom: 1px;
 }
-.seat-name { color: #ddd; max-width: 50px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.seat-name { color: #ddd; }
+.seat-chips-pill {
+  font-size: 0.62rem;
+  font-weight: 800;
+  color: var(--color-gold-light);
+  margin-bottom: 2px;
+  background: rgba(0, 0, 0, 0.4);
+  padding: 1px 4px;
+  border-radius: 4px;
+}
 .seat-cards {
   display: flex;
   justify-content: center;
@@ -407,6 +416,10 @@ button, select, input {
   display: flex;
   align-items: center;
   gap: 2px;
+  background: rgba(0, 0, 0, 0.45);
+  padding: 1px 6px;
+  border-radius: 10px;
+  border: 1px solid rgba(243, 212, 131, 0.25);
 }
 
 /* Regular Cards */
@@ -564,13 +577,8 @@ button, select, input {
 .dialog-text { font-size: 0.88rem; line-height: 1.6; color: #ddd; margin-bottom: 14px; }
 .dialog-dual-buttons { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
 
-/* ==========================================================================
-   VISUAL RULES STYLES (ビジュアル図解設計)
-   ========================================================================== */
-.rules-visual-dialog {
-  max-width: 360px;
-}
-
+/* Visual Rules Styles */
+.rules-visual-dialog { max-width: 360px; }
 .visual-rules-container {
   display: flex;
   flex-direction: column;
@@ -578,21 +586,18 @@ button, select, input {
   padding-right: 2px;
   margin-bottom: 14px;
 }
-
 .visual-rule-card {
   background: rgba(255, 255, 255, 0.04);
   border: 1px solid rgba(255, 255, 255, 0.1);
   border-radius: 10px;
   padding: 10px 12px;
 }
-
 .rule-badge-header {
   display: flex;
   align-items: center;
   gap: 8px;
   margin-bottom: 6px;
 }
-
 .rule-step-num {
   background: linear-gradient(180deg, #fcd34d, #f59e0b);
   color: #111;
@@ -605,27 +610,22 @@ button, select, input {
   justify-content: center;
   font-size: 0.75rem;
 }
-
 .rule-badge-header h4 {
   font-size: 0.95rem;
   color: var(--color-gold-light);
   font-weight: 800;
 }
-
 .rule-lead-text {
   font-size: 0.8rem;
   color: #ccc;
   line-height: 1.4;
   margin-bottom: 8px;
 }
-
-/* ミニトランプコンポーネント */
 .mini-cards-row, .tile-cards {
   display: flex;
   align-items: center;
   gap: 4px;
 }
-
 .mini-card {
   width: 30px;
   height: 42px;
@@ -639,24 +639,20 @@ button, select, input {
   padding: 2px 3px;
   line-height: 1;
 }
-
 .mini-card.black { color: #111; }
 .mini-card.red { color: #dc2626; }
 .mini-card .r { font-size: 0.7rem; font-weight: 900; font-family: var(--font-serif); }
 .mini-card .s { font-size: 0.65rem; text-align: right; }
 
-/* ブラックジャック紹介ボックス */
 .rule-showcase-box {
   background: rgba(0, 0, 0, 0.4);
   border-radius: 8px;
   padding: 8px 10px;
 }
-
 .rule-showcase-box.highlight-bj {
   border: 1px solid var(--color-gold);
   background: radial-gradient(circle at 50% 50%, rgba(230, 183, 66, 0.15) 0%, rgba(0, 0, 0, 0.5) 100%);
 }
-
 .showcase-caption {
   display: flex;
   align-items: center;
@@ -665,21 +661,14 @@ button, select, input {
   color: var(--color-gold-light);
   margin-bottom: 6px;
 }
-
 .showcase-calc {
   display: flex;
   align-items: center;
   gap: 6px;
   margin-left: 8px;
 }
-
 .calc-math { font-size: 0.8rem; color: #aaa; font-weight: 700; }
-.calc-total {
-  font-size: 1.15rem;
-  font-weight: 900;
-  color: var(--color-gold-light);
-}
-
+.calc-total { font-size: 1.15rem; font-weight: 900; color: var(--color-gold-light); }
 .payout-badge {
   background: #dc2626;
   color: #fff;
@@ -689,14 +678,11 @@ button, select, input {
   border-radius: 4px;
   margin-left: auto;
 }
-
-/* 点数グリッド図解 */
 .visual-grid-counts {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 6px;
 }
-
 .count-item-tile {
   background: rgba(0, 0, 0, 0.35);
   border: 1px solid rgba(255, 255, 255, 0.08);
@@ -706,38 +692,13 @@ button, select, input {
   align-items: center;
   gap: 8px;
 }
+.count-item-tile.full-span { grid-column: 1 / -1; }
+.tile-desc { display: flex; flex-direction: column; }
+.tile-desc strong { font-size: 0.8rem; color: #fff; }
+.tile-desc span { font-size: 0.68rem; color: #aaa; }
+.highlight-val { color: var(--color-gold-light) !important; font-weight: 700; }
 
-.count-item-tile.full-span {
-  grid-column: 1 / -1;
-}
-
-.tile-desc {
-  display: flex;
-  flex-direction: column;
-}
-
-.tile-desc strong {
-  font-size: 0.8rem;
-  color: #fff;
-}
-
-.tile-desc span {
-  font-size: 0.68rem;
-  color: #aaa;
-}
-
-.highlight-val {
-  color: var(--color-gold-light) !important;
-  font-weight: 700;
-}
-
-/* アクションボタン型リスト */
-.visual-action-list {
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
-}
-
+.visual-action-list { display: flex; flex-direction: column; gap: 6px; }
 .action-visual-row {
   display: flex;
   align-items: center;
@@ -746,7 +707,6 @@ button, select, input {
   padding: 6px 8px;
   border-radius: 6px;
 }
-
 .action-btn-demo {
   padding: 5px 10px;
   border-radius: 6px;
@@ -756,34 +716,14 @@ button, select, input {
   min-width: 64px;
   text-align: center;
 }
-
 .hit-demo { background: linear-gradient(180deg, #2563eb, #1d4ed8); }
 .stand-demo { background: linear-gradient(180deg, #dc2626, #b91c1c); }
 .double-demo { background: linear-gradient(180deg, #d97706, #b45309); }
+.action-detail { display: flex; flex-direction: column; }
+.action-summary { font-size: 0.8rem; font-weight: 800; color: #eee; }
+.action-detail small { font-size: 0.68rem; color: #999; }
 
-.action-detail {
-  display: flex;
-  flex-direction: column;
-}
-
-.action-summary {
-  font-size: 0.8rem;
-  font-weight: 800;
-  color: #eee;
-}
-
-.action-detail small {
-  font-size: 0.68rem;
-  color: #999;
-}
-
-/* ディーラールールフロー */
-.dealer-rule-flow {
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
-}
-
+.dealer-rule-flow { display: flex; flex-direction: column; gap: 6px; }
 .flow-step {
   display: flex;
   align-items: center;
@@ -794,20 +734,12 @@ button, select, input {
   padding: 6px 10px;
   border-radius: 6px;
 }
-
-.flow-pill {
-  font-size: 0.7rem;
-  font-weight: 900;
-  padding: 2px 8px;
-  border-radius: 10px;
-  color: #fff;
-}
-
+.flow-pill { font-size: 0.7rem; font-weight: 900; padding: 2px 8px; border-radius: 10px; color: #fff; }
 .red-pill { background: #b91c1c; }
 .green-pill { background: #059669; }
 .flow-arrow { color: #888; font-size: 0.8rem; }
 
-/* Confirmation Message Box */
+/* Confirm Box */
 .confirm-message-container {
   background: rgba(0, 0, 0, 0.35);
   border-radius: 8px;
@@ -815,27 +747,20 @@ button, select, input {
   margin-bottom: 16px;
   border: 1px solid rgba(255, 255, 255, 0.1);
 }
-.confirm-message-container.warning-style {
-  border-color: rgba(220, 38, 38, 0.4);
-}
+.confirm-message-container.warning-style { border-color: rgba(220, 38, 38, 0.4); }
 .confirm-message-container p {
   margin-bottom: 0;
   white-space: pre-line;
   line-height: 1.65;
   font-size: 0.9rem;
 }
-.confirm-message-container.warning-style p {
-  color: #fca5a5;
-  font-weight: 600;
-}
+.confirm-message-container.warning-style p { color: #fca5a5; font-weight: 600; }
 
-/* Danger Reset Button */
 .danger-zone {
   margin-top: 10px;
   padding-top: 12px;
   border-top: 1px solid rgba(255, 255, 255, 0.1);
 }
-
 .btn-danger-styled {
   width: 100%;
   display: flex;
