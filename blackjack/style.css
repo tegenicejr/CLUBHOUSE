@@ -409,7 +409,7 @@ button, select, input {
   gap: 2px;
 }
 
-/* Cards */
+/* Regular Cards */
 .card {
   position: relative;
   width: 44px;
@@ -557,12 +557,255 @@ button, select, input {
   color: var(--color-text-white);
 }
 .modal-dialog.card-dialog { text-align: center; }
-.modal-dialog.modal-scrollable { max-height: 80vh; overflow-y: auto; }
+.modal-dialog.modal-scrollable { max-height: 82vh; overflow-y: auto; }
 .dialog-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; }
 .dialog-title { font-size: 1.15rem; font-weight: 800; color: var(--color-gold-light); }
 .btn-close-modal { background: none; border: none; color: #aaa; font-size: 1.4rem; }
 .dialog-text { font-size: 0.88rem; line-height: 1.6; color: #ddd; margin-bottom: 14px; }
 .dialog-dual-buttons { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+
+/* ==========================================================================
+   VISUAL RULES STYLES (ビジュアル図解設計)
+   ========================================================================== */
+.rules-visual-dialog {
+  max-width: 360px;
+}
+
+.visual-rules-container {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding-right: 2px;
+  margin-bottom: 14px;
+}
+
+.visual-rule-card {
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 10px;
+  padding: 10px 12px;
+}
+
+.rule-badge-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 6px;
+}
+
+.rule-step-num {
+  background: linear-gradient(180deg, #fcd34d, #f59e0b);
+  color: #111;
+  font-weight: 900;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.75rem;
+}
+
+.rule-badge-header h4 {
+  font-size: 0.95rem;
+  color: var(--color-gold-light);
+  font-weight: 800;
+}
+
+.rule-lead-text {
+  font-size: 0.8rem;
+  color: #ccc;
+  line-height: 1.4;
+  margin-bottom: 8px;
+}
+
+/* ミニトランプコンポーネント */
+.mini-cards-row, .tile-cards {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.mini-card {
+  width: 30px;
+  height: 42px;
+  background: #ffffff;
+  border-radius: 4px;
+  border: 1px solid #ddd;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.4);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 2px 3px;
+  line-height: 1;
+}
+
+.mini-card.black { color: #111; }
+.mini-card.red { color: #dc2626; }
+.mini-card .r { font-size: 0.7rem; font-weight: 900; font-family: var(--font-serif); }
+.mini-card .s { font-size: 0.65rem; text-align: right; }
+
+/* ブラックジャック紹介ボックス */
+.rule-showcase-box {
+  background: rgba(0, 0, 0, 0.4);
+  border-radius: 8px;
+  padding: 8px 10px;
+}
+
+.rule-showcase-box.highlight-bj {
+  border: 1px solid var(--color-gold);
+  background: radial-gradient(circle at 50% 50%, rgba(230, 183, 66, 0.15) 0%, rgba(0, 0, 0, 0.5) 100%);
+}
+
+.showcase-caption {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 0.75rem;
+  color: var(--color-gold-light);
+  margin-bottom: 6px;
+}
+
+.showcase-calc {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-left: 8px;
+}
+
+.calc-math { font-size: 0.8rem; color: #aaa; font-weight: 700; }
+.calc-total {
+  font-size: 1.15rem;
+  font-weight: 900;
+  color: var(--color-gold-light);
+}
+
+.payout-badge {
+  background: #dc2626;
+  color: #fff;
+  font-size: 0.65rem;
+  font-weight: 800;
+  padding: 2px 6px;
+  border-radius: 4px;
+  margin-left: auto;
+}
+
+/* 点数グリッド図解 */
+.visual-grid-counts {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 6px;
+}
+
+.count-item-tile {
+  background: rgba(0, 0, 0, 0.35);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 6px;
+  padding: 6px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.count-item-tile.full-span {
+  grid-column: 1 / -1;
+}
+
+.tile-desc {
+  display: flex;
+  flex-direction: column;
+}
+
+.tile-desc strong {
+  font-size: 0.8rem;
+  color: #fff;
+}
+
+.tile-desc span {
+  font-size: 0.68rem;
+  color: #aaa;
+}
+
+.highlight-val {
+  color: var(--color-gold-light) !important;
+  font-weight: 700;
+}
+
+/* アクションボタン型リスト */
+.visual-action-list {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.action-visual-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: rgba(0, 0, 0, 0.3);
+  padding: 6px 8px;
+  border-radius: 6px;
+}
+
+.action-btn-demo {
+  padding: 5px 10px;
+  border-radius: 6px;
+  font-size: 0.75rem;
+  font-weight: 900;
+  color: #fff;
+  min-width: 64px;
+  text-align: center;
+}
+
+.hit-demo { background: linear-gradient(180deg, #2563eb, #1d4ed8); }
+.stand-demo { background: linear-gradient(180deg, #dc2626, #b91c1c); }
+.double-demo { background: linear-gradient(180deg, #d97706, #b45309); }
+
+.action-detail {
+  display: flex;
+  flex-direction: column;
+}
+
+.action-summary {
+  font-size: 0.8rem;
+  font-weight: 800;
+  color: #eee;
+}
+
+.action-detail small {
+  font-size: 0.68rem;
+  color: #999;
+}
+
+/* ディーラールールフロー */
+.dealer-rule-flow {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.flow-step {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.8rem;
+  color: #ddd;
+  background: rgba(0, 0, 0, 0.3);
+  padding: 6px 10px;
+  border-radius: 6px;
+}
+
+.flow-pill {
+  font-size: 0.7rem;
+  font-weight: 900;
+  padding: 2px 8px;
+  border-radius: 10px;
+  color: #fff;
+}
+
+.red-pill { background: #b91c1c; }
+.green-pill { background: #059669; }
+.flow-arrow { color: #888; font-size: 0.8rem; }
 
 /* Confirmation Message Box */
 .confirm-message-container {
@@ -586,7 +829,7 @@ button, select, input {
   font-weight: 600;
 }
 
-/* Danger Reset Button in Settings */
+/* Danger Reset Button */
 .danger-zone {
   margin-top: 10px;
   padding-top: 12px;
@@ -610,7 +853,6 @@ button, select, input {
   box-shadow: 0 4px 12px rgba(127, 29, 29, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.2);
 }
 .btn-danger-styled:active { transform: translateY(1px) scale(0.98); }
-
 .danger-icon { font-size: 1.05rem; }
 
 .btn-danger-confirm {
