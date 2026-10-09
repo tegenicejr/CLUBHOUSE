@@ -6,7 +6,7 @@
   <meta name="theme-color" content="#072615">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-  <title>Blackjack - Games Clubhouse</title>
+  <title>BLACKJACK - Casino Edition</title>
   <link rel="manifest" href="./manifest.json">
   <link rel="icon" type="image/svg+xml" href="./icon.svg">
   <link rel="stylesheet" href="./style.css">
@@ -37,8 +37,9 @@
           <div class="symbol-chip">BJ</div>
         </div>
 
-        <h1 class="game-logo" data-i18n="gameTitle">BLACKJACK</h1>
-        <p class="game-subtitle" data-i18n="gameSubtitle">Casino Club Edition</p>
+        <!-- 全言語共通固定タイトル -->
+        <h1 class="game-logo">BLACKJACK</h1>
+        <p class="game-subtitle">Casino Edition</p>
 
         <!-- 座席設定（デフォルト1Pのみ） -->
         <div class="player-slot-picker">
@@ -46,7 +47,7 @@
           <div class="slot-toggles">
             <div class="slot-item">
               <span class="slot-num">1P</span>
-              <button class="slot-type-btn fixed-player" data-seat="0" data-type="human" data-i18n="slotYou">あなた</button>
+              <button class="slot-type-btn fixed-player" data-seat="0" data-type="human">1P</button>
             </div>
             <div class="slot-item">
               <span class="slot-num">2P</span>
@@ -118,7 +119,7 @@
 
         <div class="seats-container">
           <div class="seat-spot" id="seat-0" data-seat-idx="0">
-            <div class="seat-badge"><span class="seat-name">1P (あなた)</span><span class="seat-score score-pill">0</span></div>
+            <div class="seat-badge"><span class="seat-name">1P</span><span class="seat-score score-pill">0</span></div>
             <div class="seat-cards card-lane"></div>
             <div class="seat-bet-box"><span class="chip-mini">🪙</span><span class="seat-bet-val">0</span></div>
           </div>
@@ -241,7 +242,7 @@
       <div class="modal-dialog modal-scrollable">
         <div class="dialog-top">
           <h3 class="dialog-title" data-i18n="rulesTitle">📖 あそびかた</h3>
-          <button class="btn-close-modal" id="btn-close-rules">×</button>
+          <button class="btn-close-rules" id="btn-close-rules">×</button>
         </div>
         <div class="rules-body">
           <section class="rule-section">
