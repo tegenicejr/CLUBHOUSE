@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-  <title>Oh LOVE games - CLUB HOUSE</title>
+  <title>CLUB HOUSE - Oh LOVE games</title>
   <link rel="manifest" href="manifest.json">
   <link rel="stylesheet" href="style.css">
   <style>
@@ -13,10 +13,10 @@
       inset: 0;
       width: 100vw;
       height: 100vh;
-      background: rgba(0, 0, 0, 0.82);
+      background: rgba(47, 53, 66, 0.5);
       z-index: 999999 !important;
-      backdrop-filter: blur(10px);
-      -webkit-backdrop-filter: blur(10px);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
       align-items: center;
       justify-content: center;
       padding: 20px;
@@ -27,41 +27,59 @@
 
   <!-- ヘッダー -->
   <header>
-    <div class="brand-title">Oh LOVE games</div>
-    <div class="header-right">
-      <button id="btn-settings-open" class="gear-btn" type="button" aria-label="Settings" onclick="openClubModal()">⚙️</button>
+    <div class="brand-wrapper">
+      <div class="brand-dot"></div>
+      <div class="brand-title">Oh LOVE games</div>
     </div>
+    <button id="btn-settings-open" class="gear-btn" type="button" aria-label="Settings" onclick="openClubModal()">⚙️</button>
   </header>
 
   <!-- メイン画面 -->
   <main>
     <div class="hero">
-      <div class="club-symbol">
-        <svg viewBox="0 0 100 100" class="symbol-svg">
-          <circle cx="50" cy="50" r="46" fill="none" stroke="#d4af37" stroke-width="3" opacity="0.4"/>
-          <path d="M50 20 C36 20 26 30 26 43 C26 53 34 61 43 64 L38 80 L62 80 L57 64 C66 61 74 53 74 43 C74 30 64 20 50 20 Z" fill="url(#goldGrad)"/>
-          <circle cx="33" cy="44" r="11" fill="url(#goldGrad)"/>
-          <circle cx="67" cy="44" r="11" fill="url(#goldGrad)"/>
+      <!-- 弾む3Dポップなゲームトイ・エンブレム -->
+      <div class="pop-icon-wrap">
+        <svg viewBox="0 0 100 100" class="pop-symbol-svg" xmlns="http://www.w3.org/2000/svg">
           <defs>
-            <linearGradient id="goldGrad" x1="0" y1="0" x2="1" y2="1">
-              <stop offset="0%" stop-color="#fff0b3"/>
-              <stop offset="50%" stop-color="#d4af37"/>
-              <stop offset="100%" stop-color="#8a671c"/>
+            <linearGradient id="popBody" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" stop-color="#ff6b81"/>
+              <stop offset="100%" stop-color="#ff4757"/>
             </linearGradient>
+            <linearGradient id="popJoy" x1="0%" y1="0%" x2="0%" y2="100%">
+              <stop offset="0%" stop-color="#ffa502"/>
+              <stop offset="100%" stop-color="#ff7f50"/>
+            </linearGradient>
+            <filter id="softGlow" x="-20%" y="-20%" width="140%" height="140%">
+              <feDropShadow dx="0" dy="8" stdDeviation="6" flood-color="#ff4757" flood-opacity="0.35"/>
+            </filter>
           </defs>
+
+          <!-- 丸みのあるクッション型スクワークル（本体） -->
+          <rect x="8" y="8" width="84" height="84" rx="26" fill="url(#popBody)" filter="url(#softGlow)"/>
+          
+          <!-- 上部のぷっくりツヤ反射 -->
+          <path d="M 22,18 L 78,18 C 84,18 88,22 86,28 C 80,42 66,48 50,48 C 34,48 20,42 14,28 C 12,22 16,18 22,18 Z" fill="#ffffff" opacity="0.32"/>
+
+          <!-- センター：Switchライクな十字キー＆ボタンモチーフ -->
+          <circle cx="65" cy="50" r="8" fill="#ffffff"/>
+          <circle cx="65" cy="50" r="5" fill="url(#popJoy)"/>
+
+          <circle cx="35" cy="50" r="8" fill="#ffffff"/>
+          <circle cx="35" cy="50" r="5" fill="#2f3542"/>
         </svg>
       </div>
+
       <h1 id="title-text">CLUB HOUSE</h1>
-      <p id="desc-text" class="subtitle">Board Game &amp; Puzzle Collection</p>
+      <p id="desc-text" class="subtitle">Playful Board &amp; Puzzle Game</p>
     </div>
 
-    <!-- 2カラム ゲームグリッド -->
+    <!-- ゲーム選択グリッド -->
     <div class="game-grid">
       <!-- 1. 2048 -->
       <a href="2048/index.html" class="game-card">
-        <div class="card-banner card-banner-2048">
-          <span class="card-badge" data-i18n="badge_puzzle">Puzzle</span>
-          <div class="game-icon-box">
+        <div class="card-banner banner-2048">
+          <span class="card-tag" data-i18n="tag_puzzle">Puzzle</span>
+          <div class="icon-stage">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
               <defs>
                 <radialGradient id="bg-2048" cx="50%" cy="20%" r="80%">
@@ -83,21 +101,21 @@
             </svg>
           </div>
         </div>
-        <div class="card-content">
-          <div class="game-title-row">
+        <div class="card-body">
+          <div class="card-header-row">
             <h2>2048</h2>
-            <span class="play-arrow">›</span>
+            <div class="arrow-circle">›</div>
           </div>
-          <p id="card-desc-2048">Merge tiles to reach the legend.</p>
-          <div class="play-button" data-i18n="play_now">Play Game</div>
+          <p id="card-desc-2048">Slide and merge the numbers to reach the legendary tile!</p>
+          <div class="play-action-btn" data-i18n="play_now">Play Now</div>
         </div>
       </a>
 
       <!-- 2. バックギャモン -->
       <a href="backgammon/index.html" class="game-card">
-        <div class="card-banner card-banner-bg">
-          <span class="card-badge" data-i18n="badge_board">Board Game</span>
-          <div class="game-icon-box">
+        <div class="card-banner banner-bg">
+          <span class="card-tag" data-i18n="tag_board">Board Game</span>
+          <div class="icon-stage">
             <svg class="title-symbol-svg" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
               <defs>
                 <radialGradient id="emblemBg" cx="50%" cy="50%" r="50%">
@@ -149,13 +167,13 @@
             </svg>
           </div>
         </div>
-        <div class="card-content">
-          <div class="game-title-row">
+        <div class="card-body">
+          <div class="card-header-row">
             <h2>Backgammon</h2>
-            <span class="play-arrow">›</span>
+            <div class="arrow-circle">›</div>
           </div>
-          <p id="card-desc-bg">Classic dice &amp; strategy board game.</p>
-          <div class="play-button" data-i18n="play_now">Play Game</div>
+          <p id="card-desc-bg">Classic board game of tactical moves and dice rolling.</p>
+          <div class="play-action-btn" data-i18n="play_now">Play Now</div>
         </div>
       </a>
     </div>
@@ -218,65 +236,65 @@
   <script>
     const I18N = {
       en: {
-        title: 'CLUB HOUSE', subtitle: 'Board Game & Puzzle Collection',
-        desc2048: 'Merge tiles to reach the legend.', descBg: 'Classic dice & strategy board game.',
-        badge_puzzle: 'Puzzle', badge_board: 'Board Game', play_now: 'Play Game',
+        title: 'CLUB HOUSE', subtitle: 'Playful Board & Puzzle Game',
+        desc2048: 'Slide and merge the numbers to reach the legendary tile!', descBg: 'Classic board game of tactical moves and dice rolling.',
+        tag_puzzle: 'Puzzle', tag_board: 'Board Game', play_now: 'Play Now',
         settingsTitle: '⚙️ Settings', langLabel: 'Language',
         soundLabel: 'Sound FX', vibLabel: 'Vibration',
         speedLabel: 'Animation Speed', speedNormal: 'Normal', speedFast: 'Fast', close: 'Close'
       },
       ja: {
-        title: 'CLUB HOUSE', subtitle: 'ボードゲーム・パズルコレクション',
-        desc2048: 'タイルを重ねて伝説の数字を目指すパズル', descBg: 'サイコロと戦略の伝統ボードゲーム',
-        badge_puzzle: 'パズル', badge_board: 'ボードゲーム', play_now: 'プレイする',
+        title: 'CLUB HOUSE', subtitle: 'ボードゲーム＆パズルコレクション',
+        desc2048: '数字のタイルをスライドして合体！伝説のタイルを目指そう。', descBg: 'サイコロと知略を駆使して戦う伝統のボードゲーム。',
+        tag_puzzle: 'パズル', tag_board: 'ボードゲーム', play_now: 'あそぶ',
         settingsTitle: '⚙️ 設定', langLabel: '言語 (Language)',
         soundLabel: '効果音 (Sound FX)', vibLabel: '振動 (Vibration)',
         speedLabel: 'アニメーション速度', speedNormal: '通常', speedFast: '高速', close: 'とじる'
       },
       'zh-CN': {
-        title: 'CLUB HOUSE', subtitle: '桌游与益智游戏馆',
-        desc2048: '合并方块，挑战传说中的数字。', descBg: '骰子与策略的经典双陆棋。',
-        badge_puzzle: '益智', badge_board: '桌游', play_now: '开始游戏',
+        title: 'CLUB HOUSE', subtitle: '经典桌游与益智馆',
+        desc2048: '滑动合并方块，挑战传说中的数字！', descBg: '结合掷骰与策略的传统双陆棋。',
+        tag_puzzle: '益智', tag_board: '桌游', play_now: '开始畅玩',
         settingsTitle: '⚙️ 设置', langLabel: '语言',
         soundLabel: '音效', vibLabel: '震动',
         speedLabel: '动画速度', speedNormal: '正常', speedFast: '快速', close: '关闭'
       },
       'zh-TW': {
-        title: 'CLUB HOUSE', subtitle: '桌遊與益智遊戲館',
-        desc2048: '合併方塊，挑戰傳說中的數字。', descBg: '骰子與策略的經典雙陸棋。',
-        badge_puzzle: '益智', badge_board: '桌遊', play_now: '開始遊戲',
+        title: 'CLUB HOUSE', subtitle: '經典桌遊與益智館',
+        desc2048: '滑動合併方塊，挑戰傳說中的數字！', descBg: '結合擲骰與策略的傳統雙陸棋。',
+        tag_puzzle: '益智', tag_board: '桌遊', play_now: '開始暢玩',
         settingsTitle: '⚙️ 設定', langLabel: '語言',
         soundLabel: '音效', vibLabel: '震動',
         speedLabel: '動畫速度', speedNormal: '正常', speedFast: '快速', close: '關閉'
       },
       ko: {
         title: 'CLUB HOUSE', subtitle: '보드게임 & 퍼즐 컬렉션',
-        desc2048: '타일을 합쳐 전설의 숫자에 도달하세요.', descBg: '주사위와 전략의 전통 보드게임.',
-        badge_puzzle: '퍼즐', badge_board: '보드게임', play_now: '게임 시작',
+        desc2048: '타일을 합쳐 전설의 숫자에 도달하세요!', descBg: '주사위와 전략이 어우러진 전통 보드게임.',
+        tag_puzzle: '퍼즐', tag_board: '보드게임', play_now: '플레이',
         settingsTitle: '⚙️ 설정', langLabel: '언어',
         soundLabel: '효과음', vibLabel: '진동',
         speedLabel: '애니메이션 속도', speedNormal: '보통', speedFast: '빠름', close: '닫기'
       },
       es: {
-        title: 'CLUB HOUSE', subtitle: 'Colección de Juegos de Mesa y Puzzles',
-        desc2048: 'Combina fichas para alcanzar la leyenda.', descBg: 'Juego de mesa clásico de dados y estrategia.',
-        badge_puzzle: 'Puzzle', badge_board: 'Juego de Mesa', play_now: 'Jugar Ahora',
+        title: 'CLUB HOUSE', subtitle: 'Colección de Juegos y Puzzles',
+        desc2048: '¡Combina fichas para alcanzar la leyenda!', descBg: 'Juego de mesa clásico de dados y estrategia.',
+        tag_puzzle: 'Puzzle', tag_board: 'Mesa', play_now: 'Jugar',
         settingsTitle: '⚙️ Ajustes', langLabel: 'Idioma',
         soundLabel: 'Efectos de sonido', vibLabel: 'Vibración',
         speedLabel: 'Velocidad', speedNormal: 'Normal', speedFast: 'Rápido', close: 'Cerrar'
       },
       fr: {
-        title: 'CLUB HOUSE', subtitle: 'Collection de Jeux de Société et Casse-têtes',
-        desc2048: 'Fusionnez les tuiles pour atteindre la légende.', descBg: 'Jeu de dés et de stratégie classique.',
-        badge_puzzle: 'Casse-tête', badge_board: 'Jeu de Plateau', play_now: 'Jouer',
+        title: 'CLUB HOUSE', subtitle: 'Collection de Jeux & Puzzles',
+        desc2048: 'Fusionnez les tuiles pour atteindre la légende !', descBg: 'Jeu de dés et de stratégie légendaire.',
+        tag_puzzle: 'Casse-tête', tag_board: 'Plateau', play_now: 'Jouer',
         settingsTitle: '⚙️ Paramètres', langLabel: 'Langue',
         soundLabel: 'Effets sonores', vibLabel: 'Vibration',
         speedLabel: 'Vitesse', speedNormal: 'Normale', speedFast: 'Rapide', close: 'Fermer'
       },
       pt: {
-        title: 'CLUB HOUSE', subtitle: 'Coleção de Jogos de Tabuleiro e Enigmas',
-        desc2048: 'Junte as peças até alcançar a lendária.', descBg: 'Jogo clássico de dados e estratégia.',
-        badge_puzzle: 'Puzzle', badge_board: 'Jogo de Tabuleiro', play_now: 'Jogar',
+        title: 'CLUB HOUSE', subtitle: 'Coleção de Jogos e Enigmas',
+        desc2048: 'Junte as peças até alcançar a lendária!', descBg: 'Jogo clássico de dados e tática.',
+        tag_puzzle: 'Puzzle', tag_board: 'Tabuleiro', play_now: 'Jogar',
         settingsTitle: '⚙️ Configurações', langLabel: 'Idioma',
         soundLabel: 'Efeitos sonoros', vibLabel: 'Vibration',
         speedLabel: 'Velocidade', speedNormal: 'Normal', speedFast: 'Rápido', close: 'Fechar'
