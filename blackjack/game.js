@@ -1,7 +1,8 @@
 /**
  * Games Clubhouse: Blackjack Game Engine
+ * - Clean DOM initialization without dead modal references
  * - Defaults to English (en), supports 8-language live switching
- * - Independent bankrolls for 2P-4P (starting at 500 chips, refill when empty)
+ * - Independent bankrolls for 2P-4P (500 chips, refill when empty)
  * - Exact win/loss chip calculation per seat
  * - Direct table start, no dice roll
  */
@@ -640,7 +641,7 @@ const I18N = {
     badgeHighRollerDesc: "Alcance mais de 2.500 fichas",
     badgeFiveCard: "5 Cartas Charlie",
     badgeFiveCardDesc: "Puxe 5 cartas sem estourar",
-    settingsTitle: "⚙️ Ajustes",
+    settingsTitle: "⚙️ Configurações",
     labelLanguage: "Idioma",
     labelSound: "Sons",
     labelHaptics: "Vibração",
@@ -668,7 +669,6 @@ class BlackjackEngine {
     this.settings = window.storageManager.getSettings();
     this.stats = window.storageManager.getStats();
 
-    // 2P〜4Pは独立した500チップからスタート
     this.seats = [
       { id: 0, type: 'human', name: '1P', hand: [], bet: 0, chips: this.stats.chips, status: 'betting' },
       { id: 1, type: 'none',  name: '2P', hand: [], bet: 0, chips: 500, status: 'idle' },
@@ -693,8 +693,11 @@ class BlackjackEngine {
   }
 
   initDOM() {
+    // 画面
     this.titleScreen = document.getElementById('title-screen');
     this.gameScreen = document.getElementById('game-screen');
+
+    // タイトルボタン
     this.btnResumeGame = document.getElementById('btn-resume-game');
     this.btnStartGame = document.getElementById('btn-start-game');
     this.btnRules = document.getElementById('btn-rules');
@@ -702,6 +705,7 @@ class BlackjackEngine {
     this.btnSettingsTitle = document.getElementById('btn-settings-title');
     this.titleChipsDisplay = document.getElementById('title-chips-display');
 
+    // 盤面ヘッダー
     this.btnToTitle = document.getElementById('btn-to-title');
     this.btnSoundToggle = document.getElementById('btn-sound-toggle');
     this.btnSettingsTable = document.getElementById('btn-settings-table');
@@ -711,10 +715,12 @@ class BlackjackEngine {
     this.tableToast = document.getElementById('table-toast');
     this.toastText = document.getElementById('toast-text');
 
+    // フッター情報
     this.playerChipsEl = document.getElementById('player-chips');
     this.playerBetEl = document.getElementById('player-bet');
     this.activeTurnIndicator = document.getElementById('active-turn-indicator');
 
+    // 操作パネル
     this.chipControls = document.getElementById('chip-controls');
     this.actionControls = document.getElementById('action-controls');
     this.btnClearBet = document.getElementById('btn-clear-bet');
@@ -723,9 +729,11 @@ class BlackjackEngine {
     this.btnStand = document.getElementById('btn-stand');
     this.btnDouble = document.getElementById('btn-double');
 
+    // チップ補給モーダル
     this.modalRefill = document.getElementById('modal-refill');
     this.btnRefillChips = document.getElementById('btn-refill-chips');
 
+    // 設定モーダル
     this.modalSettings = document.getElementById('modal-settings');
     this.btnCloseSettings = document.getElementById('btn-close-settings');
     this.btnSaveSettings = document.getElementById('btn-save-settings');
@@ -735,14 +743,17 @@ class BlackjackEngine {
     this.selectSpeed = document.getElementById('select-speed');
     this.btnResetData = document.getElementById('btn-reset-data');
 
+    // あそびかたモーダル
     this.modalRules = document.getElementById('modal-rules');
     this.btnCloseRules = document.getElementById('btn-close-rules');
     this.btnRulesAck = document.getElementById('btn-rules-ack');
 
+    // 実績モーダル
     this.modalAchievements = document.getElementById('modal-achievements');
     this.btnCloseAchievements = document.getElementById('btn-close-achievements');
     this.btnStatsAck = document.getElementById('btn-stats-ack');
 
+    // 汎用確認ダイアログ
     this.modalConfirm = document.getElementById('modal-confirm');
     this.confirmTitle = document.getElementById('confirm-title');
     this.confirmBox = document.getElementById('confirm-box');
@@ -750,6 +761,7 @@ class BlackjackEngine {
     this.btnConfirmCancel = document.getElementById('btn-confirm-cancel');
     this.btnConfirmOk = document.getElementById('btn-confirm-ok');
 
+    // リザルトモーダル
     this.modalRoundResult = document.getElementById('modal-round-result');
     this.resultHeadline = document.getElementById('result-headline');
     this.resultPayoutText = document.getElementById('result-payout-text');
@@ -761,34 +773,40 @@ class BlackjackEngine {
   }
 
   bindEvents() {
-    this.btnResumeGame.addEventListener('click', () => {
-      this.resumeSavedGame();
-    });
+    // つづきから
+    if (this.btnResumeGame) {
+      this.btnResumeGame.addEventListener('click', () => {
+        this.resumeSavedGame();
+      });
+    }
 
-    this.btnStartGame.addEventListener('click', () => {
-      const saved = window.storageManager.getSavedGameState();
-      if (saved) {
-        const dict = I18N[this.settings.lang] || I18N.en;
-        this.confirmTitle.textContent = dict.confirmOverwriteTitle;
-        this.confirmMessage.textContent = dict.confirmOverwriteMsg;
-        this.confirmBox.classList.add('warning-style');
-        
-        this.btnConfirmCancel.textContent = dict.btnCancel;
-        this.btnConfirmOk.textContent = dict.btnConfirm;
-        this.btnConfirmOk.className = 'btn-primary';
+    // ゲームスタート
+    if (this.btnStartGame) {
+      this.btnStartGame.addEventListener('click', () => {
+        const saved = window.storageManager.getSavedGameState();
+        if (saved) {
+          const dict = I18N[this.settings.lang] || I18N.en;
+          this.confirmTitle.textContent = dict.confirmOverwriteTitle;
+          this.confirmMessage.textContent = dict.confirmOverwriteMsg;
+          this.confirmBox.classList.add('warning-style');
+          
+          this.btnConfirmCancel.textContent = dict.btnCancel;
+          this.btnConfirmOk.textContent = dict.btnConfirm;
+          this.btnConfirmOk.className = 'btn-primary';
 
-        this.pendingConfirm = () => {
-          window.storageManager.clearGameState();
-          this.checkResumeAvailability();
+          this.pendingConfirm = () => {
+            window.storageManager.clearGameState();
+            this.checkResumeAvailability();
+            this.enterGameDirectly();
+          };
+          this.modalConfirm.classList.remove('hidden');
+        } else {
           this.enterGameDirectly();
-        };
-        this.modalConfirm.classList.remove('hidden');
-      } else {
-        this.enterGameDirectly();
-      }
-    });
+        }
+      });
+    }
 
-    // 座席切り替え（なし ➔ CPU ➔ 2P/3P/4P ➔ なし）
+    // 座席切り替え
     document.querySelectorAll('.slot-type-btn').forEach(btn => {
       btn.addEventListener('click', (e) => {
         const seatIdx = parseInt(e.target.dataset.seat, 10);
@@ -821,6 +839,7 @@ class BlackjackEngine {
       });
     });
 
+    // チップベット
     document.querySelectorAll('.casino-chip').forEach(btn => {
       btn.addEventListener('click', () => {
         const val = parseInt(btn.dataset.value, 10);
@@ -828,134 +847,165 @@ class BlackjackEngine {
       });
     });
 
-    this.btnClearBet.addEventListener('click', () => this.clearPlayerBet());
-    this.btnDeal.addEventListener('click', () => this.startDealRound());
+    if (this.btnClearBet) this.btnClearBet.addEventListener('click', () => this.clearPlayerBet());
+    if (this.btnDeal) this.btnDeal.addEventListener('click', () => this.startDealRound());
 
-    this.btnHit.addEventListener('click', () => this.activePlayerHit());
-    this.btnStand.addEventListener('click', () => this.activePlayerStand());
-    this.btnDouble.addEventListener('click', () => this.activePlayerDouble());
+    if (this.btnHit) this.btnHit.addEventListener('click', () => this.activePlayerHit());
+    if (this.btnStand) this.btnStand.addEventListener('click', () => this.activePlayerStand());
+    if (this.btnDouble) this.btnDouble.addEventListener('click', () => this.activePlayerDouble());
 
-    this.btnNextRound.addEventListener('click', () => {
-      this.modalRoundResult.classList.add('hidden');
-      this.prepareNextRound();
-    });
+    if (this.btnNextRound) {
+      this.btnNextRound.addEventListener('click', () => {
+        this.modalRoundResult.classList.add('hidden');
+        this.prepareNextRound();
+      });
+    }
 
-    this.btnRefillChips.addEventListener('click', () => {
-      this.stats.chips += 500;
-      this.seats[0].chips = this.stats.chips;
-      window.storageManager.saveStats(this.stats);
-      this.updateBalanceUI();
-      this.modalRefill.classList.add('hidden');
-      this.showToast('+500 Chips Claimed!');
-    });
-
-    this.btnToTitle.addEventListener('click', () => {
-      const dict = I18N[this.settings.lang] || I18N.en;
-      this.confirmTitle.textContent = dict.confirmTitleBack;
-      this.confirmMessage.textContent = dict.confirmTitleBackMsg;
-      this.confirmBox.classList.remove('warning-style');
-      
-      this.btnConfirmCancel.textContent = dict.btnCancel;
-      this.btnConfirmOk.textContent = dict.btnConfirm;
-      this.btnConfirmOk.className = 'btn-primary';
-
-      this.pendingConfirm = () => {
-        this.isGameActive = false;
-        this.saveCurrentGame();
-        this.gameScreen.classList.remove('active');
-        this.titleScreen.classList.add('active');
-        this.checkResumeAvailability();
-      };
-      this.modalConfirm.classList.remove('hidden');
-    });
-
-    this.btnConfirmCancel.addEventListener('click', () => {
-      this.modalConfirm.classList.add('hidden');
-      this.pendingConfirm = null;
-    });
-
-    this.btnConfirmOk.addEventListener('click', () => {
-      this.modalConfirm.classList.add('hidden');
-      if (this.pendingConfirm) {
-        this.pendingConfirm();
-        this.pendingConfirm = null;
-      }
-    });
-
-    this.btnRules.addEventListener('click', () => this.modalRules.classList.remove('hidden'));
-    this.btnCloseRules.addEventListener('click', () => this.modalRules.classList.add('hidden'));
-    this.btnRulesAck.addEventListener('click', () => this.modalRules.classList.add('hidden'));
-
-    this.btnAchievements.addEventListener('click', () => {
-      this.updateStatsUI();
-      this.modalAchievements.classList.remove('hidden');
-    });
-    this.btnCloseAchievements.addEventListener('click', () => this.modalAchievements.classList.add('hidden'));
-    this.btnStatsAck.addEventListener('click', () => this.modalAchievements.classList.add('hidden'));
-
-    this.btnSettingsTitle.addEventListener('click', () => this.modalSettings.classList.remove('hidden'));
-    this.btnSettingsTable.addEventListener('click', () => this.modalSettings.classList.remove('hidden'));
-    this.btnCloseSettings.addEventListener('click', () => this.modalSettings.classList.add('hidden'));
-    this.btnSaveSettings.addEventListener('click', () => this.modalSettings.classList.add('hidden'));
-
-    this.selectLanguage.addEventListener('change', (e) => {
-      this.settings.lang = e.target.value;
-      window.storageManager.saveSettings(this.settings);
-      this.applyLanguage(this.settings.lang);
-    });
-
-    this.toggleSound.addEventListener('change', (e) => {
-      this.settings.sound = e.target.checked;
-      window.soundSystem.setEnabled(this.settings.sound);
-      this.btnSoundToggle.textContent = this.settings.sound ? '🔊' : '🔇';
-      window.storageManager.saveSettings(this.settings);
-    });
-
-    this.btnSoundToggle.addEventListener('click', () => {
-      this.settings.sound = !this.settings.sound;
-      this.toggleSound.checked = this.settings.sound;
-      window.soundSystem.setEnabled(this.settings.sound);
-      this.btnSoundToggle.textContent = this.settings.sound ? '🔊' : '🔇';
-      window.storageManager.saveSettings(this.settings);
-    });
-
-    this.selectSpeed.addEventListener('change', (e) => {
-      this.settings.speed = parseFloat(e.target.value);
-      document.documentElement.style.setProperty('--speed-factor', this.settings.speed);
-      window.storageManager.saveSettings(this.settings);
-    });
-
-    this.btnResetData.addEventListener('click', () => {
-      const dict = I18N[this.settings.lang] || I18N.en;
-      this.confirmTitle.textContent = dict.confirmResetTitle;
-      this.confirmMessage.textContent = dict.confirmResetMsg;
-      this.confirmBox.classList.add('warning-style');
-
-      this.btnConfirmCancel.textContent = dict.btnCancel;
-      this.btnConfirmOk.textContent = dict.btnConfirm;
-      this.btnConfirmOk.className = 'btn-danger-confirm';
-
-      this.pendingConfirm = () => {
-        window.storageManager.resetAllData();
-        this.stats = window.storageManager.getStats();
+    // チップ補給
+    if (this.btnRefillChips) {
+      this.btnRefillChips.addEventListener('click', () => {
+        this.stats.chips += 500;
         this.seats[0].chips = this.stats.chips;
-        this.seats[1].chips = 500;
-        this.seats[2].chips = 500;
-        this.seats[3].chips = 500;
+        window.storageManager.saveStats(this.stats);
         this.updateBalanceUI();
-        this.updateStatsUI();
-        this.checkResumeAvailability();
-        this.modalSettings.classList.add('hidden');
-        this.showToast('Data Reset Complete');
-      };
-      this.modalConfirm.classList.remove('hidden');
-    });
+        this.modalRefill.classList.add('hidden');
+        this.showToast('+500 Chips Claimed!');
+      });
+    }
 
-    this.btnShareX.addEventListener('click', () => {
-      const dict = I18N[this.settings.lang] || I18N.en;
-      const text = dict.shareTweet.replace('{chips}', this.stats.chips.toLocaleString());
-      window.open(`https://twitter.com/intent/tweet?text=${encodeURIComponent(text)}`, '_blank');
-    });
+    // タイトルへ戻る
+    if (this.btnToTitle) {
+      this.btnToTitle.addEventListener('click', () => {
+        const dict = I18N[this.settings.lang] || I18N.en;
+        this.confirmTitle.textContent = dict.confirmTitleBack;
+        this.confirmMessage.textContent = dict.confirmTitleBackMsg;
+        this.confirmBox.classList.remove('warning-style');
+        
+        this.btnConfirmCancel.textContent = dict.btnCancel;
+        this.btnConfirmOk.textContent = dict.btnConfirm;
+        this.btnConfirmOk.className = 'btn-primary';
+
+        this.pendingConfirm = () => {
+          this.isGameActive = false;
+          this.saveCurrentGame();
+          this.gameScreen.classList.remove('active');
+          this.titleScreen.classList.add('active');
+          this.checkResumeAvailability();
+        };
+        this.modalConfirm.classList.remove('hidden');
+      });
+    }
+
+    // 確認モーダルボタン
+    if (this.btnConfirmCancel) {
+      this.btnConfirmCancel.addEventListener('click', () => {
+        this.modalConfirm.classList.add('hidden');
+        this.pendingConfirm = null;
+      });
+    }
+
+    if (this.btnConfirmOk) {
+      this.btnConfirmOk.addEventListener('click', () => {
+        this.modalConfirm.classList.add('hidden');
+        if (this.pendingConfirm) {
+          this.pendingConfirm();
+          this.pendingConfirm = null;
+        }
+      });
+    }
+
+    // あそびかた
+    if (this.btnRules) this.btnRules.addEventListener('click', () => this.modalRules.classList.remove('hidden'));
+    if (this.btnCloseRules) this.btnCloseRules.addEventListener('click', () => this.modalRules.classList.add('hidden'));
+    if (this.btnRulesAck) this.btnRulesAck.addEventListener('click', () => this.modalRules.classList.add('hidden'));
+
+    // 戦績
+    if (this.btnAchievements) {
+      this.btnAchievements.addEventListener('click', () => {
+        this.updateStatsUI();
+        this.modalAchievements.classList.remove('hidden');
+      });
+    }
+    if (this.btnCloseAchievements) this.btnCloseAchievements.addEventListener('click', () => this.modalAchievements.classList.add('hidden'));
+    if (this.btnStatsAck) this.btnStatsAck.addEventListener('click', () => this.modalAchievements.classList.add('hidden'));
+
+    // 設定
+    if (this.btnSettingsTitle) this.btnSettingsTitle.addEventListener('click', () => this.modalSettings.classList.remove('hidden'));
+    if (this.btnSettingsTable) this.btnSettingsTable.addEventListener('click', () => this.modalSettings.classList.remove('hidden'));
+    if (this.btnCloseSettings) this.btnCloseSettings.addEventListener('click', () => this.modalSettings.classList.add('hidden'));
+    if (this.btnSaveSettings) this.btnSaveSettings.addEventListener('click', () => this.modalSettings.classList.add('hidden'));
+
+    if (this.selectLanguage) {
+      this.selectLanguage.addEventListener('change', (e) => {
+        this.settings.lang = e.target.value;
+        window.storageManager.saveSettings(this.settings);
+        this.applyLanguage(this.settings.lang);
+      });
+    }
+
+    if (this.toggleSound) {
+      this.toggleSound.addEventListener('change', (e) => {
+        this.settings.sound = e.target.checked;
+        window.soundSystem.setEnabled(this.settings.sound);
+        if (this.btnSoundToggle) this.btnSoundToggle.textContent = this.settings.sound ? '🔊' : '🔇';
+        window.storageManager.saveSettings(this.settings);
+      });
+    }
+
+    if (this.btnSoundToggle) {
+      this.btnSoundToggle.addEventListener('click', () => {
+        this.settings.sound = !this.settings.sound;
+        if (this.toggleSound) this.toggleSound.checked = this.settings.sound;
+        window.soundSystem.setEnabled(this.settings.sound);
+        this.btnSoundToggle.textContent = this.settings.sound ? '🔊' : '🔇';
+        window.storageManager.saveSettings(this.settings);
+      });
+    }
+
+    if (this.selectSpeed) {
+      this.selectSpeed.addEventListener('change', (e) => {
+        this.settings.speed = parseFloat(e.target.value);
+        document.documentElement.style.setProperty('--speed-factor', this.settings.speed);
+        window.storageManager.saveSettings(this.settings);
+      });
+    }
+
+    // データ初期化
+    if (this.btnResetData) {
+      this.btnResetData.addEventListener('click', () => {
+        const dict = I18N[this.settings.lang] || I18N.en;
+        this.confirmTitle.textContent = dict.confirmResetTitle;
+        this.confirmMessage.textContent = dict.confirmResetMsg;
+        this.confirmBox.classList.add('warning-style');
+
+        this.btnConfirmCancel.textContent = dict.btnCancel;
+        this.btnConfirmOk.textContent = dict.btnConfirm;
+        this.btnConfirmOk.className = 'btn-danger-confirm';
+
+        this.pendingConfirm = () => {
+          window.storageManager.resetAllData();
+          this.stats = window.storageManager.getStats();
+          this.seats[0].chips = this.stats.chips;
+          this.seats[1].chips = 500;
+          this.seats[2].chips = 500;
+          this.seats[3].chips = 500;
+          this.updateBalanceUI();
+          this.updateStatsUI();
+          this.checkResumeAvailability();
+          this.modalSettings.classList.add('hidden');
+          this.showToast('Data Reset Complete');
+        };
+        this.modalConfirm.classList.remove('hidden');
+      });
+    }
+
+    if (this.btnShareX) {
+      this.btnShareX.addEventListener('click', () => {
+        const dict = I18N[this.settings.lang] || I18N.en;
+        const text = dict.shareTweet.replace('{chips}', this.stats.chips.toLocaleString());
+        window.open(`https://twitter.com/intent/tweet?text=${encodeURIComponent(text)}`, '_blank');
+      });
+    }
   }
 
   enterGameDirectly() {
@@ -979,9 +1029,9 @@ class BlackjackEngine {
 
   checkResumeAvailability() {
     const saved = window.storageManager.getSavedGameState();
-    if (saved) {
+    if (saved && this.btnResumeGame) {
       this.btnResumeGame.classList.remove('hidden');
-    } else {
+    } else if (this.btnResumeGame) {
       this.btnResumeGame.classList.add('hidden');
     }
   }
@@ -1027,7 +1077,7 @@ class BlackjackEngine {
       const k = el.getAttribute('data-i18n');
       if (dict[k]) el.textContent = dict[k];
     });
-    this.selectLanguage.value = lang;
+    if (this.selectLanguage) this.selectLanguage.value = lang;
 
     document.querySelectorAll('.slot-type-btn').forEach(btn => {
       const seat = parseInt(btn.dataset.seat, 10);
@@ -1043,26 +1093,27 @@ class BlackjackEngine {
       }
     });
 
-    this.btnConfirmCancel.textContent = dict.btnCancel;
-    this.btnConfirmOk.textContent = dict.btnConfirm;
+    if (this.btnConfirmCancel) this.btnConfirmCancel.textContent = dict.btnCancel;
+    if (this.btnConfirmOk) this.btnConfirmOk.textContent = dict.btnConfirm;
   }
 
   applySettings() {
-    this.selectLanguage.value = this.settings.lang;
-    this.toggleSound.checked = this.settings.sound;
-    this.toggleVibrate.checked = this.settings.vibrate;
-    this.selectSpeed.value = this.settings.speed.toString();
+    if (this.selectLanguage) this.selectLanguage.value = this.settings.lang;
+    if (this.toggleSound) this.toggleSound.checked = this.settings.sound;
+    if (this.toggleVibrate) this.toggleVibrate.checked = this.settings.vibrate;
+    if (this.selectSpeed) this.selectSpeed.value = this.settings.speed.toString();
     document.documentElement.style.setProperty('--speed-factor', this.settings.speed);
     window.soundSystem.setEnabled(this.settings.sound);
   }
 
   checkBankrollRefill() {
-    if (this.stats.chips <= 0 && this.seats[0].bet === 0) {
+    if (this.stats.chips <= 0 && this.seats[0].bet === 0 && this.modalRefill) {
       this.modalRefill.classList.remove('hidden');
     }
   }
 
   showToast(text, duration = 1200) {
+    if (!this.toastText || !this.tableToast) return;
     this.toastText.textContent = text;
     this.tableToast.classList.remove('hidden');
     setTimeout(() => this.tableToast.classList.add('hidden'), duration / this.settings.speed);
@@ -1089,13 +1140,13 @@ class BlackjackEngine {
       const j = Math.floor(Math.random() * (i + 1));
       [this.deck[i], this.deck[j]] = [this.deck[j], this.deck[i]];
     }
-    this.shoeCountEl.textContent = this.deck.length;
+    if (this.shoeCountEl) this.shoeCountEl.textContent = this.deck.length;
   }
 
   drawCard() {
     if (this.deck.length < 24) this.initShoe();
     const c = this.deck.pop();
-    this.shoeCountEl.textContent = this.deck.length;
+    if (this.shoeCountEl) this.shoeCountEl.textContent = this.deck.length;
     return c;
   }
 
@@ -1126,9 +1177,9 @@ class BlackjackEngine {
 
   updateBalanceUI() {
     this.seats[0].chips = this.stats.chips;
-    this.titleChipsDisplay.textContent = this.stats.chips.toLocaleString();
-    this.playerChipsEl.textContent = this.stats.chips.toLocaleString();
-    this.playerBetEl.textContent = this.seats[0].bet.toLocaleString();
+    if (this.titleChipsDisplay) this.titleChipsDisplay.textContent = this.stats.chips.toLocaleString();
+    if (this.playerChipsEl) this.playerChipsEl.textContent = this.stats.chips.toLocaleString();
+    if (this.playerBetEl) this.playerBetEl.textContent = this.seats[0].bet.toLocaleString();
 
     for (let i = 1; i < 4; i++) {
       const s = this.seats[i];
@@ -1144,6 +1195,7 @@ class BlackjackEngine {
     for (let i = 0; i < 4; i++) {
       const s = this.seats[i];
       const sEl = document.getElementById(`seat-${i}`);
+      if (!sEl) continue;
       
       let chipsPill = sEl.querySelector('.seat-chips-pill');
       if (!chipsPill) {
@@ -1153,11 +1205,14 @@ class BlackjackEngine {
       }
       chipsPill.textContent = s.type !== 'none' ? `🪙${s.chips.toLocaleString()}` : '';
 
-      sEl.querySelector('.seat-bet-val').textContent = s.bet.toLocaleString();
+      const betVal = sEl.querySelector('.seat-bet-val');
+      if (betVal) betVal.textContent = s.bet.toLocaleString();
       sEl.classList.toggle('is-empty', s.type === 'none');
     }
 
-    this.btnDeal.classList.toggle('disabled', this.seats[0].bet <= 0);
+    if (this.btnDeal) {
+      this.btnDeal.classList.toggle('disabled', this.seats[0].bet <= 0);
+    }
   }
 
   async startDealRound() {
@@ -1233,6 +1288,7 @@ class BlackjackEngine {
     for (let i = 0; i < 4; i++) {
       const s = this.seats[i];
       const sEl = document.getElementById(`seat-${i}`);
+      if (!sEl) continue;
       const cardsEl = sEl.querySelector('.seat-cards');
       const scoreEl = sEl.querySelector('.seat-score');
 
@@ -1258,9 +1314,10 @@ class BlackjackEngine {
   }
 
   renderDealer() {
+    if (!this.dealerCardsEl) return;
     this.dealerCardsEl.innerHTML = '';
     const sc = this.calculateHand(this.dealerHand, this.dealerHoleCardHidden);
-    this.dealerScoreEl.textContent = this.dealerHoleCardHidden ? '?' : sc.best;
+    if (this.dealerScoreEl) this.dealerScoreEl.textContent = this.dealerHoleCardHidden ? '?' : sc.best;
 
     this.dealerHand.forEach(c => {
       const isFacedown = this.dealerHoleCardHidden && c.isHole;
@@ -1286,7 +1343,7 @@ class BlackjackEngine {
     }
 
     const cur = this.seats[this.currentSeatTurn];
-    this.activeTurnIndicator.textContent = cur.name;
+    if (this.activeTurnIndicator) this.activeTurnIndicator.textContent = cur.name;
     this.renderSeats();
     this.saveCurrentGame();
 
@@ -1358,7 +1415,7 @@ class BlackjackEngine {
     if (!this.isGameActive) return;
     this.gameState = 'dealer';
     this.actionControls.classList.add('hidden');
-    this.activeTurnIndicator.textContent = 'DEALER';
+    if (this.activeTurnIndicator) this.activeTurnIndicator.textContent = 'DEALER';
 
     this.showToast('Dealer Turn...');
     await new Promise(r => setTimeout(r, 700 / this.settings.speed));
@@ -1429,7 +1486,6 @@ class BlackjackEngine {
         }
       }
 
-      // 破産救済：0以下になったら+500チップ補充
       if (s.chips <= 0) {
         s.chips += 500;
         if (i === 0) {
@@ -1489,7 +1545,7 @@ class BlackjackEngine {
 
     this.chipControls.classList.remove('hidden');
     this.actionControls.classList.add('hidden');
-    this.activeTurnIndicator.textContent = 'BETTING';
+    if (this.activeTurnIndicator) this.activeTurnIndicator.textContent = 'BETTING';
 
     this.updateBalanceUI();
     this.checkBankrollRefill();
@@ -1497,4 +1553,37 @@ class BlackjackEngine {
   }
 
   updateStatsUI() {
-    document.getElementById('stat-games-
+    const elPlayed = document.getElementById('stat-games-played');
+    const elWon = document.getElementById('stat-games-won');
+    const elBJs = document.getElementById('stat-bj-count');
+    const elRate = document.getElementById('stat-win-rate');
+
+    if (elPlayed) elPlayed.textContent = this.stats.gamesPlayed;
+    if (elWon) elWon.textContent = this.stats.gamesWon;
+    if (elBJs) elBJs.textContent = this.stats.blackjackCount;
+
+    const rate = this.stats.gamesPlayed > 0 ? Math.round((this.stats.gamesWon / this.stats.gamesPlayed) * 100) : 0;
+    if (elRate) elRate.textContent = `${rate}%`;
+
+    const dict = I18N[this.settings.lang] || I18N.en;
+    const badgeContainer = document.getElementById('achievements-list');
+    if (!badgeContainer) return;
+    badgeContainer.innerHTML = '';
+    const badges = [
+      { id: 'firstWin', name: dict.badgeFirstWin, desc: dict.badgeFirstWinDesc, icon: '🥇' },
+      { id: 'blackjack', name: dict.badgeBJ, desc: dict.badgeBJDesc, icon: '♠️' },
+      { id: 'highRoller', name: dict.badgeHighRoller, desc: dict.badgeHighRollerDesc, icon: '💎' },
+      { id: 'fiveCard', name: dict.badgeFiveCard, desc: dict.badgeFiveCardDesc, icon: '🐉' }
+    ];
+    badges.forEach(b => {
+      const div = document.createElement('div');
+      div.className = `badge-item ${this.stats.achievements[b.id] ? 'unlocked' : ''}`;
+      div.innerHTML = `<span class="badge-icon">${b.icon}</span><div><strong>${b.name}</strong><br><small>${b.desc}</small></div>`;
+      badgeContainer.appendChild(div);
+    });
+  }
+}
+
+window.addEventListener('DOMContentLoaded', () => {
+  window.blackjackGame = new BlackjackEngine();
+});
