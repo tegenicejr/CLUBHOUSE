@@ -1,7 +1,7 @@
 {
-  "name": "blackjack - Games Clubhouse",
+  "name": "Blackjack 4P - Games Clubhouse",
   "short_name": "Blackjack",
-  "description": "Authentic Casino Blackjack by Games Clubhouse",
+  "description": "Authentic Casino 4-Player Blackjack by Games Clubhouse",
   "start_url": "./index.html",
   "display": "standalone",
   "orientation": "portrait",
