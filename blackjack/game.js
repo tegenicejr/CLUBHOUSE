@@ -1,9 +1,9 @@
 /**
  * Games Clubhouse: Blackjack Game Engine
- * - Visual "How to Play" with miniature cards & step badges
- * - Title: "BLACKJACK Casino Edition" fixed
- * - Turn Seat: Clean simple indicator ("1P", "2P", "3P", "4P", "DEALER")
- * - Slot Toggles: "1P", "2P", "3P", "4P"
+ * - 2P, 3P, 4P have independent bankrolls (starting at 500 chips).
+ * - Exact chip win/loss calculations for each seat.
+ * - Auto-refill (+500 chips) when any active seat runs out of chips.
+ * - Full state persistence across rounds and title exits.
  */
 
 const I18N = {
@@ -31,7 +31,6 @@ const I18N = {
     refillDesc: "所持チップがなくなりました。カジノ倶楽部より+500チップを補給します。",
     btnGetRefill: "+500チップを受け取る",
 
-    // ビジュアルあそびかたテキスト
     rulesTitle: "📖 あそびかた",
     ruleGoalHead: "目指すゴール：21",
     ruleGoalLead: "カードの合計を「21」に最も近づけた方の勝ち！21を超えると即負け（バースト）。",
@@ -65,15 +64,12 @@ const I18N = {
     btnResetData: "戦績・データ初期化",
     btnCloseSettings: "閉じる",
 
-    // タイトルへ戻る（自動保存）
     confirmTitleBack: "タイトルへ戻る",
     confirmTitleBackMsg: "現在の対局状況は自動保存されます。\nいつでも「つづきから」再開できます。",
 
-    // セーブデータ上書き確認
     confirmOverwriteTitle: "新しくゲームを開始しますか？",
     confirmOverwriteMsg: "保存されている進行中のデータが消去されます。\nよろしいですか？",
 
-    // データ初期化確認
     confirmResetTitle: "データを初期化しますか？",
     confirmResetMsg: "戦績や進行状況がすべて消去されます。\n元には戻せません。",
 
@@ -164,11 +160,12 @@ class BlackjackEngine {
     this.settings = window.storageManager.getSettings();
     this.stats = window.storageManager.getStats();
 
+    // 2P〜4Pは初期チップ500
     this.seats = [
-      { id: 0, type: 'human', name: '1P', hand: [], bet: 0, status: 'betting' },
-      { id: 1, type: 'none',  name: '2P', hand: [], bet: 0, status: 'idle' },
-      { id: 2, type: 'none',  name: '3P', hand: [], bet: 0, status: 'idle' },
-      { id: 3, type: 'none',  name: '4P', hand: [], bet: 0, status: 'idle' }
+      { id: 0, type: 'human', name: '1P', hand: [], bet: 0, chips: this.stats.chips, status: 'betting' },
+      { id: 1, type: 'none',  name: '2P', hand: [], bet: 0, chips: 500, status: 'idle' },
+      { id: 2, type: 'none',  name: '3P', hand: [], bet: 0, chips: 500, status: 'idle' },
+      { id: 3, type: 'none',  name: '4P', hand: [], bet: 0, chips: 500, status: 'idle' }
     ];
 
     this.dealerHand = [];
@@ -304,6 +301,7 @@ class BlackjackEngine {
         if (nextType === 'none') {
           e.target.classList.add('state-none');
           e.target.textContent = dict.slotNone;
+          this.seats[seatIdx].bet = 0;
         } else if (nextType === 'cpu') {
           e.target.classList.add('state-cpu');
           e.target.textContent = dict.slotCpu;
@@ -311,6 +309,7 @@ class BlackjackEngine {
           e.target.classList.add('state-human');
           e.target.textContent = `${seatIdx + 1}P`;
         }
+        this.updateBalanceUI();
       });
     });
 
@@ -334,16 +333,17 @@ class BlackjackEngine {
       this.prepareNextRound();
     });
 
-    // チップ補給
+    // チップ補給（1P用手動ボタン）
     this.btnRefillChips.addEventListener('click', () => {
       this.stats.chips += 500;
+      this.seats[0].chips = this.stats.chips;
       window.storageManager.saveStats(this.stats);
       this.updateBalanceUI();
       this.modalRefill.classList.add('hidden');
       this.showToast('+500 Chips Claimed!');
     });
 
-    // タイトルへ戻る（自動保存ダイアログ）
+    // タイトルへ戻る
     this.btnToTitle.addEventListener('click', () => {
       const dict = I18N[this.settings.lang] || I18N.ja;
       this.confirmTitle.textContent = dict.confirmTitleBack;
@@ -377,7 +377,6 @@ class BlackjackEngine {
       }
     });
 
-    // あそびかたモーダル
     this.btnRules.addEventListener('click', () => this.modalRules.classList.remove('hidden'));
     this.btnCloseRules.addEventListener('click', () => this.modalRules.classList.add('hidden'));
     this.btnRulesAck.addEventListener('click', () => this.modalRules.classList.add('hidden'));
@@ -435,6 +434,10 @@ class BlackjackEngine {
       this.pendingConfirm = () => {
         window.storageManager.resetAllData();
         this.stats = window.storageManager.getStats();
+        this.seats[0].chips = this.stats.chips;
+        this.seats[1].chips = 500;
+        this.seats[2].chips = 500;
+        this.seats[3].chips = 500;
         this.updateBalanceUI();
         this.updateStatsUI();
         this.checkResumeAvailability();
@@ -458,6 +461,7 @@ class BlackjackEngine {
   }
 
   saveCurrentGame() {
+    this.seats[0].chips = this.stats.chips;
     const saveData = {
       deck: this.deck,
       seats: this.seats,
@@ -488,6 +492,11 @@ class BlackjackEngine {
     this.dealerHoleCardHidden = saved.dealerHoleCardHidden;
     this.currentSeatTurn = saved.currentSeatTurn;
     this.gameState = saved.gameState;
+
+    // 1Pチップを同期
+    if (this.seats[0]) {
+      this.stats.chips = this.seats[0].chips;
+    }
 
     this.isGameActive = true;
     this.titleScreen.classList.remove('active');
@@ -595,6 +604,7 @@ class BlackjackEngine {
       return;
     }
     this.stats.chips -= val;
+    this.seats[0].chips = this.stats.chips;
     this.seats[0].bet += val;
     window.soundSystem.playChip();
     this.updateBalanceUI();
@@ -604,6 +614,7 @@ class BlackjackEngine {
   clearPlayerBet() {
     if (this.gameState !== 'betting' || this.seats[0].bet === 0) return;
     this.stats.chips += this.seats[0].bet;
+    this.seats[0].chips = this.stats.chips;
     this.seats[0].bet = 0;
     window.soundSystem.playChip();
     this.updateBalanceUI();
@@ -611,20 +622,40 @@ class BlackjackEngine {
   }
 
   updateBalanceUI() {
+    this.seats[0].chips = this.stats.chips;
     this.titleChipsDisplay.textContent = this.stats.chips.toLocaleString();
     this.playerChipsEl.textContent = this.stats.chips.toLocaleString();
     this.playerBetEl.textContent = this.seats[0].bet.toLocaleString();
 
+    // 2P〜4Pのベット額決定＆残高表示更新
     for (let i = 1; i < 4; i++) {
-      if (this.seats[i].type === 'cpu') this.seats[i].bet = 50;
-      else if (this.seats[i].type === 'human' && this.seats[i].bet === 0) this.seats[i].bet = 50;
-      else if (this.seats[i].type === 'none') this.seats[i].bet = 0;
+      const s = this.seats[i];
+      if (s.type === 'cpu') {
+        // ベット額は50チップ固定（残高が足りない場合は全額）
+        s.bet = Math.min(50, s.chips);
+      } else if (s.type === 'human') {
+        if (s.bet === 0) s.bet = Math.min(50, s.chips);
+      } else {
+        s.bet = 0;
+      }
     }
 
+    // 全座席のチップ残高・ベット額をUIに反映
     for (let i = 0; i < 4; i++) {
       const s = this.seats[i];
       const sEl = document.getElementById(`seat-${i}`);
-      sEl.querySelector('.seat-bet-val').textContent = s.bet;
+      
+      // 席のチップ残高バッジ
+      let chipsPill = sEl.querySelector('.seat-chips-pill');
+      if (!chipsPill) {
+        chipsPill = document.createElement('div');
+        chipsPill.className = 'seat-chips-pill';
+        sEl.insertBefore(chipsPill, sEl.querySelector('.seat-cards'));
+      }
+      chipsPill.textContent = s.type !== 'none' ? `🪙${s.chips.toLocaleString()}` : '';
+
+      // ベット額表示
+      sEl.querySelector('.seat-bet-val').textContent = s.bet.toLocaleString();
       sEl.classList.toggle('is-empty', s.type === 'none');
     }
 
@@ -634,6 +665,15 @@ class BlackjackEngine {
   async startDealRound() {
     if (this.seats[0].bet <= 0) return;
     this.gameState = 'playing';
+
+    // 2P〜4Pのベット額を残高から差し引く
+    for (let i = 1; i < 4; i++) {
+      const s = this.seats[i];
+      if (s.type !== 'none' && s.bet > 0) {
+        s.chips = Math.max(0, s.chips - s.bet);
+      }
+    }
+    this.updateBalanceUI();
 
     this.chipControls.classList.add('hidden');
     this.actionControls.classList.remove('hidden');
@@ -761,7 +801,8 @@ class BlackjackEngine {
 
     if (cur.type === 'human') {
       this.actionControls.classList.remove('hidden');
-      this.btnDouble.classList.toggle('disabled', cur.hand.length !== 2 || this.stats.chips < cur.bet);
+      const canDouble = cur.hand.length === 2 && (cur.id === 0 ? this.stats.chips >= cur.bet : cur.chips >= cur.bet);
+      this.btnDouble.classList.toggle('disabled', !canDouble);
     } else {
       this.actionControls.classList.add('hidden');
       await this.runCPUTurn(this.currentSeatTurn);
@@ -804,9 +845,13 @@ class BlackjackEngine {
     const cur = this.seats[this.currentSeatTurn];
     if (this.currentSeatTurn === 0) {
       this.stats.chips -= cur.bet;
+      cur.chips = this.stats.chips;
       cur.bet *= 2;
-      this.updateBalanceUI();
+    } else {
+      cur.chips -= cur.bet;
+      cur.bet *= 2;
     }
+    this.updateBalanceUI();
     await this.dealCardToSeat(this.currentSeatTurn);
     this.currentSeatTurn++;
     this.advanceTurn();
@@ -828,7 +873,7 @@ class BlackjackEngine {
     while (this.isGameActive && this.calculateHand(this.dealerHand).best < 17) {
       await new Promise(r => setTimeout(r, 750 / this.settings.speed));
       if (!this.isGameActive) return;
-      await dealCardToDealer(false);
+      await this.dealCardToDealer(false);
     }
 
     if (!this.isGameActive) return;
@@ -849,7 +894,7 @@ class BlackjackEngine {
       if (s.type === 'none') continue;
 
       const pScore = this.calculateHand(s.hand);
-      let outcome = 'lose';
+      let outcome = 'lose'; // 'win' | 'lose' | 'push'
 
       if (pScore.isBust) outcome = 'lose';
       else if (dScore.isBust) outcome = 'win';
@@ -857,31 +902,51 @@ class BlackjackEngine {
       else if (pScore.best < dScore.best) outcome = 'lose';
       else outcome = 'push';
 
-      if (i === 0) {
-        if (pScore.isBJ && outcome === 'win') {
-          const payout = Math.floor(s.bet * 2.5);
-          this.stats.chips += payout;
-          mainGain = payout - s.bet;
-          this.stats.gamesWon++;
+      let seatGain = 0;
+
+      // チップ増減計算
+      if (pScore.isBJ && outcome === 'win') {
+        const payout = Math.floor(s.bet * 2.5); // 3:2 配当
+        s.chips += payout;
+        seatGain = payout - s.bet;
+        if (i === 0) {
           this.stats.blackjackCount++;
           this.stats.achievements.blackjack = true;
-          this.stats.achievements.firstWin = true;
-        } else if (outcome === 'win') {
-          this.stats.chips += s.bet * 2;
-          mainGain = s.bet;
+        }
+      } else if (outcome === 'win') {
+        const payout = s.bet * 2;
+        s.chips += payout;
+        seatGain = s.bet;
+      } else if (outcome === 'push') {
+        s.chips += s.bet;
+        seatGain = 0;
+      } else {
+        seatGain = -s.bet;
+      }
+
+      if (i === 0) {
+        mainGain = seatGain;
+        this.stats.chips = s.chips;
+        if (outcome === 'win') {
           this.stats.gamesWon++;
           this.stats.achievements.firstWin = true;
-        } else if (outcome === 'push') {
-          this.stats.chips += s.bet;
-          mainGain = 0;
-        } else {
-          mainGain = -s.bet;
         }
       }
 
+      // 破産時の救済処理：チップが0になったら+500追加
+      if (s.chips <= 0) {
+        s.chips += 500;
+        if (i === 0) {
+          this.stats.chips = s.chips;
+        }
+        this.showToast(`${s.name} に500チップ補充！`, 1600);
+      }
+
+      // リザルトモーダルへの記載
       const div = document.createElement('div');
       div.className = `res-seat-box ${outcome}`;
-      div.textContent = `${s.name}: ${pScore.best} (${outcome.toUpperCase()})`;
+      const sign = seatGain >= 0 ? '+' : '';
+      div.innerHTML = `<strong>${s.name}</strong>: ${pScore.best} (${outcome.toUpperCase()})<br><small>${sign}${seatGain} (残: ${s.chips})</small>`;
       this.resultSeatsSummary.appendChild(div);
     }
 
@@ -916,8 +981,11 @@ class BlackjackEngine {
     for (let i = 0; i < 4; i++) {
       this.seats[i].hand = [];
       this.seats[i].status = this.seats[i].type === 'none' ? 'idle' : 'betting';
-      if (i > 0 && this.seats[i].type === 'cpu') this.seats[i].bet = 50;
-      else if (this.seats[i].type === 'none') this.seats[i].bet = 0;
+      if (i > 0 && this.seats[i].type !== 'none') {
+        this.seats[i].bet = Math.min(50, this.seats[i].chips);
+      } else if (this.seats[i].type === 'none') {
+        this.seats[i].bet = 0;
+      }
     }
 
     this.seats[0].bet = 0;
