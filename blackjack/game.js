@@ -1,90 +1,17 @@
 /**
  * Games Clubhouse: Blackjack Game Engine
- * - 2P, 3P, 4P have independent bankrolls (starting at 500 chips).
- * - Exact chip win/loss calculations for each seat.
- * - Auto-refill (+500 chips) when any active seat runs out of chips.
- * - Full state persistence across rounds and title exits.
+ * - Defaults to English (en), supports 8-language live switching
+ * - Independent bankrolls for 2P-4P (starting at 500 chips, refill when empty)
+ * - Exact win/loss chip calculation per seat
+ * - Direct table start, no dice roll
  */
 
 const I18N = {
-  ja: {
-    btnStart: "ゲームスタート",
-    btnResume: "つづきから",
-    btnRules: "あそびかた",
-    btnRecords: "戦績・実績",
-    btnSettings: "⚙️ 設定",
-    btnBackTitle: "‹ タイトルへ",
-    shoeLabel: "シュー残",
-    dealerLabel: "ディーラー",
-    balanceLabel: "所持チップ",
-    activeSeatLabel: "ターン席",
-    currentBetLabel: "1P ベット額",
-    tableSlotsTitle: "参加プレイヤー設定（最大4席）",
-    slotNone: "なし",
-    slotCpu: "CPU",
-    btnClear: "クリア",
-    btnDeal: "ディール (Deal)",
-    btnHit: "ヒット",
-    btnStand: "スタンド",
-    btnDouble: "ダブル",
-    refillTitle: "チップ補給",
-    refillDesc: "所持チップがなくなりました。カジノ倶楽部より+500チップを補給します。",
-    btnGetRefill: "+500チップを受け取る",
-
-    rulesTitle: "📖 あそびかた",
-    ruleGoalHead: "目指すゴール：21",
-    ruleGoalLead: "カードの合計を「21」に最も近づけた方の勝ち！21を超えると即負け（バースト）。",
-    ruleShowcaseBJ: "最強の手：ブラックジャック",
-    ruleCountingHead: "カードの数え方",
-    ruleActionsHead: "ターンの行動（アクション）",
-    ruleDealerHead: "ディーラーの絶対ルール",
-    btnGotIt: "閉じる",
-
-    statsTitle: "🏆 戦績 & 実績",
-    statPlayed: "プレイ数",
-    statWon: "勝利数",
-    statBJs: "BJ回数",
-    statWinRate: "勝率",
-    badgesHeading: "獲得アチーブメント",
-    badgeFirstWin: "初勝利",
-    badgeFirstWinDesc: "初めてディーラーに勝利する",
-    badgeBJ: "ナチュラル21",
-    badgeBJDesc: "ブラックジャックを達成する",
-    badgeHighRoller: "ハイローラー",
-    badgeHighRollerDesc: "所持チップ2,500枚を突破する",
-    badgeFiveCard: "ファイブカード",
-    badgeFiveCardDesc: "バーストせずに5枚引く",
-    settingsTitle: "⚙️ 設定",
-    labelLanguage: "言語 (Language)",
-    labelSound: "効果音 (BGM/SE)",
-    labelHaptics: "振動 (Vibration)",
-    labelSpeed: "速度 (Speed)",
-    speedNormal: "通常",
-    speedFast: "高速",
-    btnResetData: "データ初期化",
-    btnCloseSettings: "閉じる",
-
-    confirmTitleBack: "タイトルへ戻りますか？",
-    confirmTitleBackMsg: "現在のゲーム状況は自動保存されます。",
-
-    confirmOverwriteTitle: "新しくゲームを開始しますか？",
-    confirmOverwriteMsg: "前回のプレイデータは上書きされ、最初からスタートします。",
-
-    confirmResetTitle: "データを初期化しますか？",
-    confirmResetMsg: "戦績や進行状況がすべて消去されます。\n元には戻せません。",
-
-    btnCancel: "キャンセル",
-    btnConfirm: "OK",
-
-    btnShareX: "Xで戦績を共有",
-    btnNextRound: "次のディールへ",
-    shareTweet: "Games Clubhouseでブラックジャックをプレイ中！所持チップ: {chips}枚 ♠️🎲"
-  },
   en: {
     btnStart: "Start Game",
     btnResume: "Resume Game",
     btnRules: "How to Play",
-    btnRecords: "Stats & Records",
+    btnRecords: "Records",
     btnSettings: "⚙️ Settings",
     btnBackTitle: "‹ Title",
     shoeLabel: "Shoe",
@@ -108,12 +35,26 @@ const I18N = {
     ruleGoalHead: "Objective: Reach 21",
     ruleGoalLead: "Get closer to 21 than the dealer without going over (bust).",
     ruleShowcaseBJ: "Ultimate Hand: Blackjack",
+    payoutBJBadge: "3:2 Payout",
     ruleCountingHead: "Card Values",
+    valFaceDesc: "Face Value",
+    valTenDesc: "Count as 10",
+    valAceDesc: "Counts as 1 or 11",
     ruleActionsHead: "Player Actions",
+    hitSummary: "Draw another card",
+    hitTip: "Take when far from 21",
+    standSummary: "Lock your total",
+    standTip: "End your turn at 17+",
+    doubleSummary: "Double bet, draw 1 card",
+    doubleTip: "Great when starting with 11",
     ruleDealerHead: "Dealer Strict Rules",
+    flow16: "16 or less",
+    flowMustHit: "Must Hit",
+    flow17: "17 or more",
+    flowMustStand: "Must Stand",
     btnGotIt: "Close",
 
-    statsTitle: "🏆 Stats & Badges",
+    statsTitle: "🏆 Records & Badges",
     statPlayed: "Played",
     statWon: "Won",
     statBJs: "Blackjacks",
@@ -152,6 +93,573 @@ const I18N = {
     btnShareX: "Share on X",
     btnNextRound: "Next Deal",
     shareTweet: "Playing Blackjack on Games Clubhouse! Chips: {chips} ♠️🎲"
+  },
+  ja: {
+    btnStart: "ゲームスタート",
+    btnResume: "つづきから",
+    btnRules: "あそびかた",
+    btnRecords: "戦績・役",
+    btnSettings: "⚙️ 設定",
+    btnBackTitle: "‹ タイトルへ",
+    shoeLabel: "シュー残",
+    dealerLabel: "ディーラー",
+    balanceLabel: "所持チップ",
+    activeSeatLabel: "ターン席",
+    currentBetLabel: "1P ベット額",
+    tableSlotsTitle: "参加プレイヤー設定（最大4席）",
+    slotNone: "なし",
+    slotCpu: "CPU",
+    btnClear: "クリア",
+    btnDeal: "ディール (Deal)",
+    btnHit: "ヒット",
+    btnStand: "スタンド",
+    btnDouble: "ダブル",
+    refillTitle: "チップ補給",
+    refillDesc: "所持チップがなくなりました。カジノ倶楽部より+500チップを補給します。",
+    btnGetRefill: "+500チップを受け取る",
+
+    rulesTitle: "📖 あそびかた",
+    ruleGoalHead: "目指すゴール：21",
+    ruleGoalLead: "カードの合計を「21」に最も近づけた方の勝ち！21を超えると即負け（バースト）。",
+    ruleShowcaseBJ: "最強の手：ブラックジャック",
+    payoutBJBadge: "1.5倍配当",
+    ruleCountingHead: "カードの数え方",
+    valFaceDesc: "そのままの数字",
+    valTenDesc: "すべて 10",
+    valAceDesc: "「1」または「11」どちらでもOK！",
+    ruleActionsHead: "ターンの行動（アクション）",
+    hitSummary: "カードをもう1枚引く",
+    hitTip: "まだ21に遠いときに選択",
+    standSummary: "現在の枚数で勝負を確定",
+    standTip: "17以上など満足な合計値のとき",
+    doubleSummary: "賭け金を2倍にし、1枚だけ引く",
+    doubleTip: "最初の手札が「11」等の大チャンス時",
+    ruleDealerHead: "ディーラーの絶対ルール",
+    flow16: "16以下",
+    flowMustHit: "必ずカードを引く",
+    flow17: "17以上",
+    flowMustStand: "必ずストップ（スタンド）",
+    btnGotIt: "閉じる",
+
+    statsTitle: "🏆 戦績 & 実績",
+    statPlayed: "プレイ数",
+    statWon: "勝利数",
+    statBJs: "BJ回数",
+    statWinRate: "勝率",
+    badgesHeading: "獲得アチーブメント",
+    badgeFirstWin: "初勝利",
+    badgeFirstWinDesc: "初めてディーラーに勝利する",
+    badgeBJ: "ナチュラル21",
+    badgeBJDesc: "ブラックジャックを達成する",
+    badgeHighRoller: "ハイローラー",
+    badgeHighRollerDesc: "所持チップ2,500枚を突破する",
+    badgeFiveCard: "ファイブカード",
+    badgeFiveCardDesc: "バーストせずに5枚引く",
+    settingsTitle: "⚙️ 設定",
+    labelLanguage: "言語",
+    labelSound: "効果音",
+    labelHaptics: "振動",
+    labelSpeed: "アニメーション速度",
+    speedNormal: "通常",
+    speedFast: "高速",
+    btnResetData: "戦績・データ初期化",
+    btnCloseSettings: "閉じる",
+
+    confirmTitleBack: "タイトルへ戻る",
+    confirmTitleBackMsg: "現在の対局状況は自動保存されます。\nいつでも「つづきから」再開できます。",
+
+    confirmOverwriteTitle: "新しくゲームを開始しますか？",
+    confirmOverwriteMsg: "保存されている進行中のデータが消去されます。\nよろしいですか？",
+
+    confirmResetTitle: "データを初期化しますか？",
+    confirmResetMsg: "戦績や進行状況がすべて消去されます。\n元には戻せません。",
+
+    btnCancel: "キャンセル",
+    btnConfirm: "OK",
+
+    btnShareX: "Xで戦績を共有",
+    btnNextRound: "次のディールへ",
+    shareTweet: "Games Clubhouseでブラックジャックをプレイ中！所持チップ: {chips}枚 ♠️🎲"
+  },
+  "zh-CN": {
+    btnStart: "开始游戏",
+    btnResume: "继续游戏",
+    btnRules: "游戏规则",
+    btnRecords: "成就记录",
+    btnSettings: "⚙️ 设置",
+    btnBackTitle: "‹ 返回标题",
+    shoeLabel: "牌靴余量",
+    dealerLabel: "庄家",
+    balanceLabel: "筹码余额",
+    activeSeatLabel: "当前回合",
+    currentBetLabel: "1P 下注额",
+    tableSlotsTitle: "玩家座席配置（最多4席）",
+    slotNone: "空缺",
+    slotCpu: "CPU",
+    btnClear: "清除",
+    btnDeal: "发牌",
+    btnHit: "要牌",
+    btnStand: "停牌",
+    btnDouble: "双倍",
+    refillTitle: "筹码补给",
+    refillDesc: "筹码不足，俱乐部为您补给 500 筹码。",
+    btnGetRefill: "领取 500 筹码",
+    rulesTitle: "📖 规则说明",
+    ruleGoalHead: "目标：达成 21 点",
+    ruleGoalLead: "手牌点数尽可能接近 21 且不爆牌即为胜利。",
+    ruleShowcaseBJ: "最强手牌：Blackjack",
+    payoutBJBadge: "3:2 赔率",
+    ruleCountingHead: "点数计算",
+    valFaceDesc: "面值点数",
+    valTenDesc: "计为 10 点",
+    valAceDesc: "计为 1 或 11 点",
+    ruleActionsHead: "玩家操作",
+    hitSummary: "再抽一张牌",
+    hitTip: "点数较小且未接近21时选择",
+    standSummary: "确定当前点数",
+    standTip: "达到17点以上时停牌",
+    doubleSummary: "加倍下注且只抽一张牌",
+    doubleTip: "初始两张牌为11点时极佳",
+    ruleDealerHead: "庄家规则",
+    flow16: "16点及以下",
+    flowMustHit: "必须继续要牌",
+    flow17: "17点及以上",
+    flowMustStand: "必须停牌",
+    btnGotIt: "关闭",
+    statsTitle: "🏆 战绩成就",
+    statPlayed: "局数",
+    statWon: "胜局",
+    statBJs: "BJ次数",
+    statWinRate: "胜率",
+    badgesHeading: "获得成就",
+    badgeFirstWin: "首战告捷",
+    badgeFirstWinDesc: "首次赢得对局",
+    badgeBJ: "天生黑杰克",
+    badgeBJDesc: "拿到Blackjack",
+    badgeHighRoller: "高额玩家",
+    badgeHighRollerDesc: "筹码达到2,500以上",
+    badgeFiveCard: "五龙",
+    badgeFiveCardDesc: "手牌达到5张未爆牌",
+    settingsTitle: "⚙️ 设置",
+    labelLanguage: "语言",
+    labelSound: "音效",
+    labelHaptics: "震动",
+    labelSpeed: "动画速度",
+    speedNormal: "正常",
+    speedFast: "快速",
+    btnResetData: "重置所有数据",
+    btnCloseSettings: "关闭",
+    confirmTitleBack: "返回主界面",
+    confirmTitleBackMsg: "当前进度已自动保存，可随时继续。",
+    confirmOverwriteTitle: "确定要开启新游戏吗？",
+    confirmOverwriteMsg: "当前保存的进度将被覆盖并清除。\n确定吗？",
+    confirmResetTitle: "确定要重置数据吗？",
+    confirmResetMsg: "所有战绩与进度将被清除。\n此操作无法撤销。",
+    btnCancel: "取消",
+    btnConfirm: "OK",
+    btnShareX: "在X上分享",
+    btnNextRound: "下一局",
+    shareTweet: "在 Games Clubhouse 畅玩 21 点！筹码：{chips} ♠️🎲"
+  },
+  "zh-TW": {
+    btnStart: "開始遊戲",
+    btnResume: "繼續遊戲",
+    btnRules: "遊玩說明",
+    btnRecords: "戰績成就",
+    btnSettings: "⚙️ 設定",
+    btnBackTitle: "‹ 回標題",
+    shoeLabel: "牌靴剩餘",
+    dealerLabel: "莊家",
+    balanceLabel: "籌碼餘額",
+    activeSeatLabel: "目前回合",
+    currentBetLabel: "1P 下注額",
+    tableSlotsTitle: "座席配置（最多4席）",
+    slotNone: "無",
+    slotCpu: "CPU",
+    btnClear: "清除",
+    btnDeal: "發牌",
+    btnHit: "要牌",
+    btnStand: "停牌",
+    btnDouble: "雙倍",
+    refillTitle: "補充籌碼",
+    refillDesc: "籌碼耗盡，為您補發 500 籌碼。",
+    btnGetRefill: "領取 500 籌碼",
+    rulesTitle: "📖 遊戲規則",
+    ruleGoalHead: "目標：達成 21 點",
+    ruleGoalLead: "點數盡可能接近 21 點且不爆牌即為勝利。",
+    ruleShowcaseBJ: "最強手牌：Blackjack",
+    payoutBJBadge: "3:2 賠率",
+    ruleCountingHead: "點數計算法",
+    valFaceDesc: "原始面值",
+    valTenDesc: "計算為 10 點",
+    valAceDesc: "算作 1 或 11 點",
+    ruleActionsHead: "玩家動作",
+    hitSummary: "再要一張牌",
+    hitTip: "距離21點較遠時選擇",
+    standSummary: "鎖定當前點數",
+    standTip: "17點以上時選擇停牌",
+    doubleSummary: "加倍注額並只拿一張牌",
+    doubleTip: "首兩張為11點時極佳",
+    ruleDealerHead: "莊家規則",
+    flow16: "16點以下",
+    flowMustHit: "必須要牌",
+    flow17: "17點以上",
+    flowMustStand: "必須停牌",
+    btnGotIt: "關閉",
+    statsTitle: "🏆 戰績成就",
+    statPlayed: "局數",
+    statWon: "勝局",
+    statBJs: "BJ次數",
+    statWinRate: "勝率",
+    badgesHeading: "獲得成就",
+    badgeFirstWin: "首勝",
+    badgeFirstWinDesc: "贏得第一把對局",
+    badgeBJ: "天生黑傑克",
+    badgeBJDesc: "拿到Blackjack",
+    badgeHighRoller: "賭場大亨",
+    badgeHighRollerDesc: "籌碼突破2,500",
+    badgeFiveCard: "五小龍",
+    badgeFiveCardDesc: "抽滿5張且未爆牌",
+    settingsTitle: "⚙️ 設定",
+    labelLanguage: "語言",
+    labelSound: "音效",
+    labelHaptics: "震動",
+    labelSpeed: "動畫速度",
+    speedNormal: "正常",
+    speedFast: "快速",
+    btnResetData: "重設所有數據",
+    btnCloseSettings: "關閉",
+    confirmTitleBack: "返回標題",
+    confirmTitleBackMsg: "當前牌局將自動儲存，隨時可繼續。",
+    confirmOverwriteTitle: "開展全新對局？",
+    confirmOverwriteMsg: "已儲存的牌局將會被覆蓋清除。\n確定嗎？",
+    confirmResetTitle: "確定要重設數據嗎？",
+    confirmResetMsg: "所有戰績與紀錄將被完全清除。\n無法恢復。",
+    btnCancel: "取消",
+    btnConfirm: "OK",
+    btnShareX: "在X分享",
+    btnNextRound: "下一局",
+    shareTweet: "在 Games Clubhouse 暢玩二十一點！籌碼: {chips} ♠️🎲"
+  },
+  ko: {
+    btnStart: "게임 시작",
+    btnResume: "이어하기",
+    btnRules: "게임 방법",
+    btnRecords: "전적 및 업적",
+    btnSettings: "⚙️ 설정",
+    btnBackTitle: "‹ 타이틀로",
+    shoeLabel: "슈 잔여",
+    dealerLabel: "딜러",
+    balanceLabel: "보유 칩",
+    activeSeatLabel: "턴 좌석",
+    currentBetLabel: "1P 베팅",
+    tableSlotsTitle: "플레이어 좌석 설정 (최대 4석)",
+    slotNone: "없음",
+    slotCpu: "CPU",
+    btnClear: "클리어",
+    btnDeal: "딜",
+    btnHit: "히트",
+    btnStand: "스탠드",
+    btnDouble: "더블",
+    refillTitle: "칩 충전",
+    refillDesc: "칩이 소진되었습니다. 500 칩을 충전해 드립니다.",
+    btnGetRefill: "+500 칩 받기",
+    rulesTitle: "📖 게임 방법",
+    ruleGoalHead: "목표: 21 달성",
+    ruleGoalLead: "카드 합이 21에 가장 가깝도록 만들어 딜러를 이기세요.",
+    ruleShowcaseBJ: "최고의 족보: 블랙잭",
+    payoutBJBadge: "3:2 배당",
+    ruleCountingHead: "카드 점수 계산",
+    valFaceDesc: "숫자 그대로",
+    valTenDesc: "모두 10으로 계산",
+    valAceDesc: "1 또는 11 둘 다 가능",
+    ruleActionsHead: "플레이어 액션",
+    hitSummary: "카드 한 장 더 뽑기",
+    hitTip: "21에 미치지 못할 때",
+    standSummary: "현재 합계로 승부",
+    standTip: "17점 이상일 때 선택",
+    doubleSummary: "판돈 2배 후 1장만 뽑기",
+    doubleTip: "첫 2장이 11일 때 최적",
+    ruleDealerHead: "딜러 필수 규칙",
+    flow16: "16 이하",
+    flowMustHit: "반드시 추가 드로우",
+    flow17: "17 이상",
+    flowMustStand: "반드시 스탠드",
+    btnGotIt: "닫기",
+    statsTitle: "🏆 전적 및 업적",
+    statPlayed: "플레이 수",
+    statWon: "승리 수",
+    statBJs: "블랙잭",
+    statWinRate: "승률",
+    badgesHeading: "업적",
+    badgeFirstWin: "첫 승리",
+    badgeFirstWinDesc: "딜러를 상대로 첫 승 달성",
+    badgeBJ: "내추럴 21",
+    badgeBJDesc: "블랙잭 달성",
+    badgeHighRoller: "하이롤러",
+    badgeHighRollerDesc: "보유 칩 2,500개 돌파",
+    badgeFiveCard: "파이브 카드",
+    badgeFiveCardDesc: "버스트 없이 5장 수령",
+    settingsTitle: "⚙️ 설정",
+    labelLanguage: "언어",
+    labelSound: "효과음",
+    labelHaptics: "진동",
+    labelSpeed: "애니메이션 속도",
+    speedNormal: "보통",
+    speedFast: "빠름",
+    btnResetData: "데이터 초기화",
+    btnCloseSettings: "닫기",
+    confirmTitleBack: "타이틀로 이동",
+    confirmTitleBackMsg: "진행 상황이 자동 저장되어 언제든 이어할 수 있습니다.",
+    confirmOverwriteTitle: "새 게임을 시작하시겠습니까?",
+    confirmOverwriteMsg: "저장된 기존 진행 상황이 삭제됩니다.\n계속하시겠습니까?",
+    confirmResetTitle: "데이터를 초기화하시겠습니까?",
+    confirmResetMsg: "전적과 진행 상황이 모두 삭제됩니다.\n되돌릴 수 없습니다.",
+    btnCancel: "취소",
+    btnConfirm: "OK",
+    btnShareX: "X에 공유",
+    btnNextRound: "다음 딜",
+    shareTweet: "Games Clubhouse에서 블랙잭 플레이 중! 칩: {chips} ♠️🎲"
+  },
+  es: {
+    btnStart: "Iniciar Juego",
+    btnResume: "Reanudar",
+    btnRules: "Cómo Jugar",
+    btnRecords: "Récords",
+    btnSettings: "⚙️ Ajustes",
+    btnBackTitle: "‹ Título",
+    shoeLabel: "Zapato",
+    dealerLabel: "CRUPIER",
+    balanceLabel: "Fichas",
+    activeSeatLabel: "Turno",
+    currentBetLabel: "Apuesta 1P",
+    tableSlotsTitle: "Asientos de la Mesa (Máx 4)",
+    slotNone: "Ninguno",
+    slotCpu: "CPU",
+    btnClear: "Borrar",
+    btnDeal: "Repartir",
+    btnHit: "Pedir",
+    btnStand: "Plantarse",
+    btnDouble: "Doblar",
+    refillTitle: "Recarga de Fichas",
+    refillDesc: "¡Sin fichas! El Casino le otorga +500 fichas.",
+    btnGetRefill: "Reclamar 500 Fichas",
+    rulesTitle: "📖 Reglas de Juego",
+    ruleGoalHead: "Objetivo: 21",
+    ruleGoalLead: "Acércate a 21 más que el crupier sin pasarte.",
+    ruleShowcaseBJ: "Mano Máxima: Blackjack",
+    payoutBJBadge: "Pago 3:2",
+    ruleCountingHead: "Valor de Cartas",
+    valFaceDesc: "Valor nominal",
+    valTenDesc: "Valen 10",
+    valAceDesc: "Vale 1 u 11",
+    ruleActionsHead: "Acciones",
+    hitSummary: "Pedir otra carta",
+    hitTip: "Cuando estés lejos de 21",
+    standSummary: "Plantarse con tu total",
+    standTip: "Recomendado con 17+",
+    doubleSummary: "Doblar apuesta y pedir 1",
+    doubleTip: "Ideal al empezar con 11",
+    ruleDealerHead: "Reglas del Crupier",
+    flow16: "16 o menos",
+    flowMustHit: "Debe pedir",
+    flow17: "17 o más",
+    flowMustStand: "Debe plantarse",
+    btnGotIt: "Cerrar",
+    statsTitle: "🏆 Estadísticas",
+    statPlayed: "Partidas",
+    statWon: "Victorias",
+    statBJs: "Blackjacks",
+    statWinRate: "% Victoria",
+    badgesHeading: "Logros",
+    badgeFirstWin: "Primera Victoria",
+    badgeFirstWinDesc: "Gana tu primera mano",
+    badgeBJ: "Blackjack Puro",
+    badgeBJDesc: "Consigue un 21 natural",
+    badgeHighRoller: "Gran Apostador",
+    badgeHighRollerDesc: "Alcanza 2,500 fichas",
+    badgeFiveCard: "5 Cartas Charlie",
+    badgeFiveCardDesc: "Roba 5 cartas sin pasarte",
+    settingsTitle: "⚙️ Ajustes",
+    labelLanguage: "Idioma",
+    labelSound: "Sonido",
+    labelHaptics: "Vibración",
+    labelSpeed: "Velocidad",
+    speedNormal: "Normal",
+    speedFast: "Rápido",
+    btnResetData: "Reiniciar Datos",
+    btnCloseSettings: "Cerrar",
+    confirmTitleBack: "¿Volver al Inicio?",
+    confirmTitleBackMsg: "La partida actual se guardará automáticamente.",
+    confirmOverwriteTitle: "¿Nueva Partida?",
+    confirmOverwriteMsg: "Se sobrescribirá la partida guardada.\n¿Continuar?",
+    confirmResetTitle: "¿Reiniciar datos?",
+    confirmResetMsg: "Se borrarán todas las estadísticas y fichas.\nNo se puede deshacer.",
+    btnCancel: "Cancelar",
+    btnConfirm: "OK",
+    btnShareX: "Compartir en X",
+    btnNextRound: "Siguiente Mano",
+    shareTweet: "¡Blackjack en Games Clubhouse! Fichas: {chips} ♠️🎲"
+  },
+  fr: {
+    btnStart: "Commencer",
+    btnResume: "Reprendre",
+    btnRules: "Comment Jouer",
+    btnRecords: "Statistiques",
+    btnSettings: "⚙️ Réglages",
+    btnBackTitle: "‹ Titre",
+    shoeLabel: "Sabot",
+    dealerLabel: "CROUPIER",
+    balanceLabel: "Jetons",
+    activeSeatLabel: "Siège",
+    currentBetLabel: "Mise 1P",
+    tableSlotsTitle: "Configuration des Sièges (Max 4)",
+    slotNone: "Aucun",
+    slotCpu: "CPU",
+    btnClear: "Effacer",
+    btnDeal: "Donner",
+    btnHit: "Tirer",
+    btnStand: "Rester",
+    btnDouble: "Doubler",
+    refillTitle: "Recharge",
+    refillDesc: "Plus de jetons ! Le Casino vous offre +500 jetons.",
+    btnGetRefill: "Obtenir 500 Jetons",
+    rulesTitle: "📖 Règles du Jeu",
+    ruleGoalHead: "Objectif : 21",
+    ruleGoalLead: "Approchez 21 sans dépasser le croupier.",
+    ruleShowcaseBJ: "Main Ultime : Blackjack",
+    payoutBJBadge: "Payé 3:2",
+    ruleCountingHead: "Valeur des Cartes",
+    valFaceDesc: "Valeur faciale",
+    valTenDesc: "Valent 10",
+    valAceDesc: "Vaut 1 ou 11",
+    ruleActionsHead: "Actions",
+    hitSummary: "Tirer une carte supplémentaire",
+    hitTip: "Utile loin de 21",
+    standSummary: "Garder son total",
+    standTip: "Conseillé dès 17",
+    doubleSummary: "Doubler la mise, 1 carte",
+    doubleTip: "Idéal avec un total de 11",
+    ruleDealerHead: "Règles du Croupier",
+    flow16: "16 ou moins",
+    flowMustHit: "Doit tirer",
+    flow17: "17 ou plus",
+    flowMustStand: "Doit rester",
+    btnGotIt: "Fermer",
+    statsTitle: "🏆 Statistiques",
+    statPlayed: "Parties",
+    statWon: "Victoires",
+    statBJs: "Blackjacks",
+    statWinRate: "% Victoire",
+    badgesHeading: "Succès",
+    badgeFirstWin: "Première Victoire",
+    badgeFirstWinDesc: "Gagner une première main",
+    badgeBJ: "Blackjack Naturel",
+    badgeBJDesc: "Obtenir 21 d'entrée",
+    badgeHighRoller: "Flambeur",
+    badgeHighRollerDesc: "Dépasser 2 500 jetons",
+    badgeFiveCard: "5 Cartes Magiques",
+    badgeFiveCardDesc: "5 cartes sans sauter",
+    settingsTitle: "⚙️ Réglages",
+    labelLanguage: "Langue",
+    labelSound: "Sons",
+    labelHaptics: "Vibrations",
+    labelSpeed: "Vitesse",
+    speedNormal: "Normale",
+    speedFast: "Rapide",
+    btnResetData: "Réinitialiser",
+    btnCloseSettings: "Fermer",
+    confirmTitleBack: "Retour au Titre ?",
+    confirmTitleBackMsg: "Votre main actuelle est sauvegardée automatiquement.",
+    confirmOverwriteTitle: "Nouvelle Partie ?",
+    confirmOverwriteMsg: "La progression sauvegardée sera effacée.\nConfirmer ?",
+    confirmResetTitle: "Réinitialiser les données ?",
+    confirmResetMsg: "Tous vos jetons et statistiques seront effacés.\nAction irréversible.",
+    btnCancel: "Annuler",
+    btnConfirm: "OK",
+    btnShareX: "Partager sur X",
+    btnNextRound: "Donne Suivante",
+    shareTweet: "Blackjack sur Games Clubhouse ! Jetons : {chips} ♠️🎲"
+  },
+  pt: {
+    btnStart: "Iniciar Jogo",
+    btnResume: "Continuar",
+    btnRules: "Como Jogar",
+    btnRecords: "Estatísticas",
+    btnSettings: "⚙️ Ajustes",
+    btnBackTitle: "‹ Título",
+    shoeLabel: "Sabot",
+    dealerLabel: "DEALER",
+    balanceLabel: "Fichas",
+    activeSeatLabel: "Turno",
+    currentBetLabel: "Aposta 1P",
+    tableSlotsTitle: "Configuração dos Assentos (Máx 4)",
+    slotNone: "Nenhum",
+    slotCpu: "CPU",
+    btnClear: "Limpar",
+    btnDeal: "Dar Cartas",
+    btnHit: "Pedir",
+    btnStand: "Parar",
+    btnDouble: "Dobrar",
+    refillTitle: "Recarga de Fichas",
+    refillDesc: "Suas fichas acabaram! O Clube lhe presenteia com +500 fichas.",
+    btnGetRefill: "Resgatar 500 Fichas",
+    rulesTitle: "📖 Como Jogar",
+    ruleGoalHead: "Objetivo: 21",
+    ruleGoalLead: "Aproxime-se de 21 sem ultrapassar o dealer.",
+    ruleShowcaseBJ: "Melhor Mão: Blackjack",
+    payoutBJBadge: "Pago 3:2",
+    ruleCountingHead: "Valores das Cartas",
+    valFaceDesc: "Valor facial",
+    valTenDesc: "Valem 10",
+    valAceDesc: "Vale 1 ou 11",
+    ruleActionsHead: "Ações",
+    hitSummary: "Pedir mais uma carta",
+    hitTip: "Ideal quando longe de 21",
+    standSummary: "Travar a pontuação",
+    standTip: "Recomendado com 17+",
+    doubleSummary: "Dobrar aposta e pedir 1",
+    doubleTip: "Excelente começando com 11",
+    ruleDealerHead: "Regras do Dealer",
+    flow16: "16 ou menos",
+    flowMustHit: "Deve pedir",
+    flow17: "17 ou mais",
+    flowMustStand: "Deve parar",
+    btnGotIt: "Fechar",
+    statsTitle: "🏆 Estatísticas",
+    statPlayed: "Partidas",
+    statWon: "Vitórias",
+    statBJs: "Blackjacks",
+    statWinRate: "% Vitória",
+    badgesHeading: "Conquistas",
+    badgeFirstWin: "Primeira Vitória",
+    badgeFirstWinDesc: "Vença a primeira mão",
+    badgeBJ: "Blackjack Natural",
+    badgeBJDesc: "Faça um Blackjack direto",
+    badgeHighRoller: "Apostador Alto",
+    badgeHighRollerDesc: "Alcance mais de 2.500 fichas",
+    badgeFiveCard: "5 Cartas Charlie",
+    badgeFiveCardDesc: "Puxe 5 cartas sem estourar",
+    settingsTitle: "⚙️ Ajustes",
+    labelLanguage: "Idioma",
+    labelSound: "Sons",
+    labelHaptics: "Vibração",
+    labelSpeed: "Velocidade",
+    speedNormal: "Normal",
+    speedFast: "Rápido",
+    btnResetData: "Zerar Dados",
+    btnCloseSettings: "Fechar",
+    confirmTitleBack: "Voltar ao Início?",
+    confirmTitleBackMsg: "Seu jogo atual será salvo automaticamente.",
+    confirmOverwriteTitle: "Novo Jogo?",
+    confirmOverwriteMsg: "O jogo salvo será sobrescrito.\nContinuar?",
+    confirmResetTitle: "Zerar todos os dados?",
+    confirmResetMsg: "Todas as estatísticas e fichas serão apagadas.\nNão pode ser desfeito.",
+    btnCancel: "Cancelar",
+    btnConfirm: "OK",
+    btnShareX: "Compartilhar no X",
+    btnNextRound: "Próxima Mão",
+    shareTweet: "Jogando Blackjack no Games Clubhouse! Fichas: {chips} ♠️🎲"
   }
 };
 
@@ -160,7 +668,7 @@ class BlackjackEngine {
     this.settings = window.storageManager.getSettings();
     this.stats = window.storageManager.getStats();
 
-    // 2P〜4Pは初期チップ500
+    // 2P〜4Pは独立した500チップからスタート
     this.seats = [
       { id: 0, type: 'human', name: '1P', hand: [], bet: 0, chips: this.stats.chips, status: 'betting' },
       { id: 1, type: 'none',  name: '2P', hand: [], bet: 0, chips: 500, status: 'idle' },
@@ -260,7 +768,7 @@ class BlackjackEngine {
     this.btnStartGame.addEventListener('click', () => {
       const saved = window.storageManager.getSavedGameState();
       if (saved) {
-        const dict = I18N[this.settings.lang] || I18N.ja;
+        const dict = I18N[this.settings.lang] || I18N.en;
         this.confirmTitle.textContent = dict.confirmOverwriteTitle;
         this.confirmMessage.textContent = dict.confirmOverwriteMsg;
         this.confirmBox.classList.add('warning-style');
@@ -280,7 +788,7 @@ class BlackjackEngine {
       }
     });
 
-    // 座席切り替え
+    // 座席切り替え（なし ➔ CPU ➔ 2P/3P/4P ➔ なし）
     document.querySelectorAll('.slot-type-btn').forEach(btn => {
       btn.addEventListener('click', (e) => {
         const seatIdx = parseInt(e.target.dataset.seat, 10);
@@ -295,7 +803,7 @@ class BlackjackEngine {
         this.seats[seatIdx].type = nextType;
         e.target.dataset.type = nextType;
 
-        const dict = I18N[this.settings.lang] || I18N.ja;
+        const dict = I18N[this.settings.lang] || I18N.en;
         e.target.classList.remove('state-none', 'state-cpu', 'state-human');
 
         if (nextType === 'none') {
@@ -313,7 +821,6 @@ class BlackjackEngine {
       });
     });
 
-    // チップ操作
     document.querySelectorAll('.casino-chip').forEach(btn => {
       btn.addEventListener('click', () => {
         const val = parseInt(btn.dataset.value, 10);
@@ -333,7 +840,6 @@ class BlackjackEngine {
       this.prepareNextRound();
     });
 
-    // チップ補給（1P用手動ボタン）
     this.btnRefillChips.addEventListener('click', () => {
       this.stats.chips += 500;
       this.seats[0].chips = this.stats.chips;
@@ -343,9 +849,8 @@ class BlackjackEngine {
       this.showToast('+500 Chips Claimed!');
     });
 
-    // タイトルへ戻る
     this.btnToTitle.addEventListener('click', () => {
-      const dict = I18N[this.settings.lang] || I18N.ja;
+      const dict = I18N[this.settings.lang] || I18N.en;
       this.confirmTitle.textContent = dict.confirmTitleBack;
       this.confirmMessage.textContent = dict.confirmTitleBackMsg;
       this.confirmBox.classList.remove('warning-style');
@@ -420,9 +925,8 @@ class BlackjackEngine {
       window.storageManager.saveSettings(this.settings);
     });
 
-    // データ初期化
     this.btnResetData.addEventListener('click', () => {
-      const dict = I18N[this.settings.lang] || I18N.ja;
+      const dict = I18N[this.settings.lang] || I18N.en;
       this.confirmTitle.textContent = dict.confirmResetTitle;
       this.confirmMessage.textContent = dict.confirmResetMsg;
       this.confirmBox.classList.add('warning-style');
@@ -442,13 +946,13 @@ class BlackjackEngine {
         this.updateStatsUI();
         this.checkResumeAvailability();
         this.modalSettings.classList.add('hidden');
-        this.showToast('データ初期化完了');
+        this.showToast('Data Reset Complete');
       };
       this.modalConfirm.classList.remove('hidden');
     });
 
     this.btnShareX.addEventListener('click', () => {
-      const dict = I18N[this.settings.lang] || I18N.ja;
+      const dict = I18N[this.settings.lang] || I18N.en;
       const text = dict.shareTweet.replace('{chips}', this.stats.chips.toLocaleString());
       window.open(`https://twitter.com/intent/tweet?text=${encodeURIComponent(text)}`, '_blank');
     });
@@ -493,7 +997,6 @@ class BlackjackEngine {
     this.currentSeatTurn = saved.currentSeatTurn;
     this.gameState = saved.gameState;
 
-    // 1Pチップを同期
     if (this.seats[0]) {
       this.stats.chips = this.seats[0].chips;
     }
@@ -519,7 +1022,7 @@ class BlackjackEngine {
   }
 
   applyLanguage(lang) {
-    const dict = I18N[lang] || I18N.ja;
+    const dict = I18N[lang] || I18N.en;
     document.querySelectorAll('[data-i18n]').forEach(el => {
       const k = el.getAttribute('data-i18n');
       if (dict[k]) el.textContent = dict[k];
@@ -599,7 +1102,7 @@ class BlackjackEngine {
   placePlayerBet(val) {
     if (this.gameState !== 'betting') return;
     if (this.stats.chips < val) {
-      this.showToast('チップが不足しています');
+      this.showToast(this.settings.lang === 'ja' ? 'チップが不足しています' : 'Not enough chips');
       this.checkBankrollRefill();
       return;
     }
@@ -627,11 +1130,9 @@ class BlackjackEngine {
     this.playerChipsEl.textContent = this.stats.chips.toLocaleString();
     this.playerBetEl.textContent = this.seats[0].bet.toLocaleString();
 
-    // 2P〜4Pのベット額決定＆残高表示更新
     for (let i = 1; i < 4; i++) {
       const s = this.seats[i];
       if (s.type === 'cpu') {
-        // ベット額は50チップ固定（残高が足りない場合は全額）
         s.bet = Math.min(50, s.chips);
       } else if (s.type === 'human') {
         if (s.bet === 0) s.bet = Math.min(50, s.chips);
@@ -640,12 +1141,10 @@ class BlackjackEngine {
       }
     }
 
-    // 全座席のチップ残高・ベット額をUIに反映
     for (let i = 0; i < 4; i++) {
       const s = this.seats[i];
       const sEl = document.getElementById(`seat-${i}`);
       
-      // 席のチップ残高バッジ
       let chipsPill = sEl.querySelector('.seat-chips-pill');
       if (!chipsPill) {
         chipsPill = document.createElement('div');
@@ -654,7 +1153,6 @@ class BlackjackEngine {
       }
       chipsPill.textContent = s.type !== 'none' ? `🪙${s.chips.toLocaleString()}` : '';
 
-      // ベット額表示
       sEl.querySelector('.seat-bet-val').textContent = s.bet.toLocaleString();
       sEl.classList.toggle('is-empty', s.type === 'none');
     }
@@ -666,7 +1164,6 @@ class BlackjackEngine {
     if (this.seats[0].bet <= 0) return;
     this.gameState = 'playing';
 
-    // 2P〜4Pのベット額を残高から差し引く
     for (let i = 1; i < 4; i++) {
       const s = this.seats[i];
       if (s.type !== 'none' && s.bet > 0) {
@@ -894,7 +1391,7 @@ class BlackjackEngine {
       if (s.type === 'none') continue;
 
       const pScore = this.calculateHand(s.hand);
-      let outcome = 'lose'; // 'win' | 'lose' | 'push'
+      let outcome = 'lose';
 
       if (pScore.isBust) outcome = 'lose';
       else if (dScore.isBust) outcome = 'win';
@@ -904,9 +1401,8 @@ class BlackjackEngine {
 
       let seatGain = 0;
 
-      // チップ増減計算
       if (pScore.isBJ && outcome === 'win') {
-        const payout = Math.floor(s.bet * 2.5); // 3:2 配当
+        const payout = Math.floor(s.bet * 2.5);
         s.chips += payout;
         seatGain = payout - s.bet;
         if (i === 0) {
@@ -933,20 +1429,19 @@ class BlackjackEngine {
         }
       }
 
-      // 破産時の救済処理：チップが0になったら+500追加
+      // 破産救済：0以下になったら+500チップ補充
       if (s.chips <= 0) {
         s.chips += 500;
         if (i === 0) {
           this.stats.chips = s.chips;
         }
-        this.showToast(`${s.name} に500チップ補充！`, 1600);
+        this.showToast(this.settings.lang === 'ja' ? `${s.name} に500チップ補充！` : `${s.name} refilled +500 chips!`, 1600);
       }
 
-      // リザルトモーダルへの記載
       const div = document.createElement('div');
       div.className = `res-seat-box ${outcome}`;
       const sign = seatGain >= 0 ? '+' : '';
-      div.innerHTML = `<strong>${s.name}</strong>: ${pScore.best} (${outcome.toUpperCase()})<br><small>${sign}${seatGain} (残: ${s.chips})</small>`;
+      div.innerHTML = `<strong>${s.name}</strong>: ${pScore.best} (${outcome.toUpperCase()})<br><small>${sign}${seatGain} (${this.settings.lang === 'ja' ? '残' : 'Bal'}: ${s.chips})</small>`;
       this.resultSeatsSummary.appendChild(div);
     }
 
@@ -1002,30 +1497,4 @@ class BlackjackEngine {
   }
 
   updateStatsUI() {
-    document.getElementById('stat-games-played').textContent = this.stats.gamesPlayed;
-    document.getElementById('stat-games-won').textContent = this.stats.gamesWon;
-    document.getElementById('stat-bj-count').textContent = this.stats.blackjackCount;
-    const rate = this.stats.gamesPlayed > 0 ? Math.round((this.stats.gamesWon / this.stats.gamesPlayed) * 100) : 0;
-    document.getElementById('stat-win-rate').textContent = `${rate}%`;
-
-    const dict = I18N[this.settings.lang] || I18N.ja;
-    const badgeContainer = document.getElementById('achievements-list');
-    badgeContainer.innerHTML = '';
-    const badges = [
-      { id: 'firstWin', name: dict.badgeFirstWin, desc: dict.badgeFirstWinDesc, icon: '🥇' },
-      { id: 'blackjack', name: dict.badgeBJ, desc: dict.badgeBJDesc, icon: '♠️' },
-      { id: 'highRoller', name: dict.badgeHighRoller, desc: dict.badgeHighRollerDesc, icon: '💎' },
-      { id: 'fiveCard', name: dict.badgeFiveCard, desc: dict.badgeFiveCardDesc, icon: '🐉' }
-    ];
-    badges.forEach(b => {
-      const div = document.createElement('div');
-      div.className = `badge-item ${this.stats.achievements[b.id] ? 'unlocked' : ''}`;
-      div.innerHTML = `<span class="badge-icon">${b.icon}</span><div><strong>${b.name}</strong><br><small>${b.desc}</small></div>`;
-      badgeContainer.appendChild(div);
-    });
-  }
-}
-
-window.addEventListener('DOMContentLoaded', () => {
-  window.blackjackGame = new BlackjackEngine();
-});
+    document.getElementById('stat-games-
