@@ -1,0 +1,35 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="100%" height="100%">
+  <defs>
+    <!-- 本体（マカロンミント） -->
+    <linearGradient id="cBody" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#2ed573"/>
+      <stop offset="100%" stop-color="#10ac84"/>
+    </linearGradient>
+
+    <!-- スクリーン（ダークスレート） -->
+    <linearGradient id="cScreen" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#2f3542"/>
+      <stop offset="100%" stop-color="#1e272e"/>
+    </linearGradient>
+
+    <!-- 立体ドロップシャドウ -->
+    <filter id="cShadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="7" stdDeviation="5" flood-color="#10ac84" flood-opacity="0.38"/>
+      <feDropShadow dx="0" dy="2" stdDeviation="2" flood-color="#000000" flood-opacity="0.12"/>
+    </filter>
+  </defs>
+
+  <g filter="url(#cShadow)">
+    <rect x="15" y="16" width="70" height="68" rx="22" fill="url(#cBody)"/>
+    <path d="M 28 20 L 72 20 C 78 20 80 23 78 27 C 72 32 62 34 50 34 C 38 34 28 32 22 27 C 20 23 22 20 28 20 Z" fill="#ffffff" opacity="0.35"/>
+    <rect x="25" y="26" width="50" height="28" rx="10" fill="url(#cScreen)"/>
+    <text x="50" y="45" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-weight="900" font-size="14" fill="#ffffff" text-anchor="middle" letter-spacing="1">CH</text>
+    <path d="M 27 28 L 65 28 L 55 42 L 27 42 Z" fill="#ffffff" opacity="0.12"/>
+    <circle cx="36" cy="67" r="7.5" fill="#ffffff"/>
+    <path d="M 32.5 67 L 39.5 67 M 36 63.5 L 36 70.5" stroke="#2f3542" stroke-width="2.6" stroke-linecap="round"/>
+    <circle cx="58" cy="70" r="5.5" fill="#ffa502"/>
+    <circle cx="58" cy="69" r="2" fill="#ffffff" opacity="0.4"/>
+    <circle cx="68" cy="63" r="5.5" fill="#ff4757"/>
+    <circle cx="68" cy="62" r="2" fill="#ffffff" opacity="0.4"/>
+  </g>
+</svg>
