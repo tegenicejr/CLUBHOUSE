@@ -37,7 +37,6 @@
           <div class="symbol-chip">BJ</div>
         </div>
 
-        <!-- 全言語共通固定タイトル -->
         <h1 class="game-logo">BLACKJACK</h1>
         <p class="game-subtitle">Casino Edition</p>
 
@@ -237,32 +236,144 @@
       </div>
     </div>
 
-    <!-- 5. あそびかたモーダル -->
+    <!-- 5. あそびかたモーダル（完全ビジュアル図解化 Ver） -->
     <div id="modal-rules" class="modal-backdrop hidden">
-      <div class="modal-dialog modal-scrollable">
+      <div class="modal-dialog modal-scrollable rules-visual-dialog">
         <div class="dialog-top">
           <h3 class="dialog-title" data-i18n="rulesTitle">📖 あそびかた</h3>
-          <button class="btn-close-rules" id="btn-close-rules">×</button>
+          <button class="btn-close-modal" id="btn-close-rules">×</button>
         </div>
-        <div class="rules-body">
-          <section class="rule-section">
-            <h4 data-i18n="rule1Head">1. 基本ルール & 対局人数</h4>
-            <p data-i18n="rule1Text">1人プレイから最大4人席まで対応。各席とディーラーが1対1の勝負を行い、手札の合計値を21に最も近づけた方が勝ちとなります。</p>
-          </section>
-          <section class="rule-section">
-            <h4 data-i18n="rule2Head">2. カードの数え方</h4>
-            <p data-i18n="rule2Text">2〜10は数字通り、J・Q・Kは「10」、Aは状況に応じて「1」または「11」の有利な方として計算します。</p>
-          </section>
-          <section class="rule-section">
-            <h4 data-i18n="rule3Head">3. アクション</h4>
-            <ul class="rule-list">
-              <li><strong>ヒット</strong>: もう1枚引く。</li>
-              <li><strong>スタンド</strong>: 現在の点数で確定。</li>
-              <li><strong>ダブル</strong>: 賭け金を倍にして1枚のみ引く。</li>
-            </ul>
-          </section>
+        
+        <div class="rules-body visual-rules-container">
+          
+          <!-- 図解1: 勝敗のゴール（21を目指す） -->
+          <div class="visual-rule-card">
+            <div class="rule-badge-header">
+              <span class="rule-step-num">1</span>
+              <h4 data-i18n="ruleGoalHead">目指すゴール：21</h4>
+            </div>
+            <p class="rule-lead-text" data-i18n="ruleGoalLead">カードの合計を「21」に最も近づけた方の勝ち！21を超えると即負け（バースト）。</p>
+            
+            <div class="rule-showcase-box highlight-bj">
+              <div class="showcase-caption">
+                <span class="crown-icon">👑</span>
+                <strong data-i18n="ruleShowcaseBJ">最強の手：ブラックジャック</strong>
+              </div>
+              <div class="mini-cards-row">
+                <div class="mini-card black">
+                  <span class="r">A</span><span class="s">♠</span>
+                </div>
+                <div class="mini-card red">
+                  <span class="r">J</span><span class="s">♦</span>
+                </div>
+                <div class="showcase-calc">
+                  <span class="calc-math">11 + 10 =</span>
+                  <span class="calc-total">21</span>
+                  <span class="payout-badge">1.5倍配当</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- 図解2: カードの数え方（ミニトランプ実物図解） -->
+          <div class="visual-rule-card">
+            <div class="rule-badge-header">
+              <span class="rule-step-num">2</span>
+              <h4 data-i18n="ruleCountingHead">カードの数え方</h4>
+            </div>
+            
+            <div class="visual-grid-counts">
+              <div class="count-item-tile">
+                <div class="tile-cards">
+                  <div class="mini-card red"><span class="r">7</span><span class="s">♥</span></div>
+                  <div class="mini-card black"><span class="r">3</span><span class="s">♣</span></div>
+                </div>
+                <div class="tile-desc">
+                  <strong>2 〜 10</strong>
+                  <span>そのままの数字</span>
+                </div>
+              </div>
+
+              <div class="count-item-tile">
+                <div class="tile-cards">
+                  <div class="mini-card red"><span class="r">K</span><span class="s">♦</span></div>
+                  <div class="mini-card black"><span class="r">Q</span><span class="s">♠</span></div>
+                </div>
+                <div class="tile-desc">
+                  <strong>J / Q / K</strong>
+                  <span class="highlight-val">すべて 10</span>
+                </div>
+              </div>
+
+              <div class="count-item-tile full-span">
+                <div class="tile-cards">
+                  <div class="mini-card black"><span class="r">A</span><span class="s">♠</span></div>
+                </div>
+                <div class="tile-desc">
+                  <strong>A (エース)</strong>
+                  <span class="highlight-val">「1」または「11」どちらでもOK！</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- 図解3: プレイヤーアクション（操作ボタン対応型） -->
+          <div class="visual-rule-card">
+            <div class="rule-badge-header">
+              <span class="rule-step-num">3</span>
+              <h4 data-i18n="ruleActionsHead">ターンの行動（アクション）</h4>
+            </div>
+
+            <div class="visual-action-list">
+              <div class="action-visual-row">
+                <span class="action-btn-demo hit-demo">ヒット</span>
+                <div class="action-detail">
+                  <span class="action-summary">カードをもう1枚引く</span>
+                  <small>まだ21に遠いときに選択</small>
+                </div>
+              </div>
+
+              <div class="action-visual-row">
+                <span class="action-btn-demo stand-demo">スタンド</span>
+                <div class="action-detail">
+                  <span class="action-summary">現在の枚数で勝負を確定</span>
+                  <small>17以上など満足な合計値のとき</small>
+                </div>
+              </div>
+
+              <div class="action-visual-row">
+                <span class="action-btn-demo double-demo">ダブル</span>
+                <div class="action-detail">
+                  <span class="action-summary">賭け金を2倍にし、1枚だけ引く</span>
+                  <small>最初の手札が「11」等の大チャンス時</small>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- 図解4: ディーラーの基本原則 -->
+          <div class="visual-rule-card">
+            <div class="rule-badge-header">
+              <span class="rule-step-num">4</span>
+              <h4 data-i18n="ruleDealerHead">ディーラーの絶対ルール</h4>
+            </div>
+            <div class="dealer-rule-flow">
+              <div class="flow-step">
+                <span class="flow-pill red-pill">16以下</span>
+                <span class="flow-arrow">➔</span>
+                <span>必ずカードを引く</span>
+              </div>
+              <div class="flow-step">
+                <span class="flow-pill green-pill">17以上</span>
+                <span class="flow-arrow">➔</span>
+                <span>必ずストップ（スタンド）</span>
+              </div>
+            </div>
+          </div>
+
         </div>
-        <button id="btn-rules-ack" class="btn-primary" data-i18n="btnGotIt">了解</button>
+        
+        <button id="btn-rules-ack" class="btn-primary" data-i18n="btnGotIt">閉じる</button>
       </div>
     </div>
 
