@@ -111,7 +111,7 @@ const I18N = {
     maxTile: '最高タイル',
     settingsTitle: '⚙️ 設定',
     langLabel: '言語 (Language)',
-    soundLabel: '効果音 (Sound FX)',
+    soundLabel: '効果音 (BGM/SE)',
     vibLabel: '振動 (Vibration)',
     speedLabel: '速度 (Speed)',
     speedNormal: '通常',
