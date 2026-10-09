@@ -78,7 +78,7 @@
       </footer>
     </div>
 
-    <!-- 2. MAIN TABLE SCREEN (4-SEAT DYNAMIC) -->
+    <!-- 2. MAIN TABLE SCREEN -->
     <div id="game-screen" class="screen-view">
       <header class="table-header">
         <div class="header-left">
@@ -102,7 +102,6 @@
           <span>DEALER MUST STAND ON 17 AND DRAW TO 16</span>
         </div>
 
-        <!-- Dealer Section -->
         <div class="hand-area dealer-area">
           <div class="area-badge">
             <span data-i18n="dealerLabel">DEALER</span>
@@ -111,12 +110,10 @@
           <div id="dealer-cards" class="card-lane"></div>
         </div>
 
-        <!-- Toast Banner -->
         <div id="table-toast" class="table-toast-banner hidden">
           <span id="toast-text"></span>
         </div>
 
-        <!-- 4 Seats Layout -->
         <div class="seats-container">
           <div class="seat-spot" id="seat-0" data-seat-idx="0">
             <div class="seat-badge"><span class="seat-name">1P (あなた)</span><span class="seat-score score-pill">0</span></div>
@@ -141,7 +138,6 @@
         </div>
       </div>
 
-      <!-- Footer Controls -->
       <footer class="table-footer-controls">
         <div class="footer-status-bar">
           <div class="status-stat">
@@ -158,7 +154,6 @@
           </div>
         </div>
 
-        <!-- Betting Phase -->
         <div id="chip-controls" class="action-panel-chips">
           <div class="chip-selector-group">
             <button class="casino-chip chip-10" data-value="10">10</button>
@@ -172,7 +167,6 @@
           </div>
         </div>
 
-        <!-- Play Phase -->
         <div id="action-controls" class="action-panel-play hidden">
           <button id="btn-double" class="btn-game-action opt-double" data-i18n="btnDouble">ダブル</button>
           <button id="btn-hit" class="btn-game-action opt-hit" data-i18n="btnHit">ヒット</button>
@@ -214,7 +208,7 @@
       </div>
     </div>
 
-    <!-- 4. REFILL CHIPS RESCUE MODAL -->
+    <!-- 4. REFILL RESCUE MODAL -->
     <div id="modal-refill" class="modal-backdrop hidden">
       <div class="modal-dialog card-dialog">
         <div class="modal-header-icon">🪙</div>
@@ -230,12 +224,12 @@
     <div id="modal-settings" class="modal-backdrop hidden">
       <div class="modal-dialog">
         <div class="dialog-top">
-          <h3 class="dialog-title" data-i18n="settingsTitle">⚙️ ゲーム設定</h3>
+          <h3 class="dialog-title" data-i18n="settingsTitle">⚙️ 設定</h3>
           <button class="btn-close-modal" id="btn-close-settings">×</button>
         </div>
         <div class="settings-list">
           <div class="setting-item">
-            <label for="select-language" data-i18n="labelLanguage">言語 (Language)</label>
+            <label for="select-language" data-i18n="labelLanguage">言語</label>
             <select id="select-language" class="setting-dropdown">
               <option value="ja">日本語</option>
               <option value="en">English</option>
@@ -248,29 +242,29 @@
             </select>
           </div>
           <div class="setting-item">
-            <label for="toggle-sound" data-i18n="labelSound">効果音 (BGM/SE)</label>
+            <label for="toggle-sound" data-i18n="labelSound">効果音</label>
             <input type="checkbox" id="toggle-sound" class="setting-switch" checked>
           </div>
           <div class="setting-item">
-            <label for="toggle-vibrate" data-i18n="labelHaptics">振動・ハプティクス</label>
+            <label for="toggle-vibrate" data-i18n="labelHaptics">振動</label>
             <input type="checkbox" id="toggle-vibrate" class="setting-switch" checked>
           </div>
           <div class="setting-item">
-            <label for="select-speed" data-i18n="labelSpeed">演出スピード</label>
+            <label for="select-speed" data-i18n="labelSpeed">アニメーション速度</label>
             <select id="select-speed" class="setting-dropdown">
-              <option value="1" data-i18n="speedNormal">通常 (Normal)</option>
-              <option value="1.5" data-i18n="speedFast">高速 (Fast)</option>
+              <option value="1" data-i18n="speedNormal">通常</option>
+              <option value="1.5" data-i18n="speedFast">高速</option>
             </select>
           </div>
           <div class="setting-item danger-zone">
-            <!-- Enhanced High-Visibility Reset Button -->
+            <!-- Polished High-Contrast Reset Button -->
             <button id="btn-reset-data" class="btn-danger-styled">
               <span class="danger-icon">⚠️</span>
               <span data-i18n="btnResetData">戦績・データ初期化</span>
             </button>
           </div>
         </div>
-        <button id="btn-save-settings" class="btn-primary" data-i18n="btnConfirm">閉じる</button>
+        <button id="btn-save-settings" class="btn-primary" data-i18n="btnCloseSettings">閉じる</button>
       </div>
     </div>
 
@@ -334,16 +328,16 @@
       </div>
     </div>
 
-    <!-- 8. CONFIRM MODAL (With explicit user warnings) -->
+    <!-- 8. CONFIRM MODAL (Specified Exact Wording) -->
     <div id="modal-confirm" class="modal-backdrop hidden">
       <div class="modal-dialog">
         <h3 id="confirm-title" class="dialog-title">確認</h3>
-        <div id="confirm-message-box" class="confirm-message-container">
+        <div class="confirm-message-container">
           <p id="confirm-message" class="dialog-text"></p>
         </div>
         <div class="dialog-dual-buttons">
           <button id="btn-confirm-cancel" class="btn-secondary" data-i18n="btnCancel">キャンセル</button>
-          <button id="btn-confirm-ok" class="btn-danger-confirm" data-i18n="btnConfirm">初期化する</button>
+          <button id="btn-confirm-ok" class="btn-danger-confirm" data-i18n="btnConfirmResetAction">初期化する</button>
         </div>
       </div>
     </div>
