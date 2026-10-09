@@ -1,8 +1,9 @@
 /**
  * Games Clubhouse: Blackjack Game Engine
- * - Title: "BLACKJACK Casino Edition" fixed across all languages
- * - Turn Seat: Simple clean indicator ("1P", "2P", "3P", "4P", "DEALER")
- * - Slot Toggles: "1P", "2P", "3P", "4P" instead of "あなた / 人(交代)"
+ * - Visual "How to Play" with miniature cards & step badges
+ * - Title: "BLACKJACK Casino Edition" fixed
+ * - Turn Seat: Clean simple indicator ("1P", "2P", "3P", "4P", "DEALER")
+ * - Slot Toggles: "1P", "2P", "3P", "4P"
  */
 
 const I18N = {
@@ -29,13 +30,17 @@ const I18N = {
     refillTitle: "チップ補給",
     refillDesc: "所持チップがなくなりました。カジノ倶楽部より+500チップを補給します。",
     btnGetRefill: "+500チップを受け取る",
+
+    // ビジュアルあそびかたテキスト
     rulesTitle: "📖 あそびかた",
-    rule1Head: "1. 基本ルール & 対局人数",
-    rule1Text: "1人プレイから最大4人席まで対応。各席とディーラーが1対1の勝負を行い、手札の合計値を21に最も近づけた方が勝ちとなります。",
-    rule2Head: "2. カードの数え方",
-    rule2Text: "2〜10は数字通り、J・Q・Kは「10」、Aは状況に応じて「1」または「11」の有利な方として計算します。",
-    rule3Head: "3. アクション",
-    btnGotIt: "了解",
+    ruleGoalHead: "目指すゴール：21",
+    ruleGoalLead: "カードの合計を「21」に最も近づけた方の勝ち！21を超えると即負け（バースト）。",
+    ruleShowcaseBJ: "最強の手：ブラックジャック",
+    ruleCountingHead: "カードの数え方",
+    ruleActionsHead: "ターンの行動（アクション）",
+    ruleDealerHead: "ディーラーの絶対ルール",
+    btnGotIt: "閉じる",
+
     statsTitle: "🏆 戦績 & 実績",
     statPlayed: "プレイ数",
     statWon: "勝利数",
@@ -102,13 +107,16 @@ const I18N = {
     refillTitle: "Chip Refill",
     refillDesc: "You ran out of chips! The Casino grants you a +500 refill.",
     btnGetRefill: "Claim +500 Chips",
+
     rulesTitle: "📖 How to Play",
-    rule1Head: "1. Basic Rules & Seats",
-    rule1Text: "Play solo or with up to 4 seats against the dealer. Nearest to 21 wins.",
-    rule2Head: "2. Card Values",
-    rule2Text: "2-10 are face value, J/Q/K are 10, Ace is 1 or 11.",
-    rule3Head: "3. Player Actions",
-    btnGotIt: "Understood",
+    ruleGoalHead: "Objective: Reach 21",
+    ruleGoalLead: "Get closer to 21 than the dealer without going over (bust).",
+    ruleShowcaseBJ: "Ultimate Hand: Blackjack",
+    ruleCountingHead: "Card Values",
+    ruleActionsHead: "Player Actions",
+    ruleDealerHead: "Dealer Strict Rules",
+    btnGotIt: "Close",
+
     statsTitle: "🏆 Stats & Badges",
     statPlayed: "Played",
     statWon: "Won",
@@ -275,11 +283,11 @@ class BlackjackEngine {
       }
     });
 
-    // 座席切り替え（なし ➔ CPU ➔ 2P/3P/4P ➔ なし）
+    // 座席切り替え
     document.querySelectorAll('.slot-type-btn').forEach(btn => {
       btn.addEventListener('click', (e) => {
         const seatIdx = parseInt(e.target.dataset.seat, 10);
-        if (seatIdx === 0) return; // 1Pは常に固定
+        if (seatIdx === 0) return;
 
         const cur = this.seats[seatIdx].type;
         let nextType = 'none';
@@ -301,7 +309,7 @@ class BlackjackEngine {
           e.target.textContent = dict.slotCpu;
         } else {
           e.target.classList.add('state-human');
-          e.target.textContent = `${seatIdx + 1}P`; // 人間交代時は "2P", "3P", "4P"
+          e.target.textContent = `${seatIdx + 1}P`;
         }
       });
     });
@@ -369,7 +377,7 @@ class BlackjackEngine {
       }
     });
 
-    // モーダル切り替え
+    // あそびかたモーダル
     this.btnRules.addEventListener('click', () => this.modalRules.classList.remove('hidden'));
     this.btnCloseRules.addEventListener('click', () => this.modalRules.classList.add('hidden'));
     this.btnRulesAck.addEventListener('click', () => this.modalRules.classList.add('hidden'));
@@ -509,7 +517,6 @@ class BlackjackEngine {
     });
     this.selectLanguage.value = lang;
 
-    // 座席ボタンの更新（1P固定、2P-4Pは状態別）
     document.querySelectorAll('.slot-type-btn').forEach(btn => {
       const seat = parseInt(btn.dataset.seat, 10);
       const type = btn.dataset.type;
@@ -742,7 +749,6 @@ class BlackjackEngine {
     }
 
     const cur = this.seats[this.currentSeatTurn];
-    // ターン席の表記をシンプルに "1P", "2P", "3P", "4P"
     this.activeTurnIndicator.textContent = cur.name;
     this.renderSeats();
     this.saveCurrentGame();
@@ -822,7 +828,7 @@ class BlackjackEngine {
     while (this.isGameActive && this.calculateHand(this.dealerHand).best < 17) {
       await new Promise(r => setTimeout(r, 750 / this.settings.speed));
       if (!this.isGameActive) return;
-      await this.dealCardToDealer(false);
+      await dealCardToDealer(false);
     }
 
     if (!this.isGameActive) return;
