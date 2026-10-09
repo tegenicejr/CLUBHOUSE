@@ -63,7 +63,7 @@
           </div>
         </div>
 
-        <!-- メニューボタン（つづきからが上、ゲームスタートが下） -->
+        <!-- メニューボタン -->
         <div class="title-menu">
           <button id="btn-resume-game" class="btn-primary btn-resume hidden" data-i18n="btnResume">つづきから</button>
           <button id="btn-start-game" class="btn-primary" data-i18n="btnStart">ゲームスタート</button>
@@ -177,40 +177,7 @@
       </footer>
     </div>
 
-    <!-- 3. ダイス決定モーダル -->
-    <div id="modal-sequence" class="modal-backdrop hidden">
-      <div class="modal-dialog card-dialog">
-        <div class="modal-header-icon">🎲</div>
-        <h3 id="seq-step-title" class="dialog-title" data-i18n="seqStep1Title">起家・先手席決定ダイス</h3>
-        
-        <div id="seq-step-1" class="seq-step-body">
-          <p class="dialog-text" data-i18n="seqStep1Desc">
-            サイコロを振って最初の起家（カード配布・手番開始の基準席）を決定します。
-          </p>
-          <button id="btn-seq-roll" class="btn-primary" data-i18n="btnRollDice">サイコロを振る</button>
-        </div>
-
-        <div id="seq-step-2" class="seq-step-body hidden">
-          <div class="dice-stage">
-            <div id="standard-dice" class="standard-dice rolling">
-              <span class="pip center red"></span>
-            </div>
-          </div>
-          <p class="dialog-subtext" data-i18n="seqRolling">ダイスロール中...</p>
-        </div>
-
-        <div id="seq-step-3" class="seq-step-body hidden">
-          <div class="dice-stage">
-            <div id="result-dice" class="standard-dice face-1"></div>
-          </div>
-          <p id="seq-result-message" class="dialog-highlight-text"></p>
-          <p class="dialog-text" data-i18n="seqStep3Desc">席順が確定しました。テーブルへ着席してください。</p>
-          <button id="btn-seq-confirm" class="btn-primary" data-i18n="btnStartMatch">着席・対局開始</button>
-        </div>
-      </div>
-    </div>
-
-    <!-- 4. チップ補給モーダル -->
+    <!-- 3. チップ補給モーダル -->
     <div id="modal-refill" class="modal-backdrop hidden">
       <div class="modal-dialog card-dialog">
         <div class="modal-header-icon">🪙</div>
@@ -222,7 +189,7 @@
       </div>
     </div>
 
-    <!-- 5. 設定モーダル -->
+    <!-- 4. 設定モーダル -->
     <div id="modal-settings" class="modal-backdrop hidden">
       <div class="modal-dialog">
         <div class="dialog-top">
@@ -269,7 +236,7 @@
       </div>
     </div>
 
-    <!-- 6. あそびかたモーダル -->
+    <!-- 5. あそびかたモーダル -->
     <div id="modal-rules" class="modal-backdrop hidden">
       <div class="modal-dialog modal-scrollable">
         <div class="dialog-top">
@@ -282,8 +249,8 @@
             <p data-i18n="rule1Text">1人プレイから最大4人席まで対応。各席とディーラーが1対1の勝負を行い、手札の合計値を21に最も近づけた方が勝ちとなります。</p>
           </section>
           <section class="rule-section">
-            <h4 data-i18n="ruleDiceHead">2. 開始ダイスの役割</h4>
-            <p data-i18n="ruleDiceText">ゲーム開始時のサイコロは、テーブルの起家（カード配布・手番開始の基準席）を決定するカジノの伝統儀式です。</p>
+            <h4 data-i18n="rule2Head">2. カードの数え方</h4>
+            <p data-i18n="rule2Text">2〜10は数字通り、J・Q・Kは「10」、Aは状況に応じて「1」または「11」の有利な方として計算します。</p>
           </section>
           <section class="rule-section">
             <h4 data-i18n="rule3Head">3. アクション</h4>
@@ -298,7 +265,7 @@
       </div>
     </div>
 
-    <!-- 7. 戦績・実績モーダル -->
+    <!-- 6. 戦績・実績モーダル -->
     <div id="modal-achievements" class="modal-backdrop hidden">
       <div class="modal-dialog modal-scrollable">
         <div class="dialog-top">
@@ -329,7 +296,7 @@
       </div>
     </div>
 
-    <!-- 8. 選択肢：キャンセル / OK 統一確認ダイアログ -->
+    <!-- 7. 汎用確認ダイアログ（キャンセル / OK） -->
     <div id="modal-confirm" class="modal-backdrop hidden">
       <div class="modal-dialog">
         <h3 id="confirm-title" class="dialog-title">確認</h3>
@@ -343,7 +310,7 @@
       </div>
     </div>
 
-    <!-- 9. リザルトモーダル -->
+    <!-- 8. リザルトモーダル -->
     <div id="modal-round-result" class="modal-backdrop hidden">
       <div class="modal-dialog result-dialog">
         <div id="result-trophy-icon" class="result-icon">👑</div>
