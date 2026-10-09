@@ -1,8 +1,5 @@
 /**
- * Games Clubhouse: Authentic Casino Blackjack (1P Default / 4P Support)
- * - 'None' slot option with 1P single-player default
- * - Explicit user confirmation modal for data reset
- * - Polished Ruby-red reset button styling
+ * Games Clubhouse: Blackjack Game Engine (Multi-language & Settings Wording Aligned)
  */
 
 const I18N = {
@@ -60,20 +57,22 @@ const I18N = {
     badgeHighRollerDesc: "所持チップ2,500枚を突破する",
     badgeFiveCard: "ファイブカード",
     badgeFiveCardDesc: "バーストせずに5枚引く",
-    settingsTitle: "⚙️ ゲーム設定",
-    labelLanguage: "言語 (Language)",
-    labelSound: "効果音 (BGM/SE)",
-    labelHaptics: "振動・ハプティクス",
-    labelSpeed: "演出スピード",
-    speedNormal: "通常 (Normal)",
-    speedFast: "高速 (Fast)",
+    settingsTitle: "⚙️ 設定",
+    labelLanguage: "言語",
+    labelSound: "効果音",
+    labelHaptics: "振動",
+    labelSpeed: "アニメーション速度",
+    speedNormal: "通常",
+    speedFast: "高速",
     btnResetData: "戦績・データ初期化",
-    btnConfirm: "初期化する",
+    btnCloseSettings: "閉じる",
+    confirmResetTitle: "データを初期化しますか？",
+    confirmResetMsg: "戦績や進行状況がすべて消去されます。\n元には戻せません。",
+    btnConfirmResetAction: "初期化する",
+    btnConfirm: "OK",
     btnCancel: "キャンセル",
     btnShareX: "Xで戦績を共有",
     btnNextRound: "次のディールへ",
-    confirmResetTitle: "データを初期化しますか？",
-    confirmResetMsg: "戦績や進行状況がすべて消去されます。\n元には戻せません。",
     confirmTitleBack: "タイトルへ戻る",
     confirmTitleBackMsg: "進行中のゲームを終了してタイトルへ戻りますか？",
     shareTweet: "Games Clubhouseでブラックジャックをプレイ中！所持チップ: {chips}枚 ♠️🎲"
@@ -132,20 +131,22 @@ const I18N = {
     badgeHighRollerDesc: "Hold over 2,500 chips",
     badgeFiveCard: "5-Card Charlie",
     badgeFiveCardDesc: "Draw 5 cards without busting",
-    settingsTitle: "⚙️ Game Settings",
+    settingsTitle: "⚙️ Settings",
     labelLanguage: "Language",
-    labelSound: "Sound Effects",
-    labelHaptics: "Haptics (Vibration)",
+    labelSound: "Sound",
+    labelHaptics: "Vibration",
     labelSpeed: "Animation Speed",
     speedNormal: "Normal",
     speedFast: "Fast",
     btnResetData: "Reset All Data",
-    btnConfirm: "Reset",
+    btnCloseSettings: "Close",
+    confirmResetTitle: "Reset all data?",
+    confirmResetMsg: "All records, chips, and progress will be permanently erased.\nThis action cannot be undone.",
+    btnConfirmResetAction: "Reset",
+    btnConfirm: "Confirm",
     btnCancel: "Cancel",
     btnShareX: "Share on X",
     btnNextRound: "Next Deal",
-    confirmResetTitle: "Reset all data?",
-    confirmResetMsg: "All records, chips, and progress will be permanently erased.\nThis action cannot be undone.",
     confirmTitleBack: "Return to Title?",
     confirmTitleBackMsg: "Exit current table and return to title?",
     shareTweet: "Playing Blackjack on Games Clubhouse! Chips: {chips} ♠️🎲"
@@ -204,20 +205,22 @@ const I18N = {
     badgeHighRollerDesc: "筹码达到2,500以上",
     badgeFiveCard: "五龙",
     badgeFiveCardDesc: "手牌达到5张未爆牌",
-    settingsTitle: "⚙️ 游戏设置",
+    settingsTitle: "⚙️ 设置",
     labelLanguage: "语言",
-    labelSound: "音效",
-    labelHaptics: "震动触感",
+    labelSound: "声音",
+    labelHaptics: "震动",
     labelSpeed: "动画速度",
     speedNormal: "正常",
     speedFast: "快速",
     btnResetData: "重置所有数据",
-    btnConfirm: "确认重置",
+    btnCloseSettings: "关闭",
+    confirmResetTitle: "确定要重置数据吗？",
+    confirmResetMsg: "所有战绩与进度将被清除。\n此操作无法撤销。",
+    btnConfirmResetAction: "重置",
+    btnConfirm: "确认",
     btnCancel: "取消",
     btnShareX: "在X上分享",
     btnNextRound: "下一局",
-    confirmResetTitle: "确定要重置数据吗？",
-    confirmResetMsg: "所有战绩与进度将被清除。\n此操作无法撤销。",
     confirmTitleBack: "返回主界面",
     confirmTitleBackMsg: "确定要退出当前对局并返回标题界面吗？",
     shareTweet: "在 Games Clubhouse 畅玩 21 点！筹码：{chips} ♠️🎲"
@@ -276,20 +279,22 @@ const I18N = {
     badgeHighRollerDesc: "籌碼突破2,500",
     badgeFiveCard: "五小龍",
     badgeFiveCardDesc: "抽滿5張且未爆牌",
-    settingsTitle: "⚙️ 遊戲設定",
+    settingsTitle: "⚙️ 設定",
     labelLanguage: "語言",
-    labelSound: "音效開關",
-    labelHaptics: "震動回饋",
+    labelSound: "音效",
+    labelHaptics: "震動",
     labelSpeed: "動畫速度",
     speedNormal: "正常",
     speedFast: "快速",
     btnResetData: "重設所有數據",
-    btnConfirm: "確認重設",
+    btnCloseSettings: "關閉",
+    confirmResetTitle: "確定要重設數據嗎？",
+    confirmResetMsg: "所有戰績與紀錄將被完全清除。\n無法恢復。",
+    btnConfirmResetAction: "重設",
+    btnConfirm: "確認",
     btnCancel: "取消",
     btnShareX: "在X分享",
     btnNextRound: "下一局",
-    confirmResetTitle: "確定要重設數據嗎？",
-    confirmResetMsg: "所有戰績與紀錄將被完全清除。\n無法恢復。",
     confirmTitleBack: "返回標題",
     confirmTitleBackMsg: "確定離開目前遊戲？",
     shareTweet: "在 Games Clubhouse 暢玩二十一點！籌碼: {chips} ♠️🎲"
@@ -348,20 +353,22 @@ const I18N = {
     badgeHighRollerDesc: "보유 칩 2,500개 돌파",
     badgeFiveCard: "파이브 카드",
     badgeFiveCardDesc: "버스트 없이 5장 수령",
-    settingsTitle: "⚙️ 게임 설정",
+    settingsTitle: "⚙️ 설정",
     labelLanguage: "언어",
     labelSound: "효과음",
     labelHaptics: "진동",
-    labelSpeed: "속도",
+    labelSpeed: "애니메이션 속도",
     speedNormal: "보통",
     speedFast: "빠름",
     btnResetData: "데이터 초기화",
-    btnConfirm: "초기화하기",
+    btnCloseSettings: "닫기",
+    confirmResetTitle: "데이터를 초기화하시겠습니까?",
+    confirmResetMsg: "전적과 진행 상황이 모두 삭제됩니다.\n되돌릴 수 없습니다.",
+    btnConfirmResetAction: "초기화하기",
+    btnConfirm: "확인",
     btnCancel: "취소",
     btnShareX: "X에 공유",
     btnNextRound: "다음 딜",
-    confirmResetTitle: "데이터를 초기화하시겠습니까?",
-    confirmResetMsg: "전적과 진행 상황이 모두 삭제됩니다.\n되돌릴 수 없습니다.",
     confirmTitleBack: "타이틀로 이동",
     confirmTitleBackMsg: "게임을 종료하고 타이틀로 돌아가시겠습니까?",
     shareTweet: "Games Clubhouse에서 블랙잭 플레이 중! 칩: {chips} ♠️🎲"
@@ -424,16 +431,18 @@ const I18N = {
     labelLanguage: "Idioma",
     labelSound: "Sonido",
     labelHaptics: "Vibración",
-    labelSpeed: "Velocidad",
+    labelSpeed: "Velocidad de animación",
     speedNormal: "Normal",
     speedFast: "Rápido",
     btnResetData: "Reiniciar Datos",
-    btnConfirm: "Reiniciar",
+    btnCloseSettings: "Cerrar",
+    confirmResetTitle: "¿Reiniciar datos?",
+    confirmResetMsg: "Se borrarán todas las estadísticas y fichas.\nNo se puede deshacer.",
+    btnConfirmResetAction: "Reiniciar",
+    btnConfirm: "Confirmar",
     btnCancel: "Cancelar",
     btnShareX: "Compartir en X",
     btnNextRound: "Siguiente Mano",
-    confirmResetTitle: "¿Reiniciar datos?",
-    confirmResetMsg: "Se borrarán todas las estadísticas y fichas.\nNo se puede deshacer.",
     confirmTitleBack: "¿Volver al Inicio?",
     confirmTitleBackMsg: "¿Desea salir de la mesa?",
     shareTweet: "¡Blackjack en Games Clubhouse! Fichas: {chips} ♠️🎲"
@@ -496,16 +505,18 @@ const I18N = {
     labelLanguage: "Langue",
     labelSound: "Sons",
     labelHaptics: "Vibrations",
-    labelSpeed: "Vitesse",
+    labelSpeed: "Vitesse d'animation",
     speedNormal: "Normale",
     speedFast: "Rapide",
     btnResetData: "Réinitialiser",
-    btnConfirm: "Réinitialiser",
+    btnCloseSettings: "Fermer",
+    confirmResetTitle: "Réinitialiser les données ?",
+    confirmResetMsg: "Tous vos jetons et statistiques seront définitivement effacés.\nCette action est irréversible.",
+    btnConfirmResetAction: "Réinitialiser",
+    btnConfirm: "Confirmer",
     btnCancel: "Annuler",
     btnShareX: "Partager sur X",
     btnNextRound: "Donne Suivante",
-    confirmResetTitle: "Réinitialiser les données ?",
-    confirmResetMsg: "Tous vos jetons et statistiques seront définitivement effacés.\nCette action est irréversible.",
     confirmTitleBack: "Retour au Titre ?",
     confirmTitleBackMsg: "Quitter la table en cours ?",
     shareTweet: "Blackjack sur Games Clubhouse ! Jetons : {chips} ♠️🎲"
@@ -564,20 +575,22 @@ const I18N = {
     badgeHighRollerDesc: "Alcance mais de 2.500 fichas",
     badgeFiveCard: "5 Cartas Charlie",
     badgeFiveCardDesc: "Puxe 5 cartas sem estourar",
-    settingsTitle: "⚙️ Configurações",
+    settingsTitle: "⚙️ Ajustes",
     labelLanguage: "Idioma",
-    labelSound: "Sons",
+    labelSound: "Efeitos Sonoros",
     labelHaptics: "Vibração",
     labelSpeed: "Velocidade",
     speedNormal: "Normal",
     speedFast: "Rápido",
     btnResetData: "Zerar Dados",
-    btnConfirm: "Zerar",
+    btnCloseSettings: "Fechar",
+    confirmResetTitle: "Zerar todos os dados?",
+    confirmResetMsg: "Todas as estatísticas e fichas serão apagadas.\nNão pode ser desfeito.",
+    btnConfirmResetAction: "Zerar",
+    btnConfirm: "Confirmar",
     btnCancel: "Cancelar",
     btnShareX: "Compartilhar no X",
     btnNextRound: "Próxima Mão",
-    confirmResetTitle: "Zerar todos os dados?",
-    confirmResetMsg: "Todas as estatísticas e fichas serão apagadas.\nNão pode ser desfeito.",
     confirmTitleBack: "Voltar ao Início?",
     confirmTitleBackMsg: "Deseja sair da mesa atual?",
     shareTweet: "Jogando Blackjack no Games Clubhouse! Fichas: {chips} ♠️🎲"
@@ -589,7 +602,7 @@ class BlackjackEngine {
     this.settings = window.storageManager.getSettings();
     this.stats = window.storageManager.getStats();
 
-    // Default configuration: 1P Only (2P-4P are 'none')
+    // 1P single-player default
     this.seats = [
       { id: 0, type: 'human', name: '1P', hand: [], bet: 0, status: 'betting' },
       { id: 1, type: 'none',  name: '2P', hand: [], bet: 0, status: 'idle' },
@@ -706,7 +719,7 @@ class BlackjackEngine {
     document.querySelectorAll('.slot-type-btn').forEach(btn => {
       btn.addEventListener('click', (e) => {
         const seatIdx = parseInt(e.target.dataset.seat, 10);
-        if (seatIdx === 0) return; // Seat 0 is always main human
+        if (seatIdx === 0) return;
 
         const cur = this.seats[seatIdx].type;
         let nextType = 'none';
@@ -733,7 +746,7 @@ class BlackjackEngine {
       });
     });
 
-    // Chips
+    // Betting chips
     document.querySelectorAll('.casino-chip').forEach(btn => {
       btn.addEventListener('click', () => {
         const val = parseInt(btn.dataset.value, 10);
@@ -827,12 +840,12 @@ class BlackjackEngine {
       window.storageManager.saveSettings(this.settings);
     });
 
-    // Reset Data with explicit Japanese text
+    // Reset Data with user-specified Japanese confirmation
     this.btnResetData.addEventListener('click', () => {
       const dict = I18N[this.settings.lang] || I18N.ja;
       this.confirmTitle.textContent = dict.confirmResetTitle;
       this.confirmMessage.textContent = dict.confirmResetMsg;
-      this.btnConfirmOk.textContent = dict.btnConfirm;
+      this.btnConfirmOk.textContent = dict.btnConfirmResetAction;
 
       this.pendingConfirm = () => {
         window.storageManager.resetAllData();
@@ -860,7 +873,7 @@ class BlackjackEngine {
     });
     this.selectLanguage.value = lang;
 
-    // Refresh Slot toggle texts
+    // Slot toggle texts
     document.querySelectorAll('.slot-type-btn').forEach(btn => {
       const type = btn.dataset.type;
       if (type === 'human' && btn.dataset.seat === '0') btn.textContent = dict.slotYou;
@@ -891,7 +904,6 @@ class BlackjackEngine {
     setTimeout(() => this.tableToast.classList.add('hidden'), duration / this.settings.speed);
   }
 
-  // 3-Stage Starting Seat Dice (Accounts for active seats)
   rollStartingSeatDice() {
     this.seqStep1.classList.add('hidden');
     this.seqStep2.classList.remove('hidden');
@@ -900,9 +912,8 @@ class BlackjackEngine {
     const activeSeatIndices = this.seats.filter(s => s.type !== 'none').map(s => s.id);
 
     setTimeout(() => {
-      // Pick randomly from active seats
       const chosenSeat = activeSeatIndices[Math.floor(Math.random() * activeSeatIndices.length)];
-      const rollVal = chosenSeat + 1; // 1-4
+      const rollVal = chosenSeat + 1;
 
       this.renderDice(this.resultDice, rollVal);
       const dict = I18N[this.settings.lang] || I18N.ja;
@@ -931,7 +942,6 @@ class BlackjackEngine {
     });
   }
 
-  // Game Engine
   startFreshGame() {
     this.initShoe();
     this.prepareNextRound();
@@ -988,14 +998,12 @@ class BlackjackEngine {
     this.playerChipsEl.textContent = this.stats.chips.toLocaleString();
     this.playerBetEl.textContent = this.seats[0].bet.toLocaleString();
 
-    // Set CPU automatic bets only for active seats
     for (let i = 1; i < 4; i++) {
       if (this.seats[i].type === 'cpu') this.seats[i].bet = 50;
       else if (this.seats[i].type === 'human' && this.seats[i].bet === 0) this.seats[i].bet = 50;
       else if (this.seats[i].type === 'none') this.seats[i].bet = 0;
     }
 
-    // Render seats bet values and presence
     for (let i = 0; i < 4; i++) {
       const s = this.seats[i];
       const sEl = document.getElementById(`seat-${i}`);
@@ -1006,7 +1014,6 @@ class BlackjackEngine {
     this.btnDeal.classList.toggle('disabled', this.seats[0].bet <= 0);
   }
 
-  // Dealing Round
   async startDealRound() {
     if (this.seats[0].bet <= 0) return;
     this.gameState = 'playing';
@@ -1021,7 +1028,6 @@ class BlackjackEngine {
       s.status = s.type === 'none' ? 'idle' : 'playing';
     });
 
-    // Deal 2 cards to active seats only, then dealer
     for (let round = 0; round < 2; round++) {
       for (let i = 0; i < 4; i++) {
         if (this.seats[i].type !== 'none') {
@@ -1108,9 +1114,7 @@ class BlackjackEngine {
     });
   }
 
-  // Turn Flow Across Active Seats
   async advanceTurn() {
-    // Skip empty seats
     while (this.currentSeatTurn < 4 && this.seats[this.currentSeatTurn].type === 'none') {
       this.currentSeatTurn++;
     }
@@ -1124,7 +1128,6 @@ class BlackjackEngine {
     this.activeTurnIndicator.textContent = `${cur.name} (${cur.type.toUpperCase()})`;
     this.renderSeats();
 
-    // Check immediate Blackjack
     if (this.calculateHand(cur.hand).isBJ) {
       this.currentSeatTurn++;
       this.advanceTurn();
@@ -1178,7 +1181,6 @@ class BlackjackEngine {
     this.advanceTurn();
   }
 
-  // Dealer Phase & Resolution
   async runDealerPhase() {
     this.gameState = 'dealer';
     this.actionControls.classList.add('hidden');
