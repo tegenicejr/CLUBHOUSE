@@ -2,6 +2,7 @@ class StorageManager {
   constructor() {
     this.SETTINGS_KEY = 'clubhouse_settings';
     this.STATS_KEY = 'clubhouse_bj_stats';
+    this.GAME_STATE_KEY = 'clubhouse_bj_active_save';
   }
 
   getSettings() {
@@ -45,9 +46,32 @@ class StorageManager {
     } catch (e) {}
   }
 
+  // 進行状況の自動保存と復元
+  saveGameState(state) {
+    try {
+      localStorage.setItem(this.GAME_STATE_KEY, JSON.stringify(state));
+    } catch (e) {}
+  }
+
+  getSavedGameState() {
+    try {
+      const saved = localStorage.getItem(this.GAME_STATE_KEY);
+      return saved ? JSON.parse(saved) : null;
+    } catch (e) {
+      return null;
+    }
+  }
+
+  clearGameState() {
+    try {
+      localStorage.removeItem(this.GAME_STATE_KEY);
+    } catch (e) {}
+  }
+
   resetAllData() {
     try {
       localStorage.removeItem(this.STATS_KEY);
+      localStorage.removeItem(this.GAME_STATE_KEY);
     } catch (e) {}
   }
 }
