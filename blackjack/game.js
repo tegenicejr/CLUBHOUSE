@@ -4,8 +4,8 @@
 
 const I18N = {
   ja: {
-    gameTitle: "ブラックジャック",
-    gameSubtitle: "カジノクラブ・エディション",
+    gameTitle: "BLACKJACK",
+    gameSubtitle: "Casino Edition",
     btnStart: "ゲームスタート",
     btnRules: "あそびかた",
     btnRecords: "戦績・役",
@@ -79,7 +79,7 @@ const I18N = {
   },
   en: {
     gameTitle: "BLACKJACK",
-    gameSubtitle: "Casino Club Edition",
+    gameSubtitle: "Casino Edition",
     btnStart: "Start Game",
     btnRules: "How to Play",
     btnRecords: "Stats & Records",
