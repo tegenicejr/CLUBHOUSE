@@ -6,7 +6,8 @@ class StorageManager {
   }
 
   getSettings() {
-    const defaults = { lang: 'ja', sound: true, vibrate: true, speed: 1.0 };
+    // マスタープロンプト準拠: 英語(en)をデフォルトに設定
+    const defaults = { lang: 'en', sound: true, vibrate: true, speed: 1.0 };
     try {
       const saved = localStorage.getItem(this.SETTINGS_KEY);
       return saved ? { ...defaults, ...JSON.parse(saved) } : defaults;
@@ -46,7 +47,6 @@ class StorageManager {
     } catch (e) {}
   }
 
-  // 進行状況の自動保存と復元
   saveGameState(state) {
     try {
       localStorage.setItem(this.GAME_STATE_KEY, JSON.stringify(state));
