@@ -1,7 +1,8 @@
 /**
  * Games Clubhouse: Blackjack Game Engine
- * - Cancel & OK options for all confirm modals (Reset data / New game overwrite / Title exit)
- * - Auto-save on exit, full engine pause on title view
+ * - Immediate table entry without dice sequence
+ * - Strict Cancel / OK choice on all confirmation modals
+ * - Auto-save on exit, full engine pause when outside game
  */
 
 const I18N = {
@@ -29,21 +30,14 @@ const I18N = {
     btnHit: "ヒット",
     btnStand: "スタンド",
     btnDouble: "ダブル",
-    seqStep1Title: "起家・先手席決定ダイス",
-    seqStep1Desc: "サイコロを振って最初の起家（カード配布・手番開始の基準席）を決定します。",
-    btnRollDice: "サイコロを振る",
-    seqRolling: "ダイスロール中...",
-    seqResultFmt: "出目は【{val}】！ {seat}Pが起家席に決定しました。",
-    seqStep3Desc: "席順が確定しました。テーブルへ着席してください。",
-    btnStartMatch: "着席・対局開始",
     refillTitle: "チップ補給",
     refillDesc: "所持チップがなくなりました。カジノ倶楽部より+500チップを補給します。",
     btnGetRefill: "+500チップを受け取る",
     rulesTitle: "📖 あそびかた",
     rule1Head: "1. 基本ルール & 対局人数",
     rule1Text: "1人プレイから最大4人席まで対応。各席とディーラーが1対1の勝負を行い、手札の合計値を21に最も近づけた方が勝ちとなります。",
-    ruleDiceHead: "2. 開始ダイスの役割",
-    ruleDiceText: "ゲーム開始時のサイコロは、テーブルの起家（カード配布・手番開始の基準席）を決定するカジノの伝統儀式です。",
+    rule2Head: "2. カードの数え方",
+    rule2Text: "2〜10は数字通り、J・Q・Kは「10」、Aは状況に応じて「1」または「11」の有利な方として計算します。",
     rule3Head: "3. アクション",
     btnGotIt: "了解",
     statsTitle: "🏆 戦績 & 実績",
@@ -114,21 +108,14 @@ const I18N = {
     btnHit: "Hit",
     btnStand: "Stand",
     btnDouble: "Double",
-    seqStep1Title: "First Seat Cut",
-    seqStep1Desc: "Roll the lucky die to decide the starting seat (First Dealer action).",
-    btnRollDice: "Roll Die",
-    seqRolling: "Rolling standard die...",
-    seqResultFmt: "Rolled a {val}! Seat {seat}P starts as Head Seat.",
-    seqStep3Desc: "Seating confirmed. Take your place at the table.",
-    btnStartMatch: "Take Seat",
     refillTitle: "Chip Refill",
     refillDesc: "You ran out of chips! The Casino grants you a +500 refill.",
     btnGetRefill: "Claim +500 Chips",
     rulesTitle: "📖 How to Play",
     rule1Head: "1. Basic Rules & Seats",
     rule1Text: "Play solo or with up to 4 seats against the dealer. Nearest to 21 wins.",
-    ruleDiceHead: "2. Purpose of the Starting Die",
-    ruleDiceText: "The die roll determines the Head Seat (who starts the deal/actions).",
+    rule2Head: "2. Card Values",
+    rule2Text: "2-10 are face value, J/Q/K are 10, Ace is 1 or 11.",
     rule3Head: "3. Player Actions",
     btnGotIt: "Understood",
     statsTitle: "🏆 Stats & Badges",
@@ -232,16 +219,6 @@ class BlackjackEngine {
     this.btnStand = document.getElementById('btn-stand');
     this.btnDouble = document.getElementById('btn-double');
 
-    // モーダル要素
-    this.modalSequence = document.getElementById('modal-sequence');
-    this.seqStep1 = document.getElementById('seq-step-1');
-    this.seqStep2 = document.getElementById('seq-step-2');
-    this.seqStep3 = document.getElementById('seq-step-3');
-    this.btnSeqRoll = document.getElementById('btn-seq-roll');
-    this.btnSeqConfirm = document.getElementById('btn-seq-confirm');
-    this.seqResultMessage = document.getElementById('seq-result-message');
-    this.resultDice = document.getElementById('result-dice');
-
     this.modalRefill = document.getElementById('modal-refill');
     this.btnRefillChips = document.getElementById('btn-refill-chips');
 
@@ -284,7 +261,7 @@ class BlackjackEngine {
       this.resumeSavedGame();
     });
 
-    // 新規ゲーム開始（セーブデータが存在する場合は上書き確認ダイアログを表示）
+    // ゲームスタート：ダイス演出を挟まず即座に盤面へ
     this.btnStartGame.addEventListener('click', () => {
       const saved = window.storageManager.getSavedGameState();
       if (saved) {
@@ -293,7 +270,6 @@ class BlackjackEngine {
         this.confirmMessage.textContent = dict.confirmOverwriteMsg;
         this.confirmBox.classList.add('warning-style');
         
-        // 選択肢はキャンセルとOK
         this.btnConfirmCancel.textContent = dict.btnCancel;
         this.btnConfirmOk.textContent = dict.btnConfirm;
         this.btnConfirmOk.className = 'btn-primary';
@@ -301,23 +277,15 @@ class BlackjackEngine {
         this.pendingConfirm = () => {
           window.storageManager.clearGameState();
           this.checkResumeAvailability();
-          this.openDiceCutSequence();
+          this.enterGameDirectly();
         };
         this.modalConfirm.classList.remove('hidden');
       } else {
-        this.openDiceCutSequence();
+        this.enterGameDirectly();
       }
     });
 
-    this.btnSeqRoll.addEventListener('click', () => this.rollStartingSeatDice());
-    this.btnSeqConfirm.addEventListener('click', () => {
-      this.modalSequence.classList.add('hidden');
-      this.titleScreen.classList.remove('active');
-      this.gameScreen.classList.add('active');
-      this.startFreshGame();
-    });
-
-    // 座席切り替え（なし ➔ CPU ➔ 人間 ➔ なし）
+    // 座席切り替え
     document.querySelectorAll('.slot-type-btn').forEach(btn => {
       btn.addEventListener('click', (e) => {
         const seatIdx = parseInt(e.target.dataset.seat, 10);
@@ -384,13 +352,12 @@ class BlackjackEngine {
       this.confirmMessage.textContent = dict.confirmTitleBackMsg;
       this.confirmBox.classList.remove('warning-style');
       
-      // 選択肢はキャンセルとOK
       this.btnConfirmCancel.textContent = dict.btnCancel;
       this.btnConfirmOk.textContent = dict.btnConfirm;
       this.btnConfirmOk.className = 'btn-primary';
 
       this.pendingConfirm = () => {
-        this.isGameActive = false; // CPUおよび非同期処理を完全停止
+        this.isGameActive = false;
         this.saveCurrentGame();
         this.gameScreen.classList.remove('active');
         this.titleScreen.classList.add('active');
@@ -399,7 +366,7 @@ class BlackjackEngine {
       this.modalConfirm.classList.remove('hidden');
     });
 
-    // ダイアログ共通ボタン
+    // 確認ダイアログボタン
     this.btnConfirmCancel.addEventListener('click', () => {
       this.modalConfirm.classList.add('hidden');
       this.pendingConfirm = null;
@@ -457,14 +424,13 @@ class BlackjackEngine {
       window.storageManager.saveSettings(this.settings);
     });
 
-    // 戦績・データ初期化ダイアログ（選択肢：キャンセルとOK）
+    // データ初期化
     this.btnResetData.addEventListener('click', () => {
       const dict = I18N[this.settings.lang] || I18N.ja;
       this.confirmTitle.textContent = dict.confirmResetTitle;
       this.confirmMessage.textContent = dict.confirmResetMsg;
       this.confirmBox.classList.add('warning-style');
 
-      // 選択肢はキャンセルとOK
       this.btnConfirmCancel.textContent = dict.btnCancel;
       this.btnConfirmOk.textContent = dict.btnConfirm;
       this.btnConfirmOk.className = 'btn-danger-confirm';
@@ -486,6 +452,13 @@ class BlackjackEngine {
       const text = dict.shareTweet.replace('{chips}', this.stats.chips.toLocaleString());
       window.open(`https://twitter.com/intent/tweet?text=${encodeURIComponent(text)}`, '_blank');
     });
+  }
+
+  // ダイスを挟まず即座に盤面へ遷移
+  enterGameDirectly() {
+    this.titleScreen.classList.remove('active');
+    this.gameScreen.classList.add('active');
+    this.startFreshGame();
   }
 
   saveCurrentGame() {
@@ -540,13 +513,6 @@ class BlackjackEngine {
     }
   }
 
-  openDiceCutSequence() {
-    this.seqStep1.classList.remove('hidden');
-    this.seqStep2.classList.add('hidden');
-    this.seqStep3.classList.add('hidden');
-    this.modalSequence.classList.remove('hidden');
-  }
-
   applyLanguage(lang) {
     const dict = I18N[lang] || I18N.ja;
     document.querySelectorAll('[data-i18n]').forEach(el => {
@@ -586,44 +552,6 @@ class BlackjackEngine {
     this.toastText.textContent = text;
     this.tableToast.classList.remove('hidden');
     setTimeout(() => this.tableToast.classList.add('hidden'), duration / this.settings.speed);
-  }
-
-  rollStartingSeatDice() {
-    this.seqStep1.classList.add('hidden');
-    this.seqStep2.classList.remove('hidden');
-    window.soundSystem.playDiceRoll();
-
-    const activeSeatIndices = this.seats.filter(s => s.type !== 'none').map(s => s.id);
-
-    setTimeout(() => {
-      const chosenSeat = activeSeatIndices[Math.floor(Math.random() * activeSeatIndices.length)];
-      const rollVal = chosenSeat + 1;
-
-      this.renderDice(this.resultDice, rollVal);
-      const dict = I18N[this.settings.lang] || I18N.ja;
-      this.seqResultMessage.textContent = dict.seqResultFmt.replace('{val}', rollVal).replace('{seat}', rollVal);
-      this.seqStep2.classList.add('hidden');
-      this.seqStep3.classList.remove('hidden');
-    }, 700 / this.settings.speed);
-  }
-
-  renderDice(el, val) {
-    el.innerHTML = '';
-    el.className = `standard-dice face-${val}`;
-    if (val === 1) {
-      const p = document.createElement('span');
-      p.className = 'pip center red';
-      el.appendChild(p);
-      return;
-    }
-    const pipMap = { 2: [1, 9], 3: [1, 5, 9], 4: [1, 3, 7, 9], 5: [1, 3, 5, 7, 9], 6: [1, 3, 4, 6, 7, 9] };
-    (pipMap[val] || []).forEach(pos => {
-      const p = document.createElement('span');
-      p.className = 'pip';
-      p.style.gridRow = `${Math.ceil(pos / 3)}`;
-      p.style.gridColumn = `${((pos - 1) % 3) + 1}`;
-      el.appendChild(p);
-    });
   }
 
   startFreshGame() {
