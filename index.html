@@ -7,6 +7,11 @@
   <link rel="manifest" href="manifest.json">
   <link rel="stylesheet" href="style.css">
   <style>
+    /* 案A用グローカラー調整 */
+    .pop-icon-wrap {
+      filter: drop-shadow(0 12px 22px rgba(16, 172, 132, 0.35)) !important;
+    }
+
     #settings-modal {
       display: none;
       position: fixed;
@@ -37,31 +42,46 @@
   <!-- メイン画面 -->
   <main>
     <div class="hero">
-      <!-- 弾む3Dポップなゲームトイ・エンブレム -->
+      <!-- 案A：Capsule Game Boy（カプセル型携帯ゲーム機） -->
       <div class="pop-icon-wrap">
         <svg viewBox="0 0 100 100" class="pop-symbol-svg" xmlns="http://www.w3.org/2000/svg">
           <defs>
-            <linearGradient id="popBody" x1="0%" y1="0%" x2="100%" y2="100%">
-              <stop offset="0%" stop-color="#ff6b81"/>
-              <stop offset="100%" stop-color="#ff4757"/>
+            <!-- 本体（マカロンミント） -->
+            <linearGradient id="cBody" x1="0%" y1="0%" x2="0%" y2="100%">
+              <stop offset="0%" stop-color="#2ed573"/>
+              <stop offset="100%" stop-color="#10ac84"/>
             </linearGradient>
-            <linearGradient id="popJoy" x1="0%" y1="0%" x2="0%" y2="100%">
-              <stop offset="0%" stop-color="#ffa502"/>
-              <stop offset="100%" stop-color="#ff7f50"/>
+            <!-- スクリーン（ダークスレート） -->
+            <linearGradient id="cScreen" x1="0%" y1="0%" x2="0%" y2="100%">
+              <stop offset="0%" stop-color="#2f3542"/>
+              <stop offset="100%" stop-color="#1e272e"/>
             </linearGradient>
-            <filter id="softGlow" x="-20%" y="-20%" width="140%" height="140%">
-              <feDropShadow dx="0" dy="8" stdDeviation="6" flood-color="#ff4757" flood-opacity="0.35"/>
+            <filter id="cShadow" x="-20%" y="-20%" width="140%" height="140%">
+              <feDropShadow dx="0" dy="8" stdDeviation="6" flood-color="#10ac84" flood-opacity="0.35"/>
             </filter>
           </defs>
 
-          <rect x="8" y="8" width="84" height="84" rx="26" fill="url(#popBody)" filter="url(#softGlow)"/>
-          <path d="M 22,18 L 78,18 C 84,18 88,22 86,28 C 80,42 66,48 50,48 C 34,48 20,42 14,28 C 12,22 16,18 22,18 Z" fill="#ffffff" opacity="0.32"/>
+          <g filter="url(#cShadow)">
+            <!-- 丸みのあるゲーム機本体 -->
+            <rect x="15" y="16" width="70" height="68" rx="22" fill="url(#cBody)"/>
+            <!-- 上部のぷっくりツヤ -->
+            <path d="M 28 20 L 72 20 C 78 20 80 23 78 27 C 72 32 62 34 50 34 C 38 34 28 32 22 27 C 20 23 22 20 28 20 Z" fill="#ffffff" opacity="0.35"/>
 
-          <circle cx="65" cy="50" r="8" fill="#ffffff"/>
-          <circle cx="65" cy="50" r="5" fill="url(#popJoy)"/>
+            <!-- ディスプレイ画面 -->
+            <rect x="25" y="26" width="50" height="28" rx="10" fill="url(#cScreen)"/>
+            <!-- 画面内の文字：CH -->
+            <text x="50" y="45" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-weight="900" font-size="14" fill="#ffffff" text-anchor="middle" letter-spacing="1">CH</text>
+            <!-- 画面の反射ハイライト -->
+            <path d="M 27 28 L 65 28 L 55 42 L 27 42 Z" fill="#ffffff" opacity="0.12"/>
 
-          <circle cx="35" cy="50" r="8" fill="#ffffff"/>
-          <circle cx="35" cy="50" r="5" fill="#2f3542"/>
+            <!-- 操作部：左側の丸い十字キー -->
+            <circle cx="36" cy="67" r="7" fill="#ffffff"/>
+            <path d="M 33 67 L 39 67 M 36 64 L 36 70" stroke="#2f3542" stroke-width="2.5" stroke-linecap="round"/>
+
+            <!-- 操作部：右側のカラフルな2ボタン -->
+            <circle cx="58" cy="70" r="5" fill="#ffa502"/>
+            <circle cx="68" cy="63" r="5" fill="#ff4757"/>
+          </g>
         </svg>
       </div>
 
