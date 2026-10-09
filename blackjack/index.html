@@ -1,12 +1,12 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ja">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
   <meta name="theme-color" content="#072615">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-  <title>Blackjack 4P - Games Clubhouse</title>
+  <title>Blackjack - Games Clubhouse</title>
   <link rel="manifest" href="./manifest.json">
   <link rel="icon" type="image/svg+xml" href="./icon.svg">
   <link rel="stylesheet" href="./style.css">
@@ -14,7 +14,7 @@
 <body>
   <div id="app-root">
 
-    <!-- 1. TITLE SCREEN -->
+    <!-- 1. TITLE SCREEN OVERLAY -->
     <div id="title-screen" class="screen-view active">
       <header class="title-header">
         <a href="../" id="link-clubhouse-title" class="back-clubhouse" aria-label="Back to Clubhouse">‹ CLUB HOUSE</a>
@@ -34,38 +34,37 @@
             <span class="symbol-rank">J</span>
             <span class="symbol-suit">♦</span>
           </div>
-          <div class="symbol-chip">4P</div>
+          <div class="symbol-chip">BJ</div>
         </div>
 
         <h1 class="game-logo" data-i18n="gameTitle">BLACKJACK</h1>
-        <p class="game-subtitle" data-i18n="gameSubtitle">4-Player Casino Edition</p>
+        <p class="game-subtitle" data-i18n="gameSubtitle">Casino Club Edition</p>
 
-        <!-- Player Slots Config -->
+        <!-- Player Slots Config (Default: 1P Only) -->
         <div class="player-slot-picker">
-          <span class="slot-picker-title" data-i18n="tableSlotsTitle">テーブル座席設定（4人席）</span>
+          <span class="slot-picker-title" data-i18n="tableSlotsTitle">参加プレイヤー設定（最大4席）</span>
           <div class="slot-toggles">
             <div class="slot-item">
               <span class="slot-num">1P</span>
-              <button class="slot-type-btn active" data-seat="0" data-type="human" data-i18n="slotYou">あなた</button>
+              <button class="slot-type-btn fixed-player" data-seat="0" data-type="human" data-i18n="slotYou">あなた</button>
             </div>
             <div class="slot-item">
               <span class="slot-num">2P</span>
-              <button class="slot-type-btn" data-seat="1" data-type="cpu" data-i18n="slotCpu">CPU</button>
+              <button class="slot-type-btn state-none" data-seat="1" data-type="none" data-i18n="slotNone">なし</button>
             </div>
             <div class="slot-item">
               <span class="slot-num">3P</span>
-              <button class="slot-type-btn" data-seat="2" data-type="cpu" data-i18n="slotCpu">CPU</button>
+              <button class="slot-type-btn state-none" data-seat="2" data-type="none" data-i18n="slotNone">なし</button>
             </div>
             <div class="slot-item">
               <span class="slot-num">4P</span>
-              <button class="slot-type-btn" data-seat="3" data-type="cpu" data-i18n="slotCpu">CPU</button>
+              <button class="slot-type-btn state-none" data-seat="3" data-type="none" data-i18n="slotNone">なし</button>
             </div>
           </div>
         </div>
 
         <div class="title-menu">
           <button id="btn-start-game" class="btn-primary" data-i18n="btnStart">ゲームスタート</button>
-          <button id="btn-resume-game" class="btn-primary hidden" data-i18n="btnResume">つづきから</button>
           <div class="title-sub-buttons">
             <button id="btn-rules" class="btn-secondary" data-i18n="btnRules">あそびかた</button>
             <button id="btn-achievements" class="btn-secondary" data-i18n="btnRecords">戦績・役</button>
@@ -79,16 +78,16 @@
       </footer>
     </div>
 
-    <!-- 2. MAIN TABLE SCREEN (4-SEAT LAYOUT) -->
+    <!-- 2. MAIN TABLE SCREEN (4-SEAT DYNAMIC) -->
     <div id="game-screen" class="screen-view">
       <header class="table-header">
         <div class="header-left">
           <button id="btn-to-title" class="btn-header-back" data-i18n="btnBackTitle">‹ タイトルへ</button>
         </div>
         <div class="header-center">
-          <div class="table-title">BLACKJACK 4P</div>
+          <div class="table-title">BLACKJACK</div>
           <div class="deck-shoe-indicator">
-            <span data-i18n="shoeLabel">Shoe</span>: <span id="shoe-count">312</span>
+            <span data-i18n="shoeLabel">シュー残</span>: <span id="shoe-count">312</span>
           </div>
         </div>
         <div class="header-right">
@@ -117,25 +116,25 @@
           <span id="toast-text"></span>
         </div>
 
-        <!-- 4 Seats Layout Arc -->
+        <!-- 4 Seats Layout -->
         <div class="seats-container">
           <div class="seat-spot" id="seat-0" data-seat-idx="0">
-            <div class="seat-badge"><span class="seat-name">1P (You)</span><span class="seat-score score-pill">0</span></div>
+            <div class="seat-badge"><span class="seat-name">1P (あなた)</span><span class="seat-score score-pill">0</span></div>
             <div class="seat-cards card-lane"></div>
             <div class="seat-bet-box"><span class="chip-mini">🪙</span><span class="seat-bet-val">0</span></div>
           </div>
-          <div class="seat-spot" id="seat-1" data-seat-idx="1">
-            <div class="seat-badge"><span class="seat-name">2P (CPU)</span><span class="seat-score score-pill">0</span></div>
+          <div class="seat-spot is-empty" id="seat-1" data-seat-idx="1">
+            <div class="seat-badge"><span class="seat-name">2P</span><span class="seat-score score-pill">-</span></div>
             <div class="seat-cards card-lane"></div>
             <div class="seat-bet-box"><span class="chip-mini">🪙</span><span class="seat-bet-val">0</span></div>
           </div>
-          <div class="seat-spot" id="seat-2" data-seat-idx="2">
-            <div class="seat-badge"><span class="seat-name">3P (CPU)</span><span class="seat-score score-pill">0</span></div>
+          <div class="seat-spot is-empty" id="seat-2" data-seat-idx="2">
+            <div class="seat-badge"><span class="seat-name">3P</span><span class="seat-score score-pill">-</span></div>
             <div class="seat-cards card-lane"></div>
             <div class="seat-bet-box"><span class="chip-mini">🪙</span><span class="seat-bet-val">0</span></div>
           </div>
-          <div class="seat-spot" id="seat-3" data-seat-idx="3">
-            <div class="seat-badge"><span class="seat-name">4P (CPU)</span><span class="seat-score score-pill">0</span></div>
+          <div class="seat-spot is-empty" id="seat-3" data-seat-idx="3">
+            <div class="seat-badge"><span class="seat-name">4P</span><span class="seat-score score-pill">-</span></div>
             <div class="seat-cards card-lane"></div>
             <div class="seat-bet-box"><span class="chip-mini">🪙</span><span class="seat-bet-val">0</span></div>
           </div>
@@ -146,15 +145,15 @@
       <footer class="table-footer-controls">
         <div class="footer-status-bar">
           <div class="status-stat">
-            <span class="stat-label" data-i18n="balanceLabel">残高</span>
+            <span class="stat-label" data-i18n="balanceLabel">所持チップ</span>
             <span id="player-chips" class="stat-value">1,000</span>
           </div>
           <div class="status-stat">
-            <span class="stat-label" data-i18n="activeSeatLabel">現在のターン</span>
+            <span class="stat-label" data-i18n="activeSeatLabel">ターン席</span>
             <span id="active-turn-indicator" class="stat-value active-turn-pill">1P</span>
           </div>
           <div class="status-stat">
-            <span class="stat-label" data-i18n="currentBetLabel">ベット額</span>
+            <span class="stat-label" data-i18n="currentBetLabel">1P ベット額</span>
             <span id="player-bet" class="stat-value">0</span>
           </div>
         </div>
@@ -169,7 +168,7 @@
           </div>
           <div class="chip-btn-actions">
             <button id="btn-clear-bet" class="btn-chip-action" data-i18n="btnClear">クリア</button>
-            <button id="btn-deal" class="btn-chip-action deal-action disabled" data-i18n="btnDeal">全員で勝負 (Deal)</button>
+            <button id="btn-deal" class="btn-chip-action deal-action disabled" data-i18n="btnDeal">ディール (Deal)</button>
           </div>
         </div>
 
@@ -215,7 +214,7 @@
       </div>
     </div>
 
-    <!-- 4. REFILL CHIPS MODAL (BANKRUPTCY RESCUE) -->
+    <!-- 4. REFILL CHIPS RESCUE MODAL -->
     <div id="modal-refill" class="modal-backdrop hidden">
       <div class="modal-dialog card-dialog">
         <div class="modal-header-icon">🪙</div>
@@ -238,8 +237,8 @@
           <div class="setting-item">
             <label for="select-language" data-i18n="labelLanguage">言語 (Language)</label>
             <select id="select-language" class="setting-dropdown">
-              <option value="en">English</option>
               <option value="ja">日本語</option>
+              <option value="en">English</option>
               <option value="zh-CN">简体中文</option>
               <option value="zh-TW">繁體中文</option>
               <option value="ko">한국어</option>
@@ -264,7 +263,11 @@
             </select>
           </div>
           <div class="setting-item danger-zone">
-            <button id="btn-reset-data" class="btn-danger" data-i18n="btnResetData">戦績・データ初期化</button>
+            <!-- Enhanced High-Visibility Reset Button -->
+            <button id="btn-reset-data" class="btn-danger-styled">
+              <span class="danger-icon">⚠️</span>
+              <span data-i18n="btnResetData">戦績・データ初期化</span>
+            </button>
           </div>
         </div>
         <button id="btn-save-settings" class="btn-primary" data-i18n="btnConfirm">閉じる</button>
@@ -280,12 +283,20 @@
         </div>
         <div class="rules-body">
           <section class="rule-section">
-            <h4 data-i18n="rule1Head">1. 基本ルール & 4人対局</h4>
-            <p data-i18n="rule1Text">最大4人でディーラーに挑みます。各プレイヤーはディーラーとの間で勝負を行い、21に近い方が勝利します。</p>
+            <h4 data-i18n="rule1Head">1. 基本ルール & 対局人数</h4>
+            <p data-i18n="rule1Text">1人プレイから最大4人席まで対応。各席とディーラーが1対1の勝負を行い、手札の合計値を21に最も近づけた方が勝ちとなります。</p>
           </section>
           <section class="rule-section">
             <h4 data-i18n="ruleDiceHead">2. 開始ダイスの役割</h4>
-            <p data-i18n="ruleDiceText">開始時のサイコロは「起家（最初のターンの開始席）」を決定するカジノの伝統儀式です。</p>
+            <p data-i18n="ruleDiceText">ゲーム開始時のサイコロは、テーブルの起家（カード配布・手番開始の基準席）を決定するカジノの伝統儀式です。</p>
+          </section>
+          <section class="rule-section">
+            <h4 data-i18n="rule3Head">3. アクション</h4>
+            <ul class="rule-list">
+              <li><strong>ヒット</strong>: もう1枚引く。</li>
+              <li><strong>スタンド</strong>: 現在の点数で確定。</li>
+              <li><strong>ダブル</strong>: 賭け金を倍にして1枚のみ引く。</li>
+            </ul>
           </section>
         </div>
         <button id="btn-rules-ack" class="btn-primary" data-i18n="btnGotIt">了解</button>
@@ -323,14 +334,16 @@
       </div>
     </div>
 
-    <!-- 8. CONFIRM MODAL -->
+    <!-- 8. CONFIRM MODAL (With explicit user warnings) -->
     <div id="modal-confirm" class="modal-backdrop hidden">
       <div class="modal-dialog">
         <h3 id="confirm-title" class="dialog-title">確認</h3>
-        <p id="confirm-message" class="dialog-text"></p>
+        <div id="confirm-message-box" class="confirm-message-container">
+          <p id="confirm-message" class="dialog-text"></p>
+        </div>
         <div class="dialog-dual-buttons">
           <button id="btn-confirm-cancel" class="btn-secondary" data-i18n="btnCancel">キャンセル</button>
-          <button id="btn-confirm-ok" class="btn-primary" data-i18n="btnConfirm">OK</button>
+          <button id="btn-confirm-ok" class="btn-danger-confirm" data-i18n="btnConfirm">初期化する</button>
         </div>
       </div>
     </div>
