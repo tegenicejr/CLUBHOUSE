@@ -136,13 +136,14 @@ button {
   display: none !important;
 }
 
+/* 左上固定：画面左端（セーフエリア考慮）に寄せる */
 .title-header {
-  position: absolute;
+  position: fixed;
   top: calc(14px + env(safe-area-inset-top));
-  left: 18px;
+  left: calc(20px + env(safe-area-inset-left));
   width: auto;
   max-width: none;
-  z-index: 10;
+  z-index: 150;
 }
 
 .title-center {
@@ -1099,9 +1100,12 @@ button {
     padding: 24px 20px;
   }
 
+  /* 画面全体の左端（固定位置）に配置 */
   .title-header {
-    top: 20px;
-    left: 24px;
+    top: calc(16px + env(safe-area-inset-top));
+    left: calc(24px + env(safe-area-inset-left));
+    position: fixed;
+    z-index: 150;
   }
 
   .title-center,
