@@ -74,7 +74,7 @@ const I18N = {
     backgammonWin: "Backgammon Victory (+3)"
   },
   ja: {
-    portalLink: "‹ CLUB HOUSEに戻る",
+    portalLink: "‹ CLUB HOUSEへ戻る",
     subtitle: "伝統と歴史の王道ボードゲーム",
     mode: "対戦モード",
     modeCpu: "vs CPU",
