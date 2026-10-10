@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="theme-color" content="#0b132b">
+  <title>Connect 4 - Games Clubhouse</title>
+  <link rel="manifest" href="./manifest.json">
+  <link rel="icon" type="image/svg+xml" href="./icon.svg">
+  <link rel="apple-touch-icon" href="./icon.svg">
+  <link rel="stylesheet" href="./style.css">
+</head>
+<body>
+  <!-- タイトル画面 -->
+  <div id="title-screen" class="screen-container">
+    <a href="../" class="portal-nav" id="btn-back-clubhouse">‹ CLUB HOUSEへ戻る</a>
+    
+    <div class="title-hero">
+      <img src="./icon.svg" alt="Connect 4" class="game-symbol">
+      <h1 data-i18n="gameTitle">CONNECT 4</h1>
+      <p class="subtitle" data-i18n="tagline">四目並べ 重力ストラテジー</p>
+    </div>
+
+    <div class="config-card">
+      <div class="config-item">
+        <span data-i18n="modeLabel">対戦形式</span>
+        <div class="segmented-control" id="mode-selector">
+          <button class="seg-btn active" data-val="pve" data-i18n="modePve">1P vs CPU</button>
+          <button class="seg-btn" data-val="pvp" data-i18n="modePvp">2P 対戦</button>
+        </div>
+      </div>
+      <div class="config-item" id="cpu-diff-row">
+        <span data-i18n="diffLabel">CPU難易度</span>
+        <div class="segmented-control" id="diff-selector">
+          <button class="seg-btn" data-val="easy" data-i18n="diffEasy">初級</button>
+          <button class="seg-btn active" data-val="normal" data-i18n="diffNormal">中級</button>
+          <button class="seg-btn" data-val="hard" data-i18n="diffHard">上級</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="menu-buttons">
+      <button id="btn-resume" class="btn-primary btn-resume hidden" data-i18n="btnResume">つづきから</button>
+      <button id="btn-start" class="btn-primary" data-i18n="btnStart">ゲームスタート</button>
+      <button id="btn-rules" class="btn-secondary" data-i18n="btnRules">あそびかた</button>
+      <button id="btn-stats" class="btn-secondary" data-i18n="btnStats">戦績・実績</button>
+      <button id="btn-settings" class="btn-secondary" data-i18n="btnSettings">⚙️ 設定</button>
+    </div>
+  </div>
+
+  <!-- ゲーム画面 -->
+  <div id="game-screen" class="screen-container hidden">
+    <header class="game-header">
+      <button id="btn-to-title" class="header-btn" data-i18n="btnBackTitle">‹ タイトル</button>
+      <button id="btn-sound-toggle" class="header-btn">🔊</button>
+      <button id="btn-game-settings" class="header-btn">⚙️</button>
+    </header>
+
+    <div class="status-bar">
+      <div class="player-badge">
+        <span class="mini-disk" id="current-disk-indicator"></span>
+        <span class="status-text" id="status-turn-text">あなたの番です</span>
+      </div>
+    </div>
+
+    <div class="board-container">
+      <div class="drop-indicators" id="drop-indicators">
+        <!-- 7つの投下列ボタン -->
+      </div>
+      <div class="grid-board" id="grid-board">
+        <!-- 42マス -->
+      </div>
+    </div>
+  </div>
+
+  <!-- 先手後手決定モーダル（3段階シーケンス） -->
+  <div id="modal-order" class="modal-overlay hidden">
+    <div class="modal-content">
+      <h3 class="modal-title" data-i18n="orderTitle">先攻・後攻の決定</h3>
+      <div class="modal-scroll" style="text-align: center;">
+        <p id="order-desc" data-i18n="orderDesc">赤が先攻、黄が後攻です。伏せられたディスクを1枚選んでください。</p>
+        <div class="order-choice-box" id="order-choices">
+          <div class="mystery-disk" data-choice="0">?</div>
+          <div class="mystery-disk" data-choice="1">?</div>
+        </div>
+        <p id="order-result-text" style="font-weight: 800; font-size: 16px; min-height: 24px; color: var(--win-gold);"></p>
+      </div>
+      <button id="btn-order-start" class="btn-primary hidden" data-i18n="btnBeginGame">対局開始</button>
+    </div>
+  </div>
+
+  <!-- 設定モーダル -->
+  <div id="modal-settings" class="modal-overlay hidden">
+    <div class="modal-content">
+      <h3 class="modal-title" data-i18n="settingsTitle">設定</h3>
+      <div class="modal-scroll">
+        <div class="setting-row">
+          <span class="setting-label" data-i18n="setLanguage">言語 / Language</span>
+          <select id="select-lang" class="setting-select">
+            <option value="en">English</option>
+            <option value="ja">日本語</option>
+            <option value="zh-CN">简体中文</option>
+            <option value="zh-TW">繁體中文</option>
+            <option value="ko">한국어</option>
+            <option value="es">Español</option>
+            <option value="fr">Français</option>
+            <option value="pt">Português</option>
+          </select>
+        </div>
+        <div class="setting-row">
+          <span class="setting-label" data-i18n="setSound">効果音 (Sound)</span>
+          <label class="toggle-switch">
+            <input type="checkbox" id="toggle-sound" checked>
+            <span class="slider"></span>
+          </label>
+        </div>
+        <div class="setting-row">
+          <span class="setting-label" data-i18n="setVibration">振動 (Vibration)</span>
+          <label class="toggle-switch">
+            <input type="checkbox" id="toggle-vibration" checked>
+            <span class="slider"></span>
+          </label>
+        </div>
+        <div class="setting-row">
+          <span class="setting-label" data-i18n="setFastAnim">アニメーション高速化</span>
+          <label class="toggle-switch">
+            <input type="checkbox" id="toggle-fast-anim">
+            <span class="slider"></span>
+          </label>
+        </div>
+        <div style="margin-top: 10px;">
+          <button id="btn-reset-data" class="btn-secondary" style="width: 100%; color: #f87171;" data-i18n="btnResetData">全戦績・データの初期化</button>
+        </div>
+      </div>
+      <button id="btn-close-settings" class="btn-primary" data-i18n="btnClose">閉じる</button>
+    </div>
+  </div>
+
+  <!-- あそびかたモーダル -->
+  <div id="modal-rules" class="modal-overlay hidden">
+    <div class="modal-content">
+      <h3 class="modal-title" data-i18n="rulesTitle">あそびかた</h3>
+      <div class="modal-scroll">
+        <div class="rule-step">
+          <h4 data-i18n="ruleStep1Title">1. ディスクを落とす</h4>
+          <p data-i18n="ruleStep1Desc">タップした列の一番上からディスクが落下し、下から順に積み重なります。</p>
+        </div>
+        <div class="rule-step">
+          <h4 data-i18n="ruleStep2Title">2. 4つ並べたら勝利</h4>
+          <p data-i18n="ruleStep2Desc">縦・横・斜めのいずれか1方向に自分の色のディスクを4つ連続で並べたプレイヤーの勝ちです。</p>
+        </div>
+        <div class="rule-step">
+          <h4 data-i18n="ruleStep3Title">3. リーチをブロックする</h4>
+          <p data-i18n="ruleStep3Desc">相手が3つ並んだら即座に阻止！同時に2方向を狙えるマスを作れば必勝です。</p>
+        </div>
+      </div>
+      <button id="btn-close-rules" class="btn-primary" data-i18n="btnClose">閉じる</button>
+    </div>
+  </div>
+
+  <!-- 戦績・実績モーダル -->
+  <div id="modal-stats" class="modal-overlay hidden">
+    <div class="modal-content">
+      <h3 class="modal-title" data-i18n="statsTitle">戦績・実績</h3>
+      <div class="modal-scroll">
+        <div class="config-card" style="margin: 0; max-width: 100%;">
+          <div class="config-item"><span data-i18n="statTotal">総対局数</span><strong id="stat-total">0</strong></div>
+          <div class="config-item"><span data-i18n="statWins">勝利数</span><strong id="stat-wins">0</strong></div>
+          <div class="config-item"><span data-i18n="statWinRate">勝率</span><strong id="stat-win-rate">0%</strong></div>
+          <div class="config-item"><span data-i18n="statStreak">連勝記録</span><strong id="stat-streak">0</strong></div>
+        </div>
+        <div id="achievements-container" style="display:flex; flex-direction:column; gap:10px;">
+          <!-- 実績リスト動的挿入 -->
+        </div>
+      </div>
+      <button id="btn-close-stats" class="btn-primary" data-i18n="btnClose">閉じる</button>
+    </div>
+  </div>
+
+  <!-- ゲーム終了・結果モーダル -->
+  <div id="modal-gameover" class="modal-overlay hidden">
+    <div class="modal-content">
+      <h3 class="modal-title" id="gameover-title">勝利！</h3>
+      <div class="modal-scroll" style="text-align: center;">
+        <p id="gameover-desc" style="font-size: 15px; color: var(--text-dim); margin-bottom: 12px;"></p>
+        <button id="btn-share-x" class="btn-secondary" style="margin-bottom: 8px;">𝕏 ポストで結果を共有</button>
+      </div>
+      <div style="display: flex; gap: 8px;">
+        <button id="btn-gameover-replay" class="btn-primary" style="flex: 1;" data-i18n="btnReplay">もう一度</button>
+        <button id="btn-gameover-title" class="btn-secondary" style="flex: 1;" data-i18n="btnBackTitle">タイトルへ</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 確認ダイアログ -->
+  <div id="modal-confirm" class="modal-overlay hidden">
+    <div class="modal-content" style="max-width: 320px;">
+      <h3 class="modal-title" id="confirm-title" data-i18n="confirmTitle">確認</h3>
+      <p id="confirm-msg" style="margin: 16px 0; font-size: 14px; text-align: center; color: var(--text-dim);"></p>
+      <div style="display: flex; gap: 8px;">
+        <button id="btn-confirm-cancel" class="btn-secondary" style="flex: 1;" data-i18n="btnCancel">キャンセル</button>
+        <button id="btn-confirm-ok" class="btn-primary" style="flex: 1;" data-i18n="btnOk">決定</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="./audio.js"></script>
+  <script src="./storage.js"></script>
+  <script src="./game.js"></script>
+</body>
+</html>
