@@ -558,16 +558,18 @@ class ConnectFourGame {
     this.ROWS = 6;
     this.COLS = 7;
     this.board = Array(this.ROWS).fill(null).map(() => Array(this.COLS).fill(0));
-    this.currentPlayer = 1; // 1: Red, 2: Yellow
-    this.mode = 'pve'; // 'pve' | 'pvp'
-    this.diff = 'normal'; // 'easy' | 'normal' | 'hard'
-    this.playerRole = 1; // 1:先攻(Red), 2:後攻(Yellow)
+    this.currentPlayer = 1;
+    this.mode = 'pve';
+    this.diff = 'normal';
+    this.playerRole = 1;
     this.isGameOver = false;
     this.isAiThinking = false;
     this.moveHistory = [];
     this.winningCells = [];
 
     this.settings = window.storageManager.getSettings();
+    window.audioManager.enabled = this.settings.sound;
+
     this.stats = window.storageManager.getStats();
     this.achievements = window.storageManager.getAchievements();
 
@@ -575,6 +577,17 @@ class ConnectFourGame {
     this.bindEvents();
     this.applyLanguage(this.settings.lang);
     this.checkResumeAvailable();
+
+    // 初回タップによるオーディオ完全アンロックリスナー
+    const unlockAudio = () => {
+      window.audioManager.unlock();
+      window.removeEventListener('pointerdown', unlockAudio);
+      window.removeEventListener('touchstart', unlockAudio);
+      window.removeEventListener('click', unlockAudio);
+    };
+    window.addEventListener('pointerdown', unlockAudio, { passive: true });
+    window.addEventListener('touchstart', unlockAudio, { passive: true });
+    window.addEventListener('click', unlockAudio, { passive: true });
   }
 
   initElements() {
@@ -589,7 +602,6 @@ class ConnectFourGame {
     this.btnResume = document.getElementById('btn-resume');
     this.btnStart = document.getElementById('btn-start');
 
-    // モーダル類
     this.modalOrder = document.getElementById('modal-order');
     this.modalSettings = document.getElementById('modal-settings');
     this.modalRules = document.getElementById('modal-rules');
@@ -631,6 +643,7 @@ class ConnectFourGame {
     // モード切替
     document.querySelectorAll('#mode-selector .seg-btn').forEach(btn => {
       btn.addEventListener('click', (e) => {
+        window.audioManager.unlock();
         window.audioManager.playClick();
         document.querySelectorAll('#mode-selector .seg-btn').forEach(b => b.classList.remove('active'));
         e.target.classList.add('active');
@@ -642,6 +655,7 @@ class ConnectFourGame {
     // 難易度切替
     document.querySelectorAll('#diff-selector .seg-btn').forEach(btn => {
       btn.addEventListener('click', (e) => {
+        window.audioManager.unlock();
         window.audioManager.playClick();
         document.querySelectorAll('#diff-selector .seg-btn').forEach(b => b.classList.remove('active'));
         e.target.classList.add('active');
@@ -651,11 +665,13 @@ class ConnectFourGame {
 
     // スタート & つづきから
     this.btnStart.addEventListener('click', () => {
+      window.audioManager.unlock();
       window.audioManager.playClick();
       this.openOrderSequence();
     });
 
     this.btnResume.addEventListener('click', () => {
+      window.audioManager.unlock();
       window.audioManager.playClick();
       this.resumeGame();
     });
@@ -673,11 +689,16 @@ class ConnectFourGame {
     });
 
     const soundBtn = document.getElementById('btn-sound-toggle');
+    soundBtn.textContent = this.settings.sound ? '🔊' : '🔇';
     soundBtn.addEventListener('click', () => {
+      window.audioManager.unlock();
       this.settings.sound = !this.settings.sound;
       window.audioManager.enabled = this.settings.sound;
       soundBtn.textContent = this.settings.sound ? '🔊' : '🔇';
       window.storageManager.saveSettings(this.settings);
+      if (this.settings.sound) {
+        window.audioManager.playClick();
+      }
     });
 
     document.getElementById('btn-game-settings').addEventListener('click', () => {
@@ -686,6 +707,7 @@ class ConnectFourGame {
 
     // メニューボタン
     document.getElementById('btn-rules').addEventListener('click', () => {
+      window.audioManager.unlock();
       window.audioManager.playClick();
       this.modalRules.classList.remove('hidden');
     });
@@ -695,6 +717,7 @@ class ConnectFourGame {
     });
 
     document.getElementById('btn-stats').addEventListener('click', () => {
+      window.audioManager.unlock();
       window.audioManager.playClick();
       this.updateStatsUI();
       this.modalStats.classList.remove('hidden');
@@ -710,17 +733,19 @@ class ConnectFourGame {
       this.modalSettings.classList.add('hidden');
     });
 
-    // 設定モーダル内の項目変更
+    // 設定項目
     const langSelect = document.getElementById('select-lang');
     langSelect.addEventListener('change', (e) => {
       this.applyLanguage(e.target.value);
     });
 
     document.getElementById('toggle-sound').addEventListener('change', (e) => {
+      window.audioManager.unlock();
       this.settings.sound = e.target.checked;
       window.audioManager.enabled = this.settings.sound;
       soundBtn.textContent = this.settings.sound ? '🔊' : '🔇';
       window.storageManager.saveSettings(this.settings);
+      if (this.settings.sound) window.audioManager.playClick();
     });
 
     document.getElementById('toggle-vibration').addEventListener('change', (e) => {
@@ -737,6 +762,7 @@ class ConnectFourGame {
       this.showConfirm(I18N[this.settings.lang].confirmReset, () => {
         window.storageManager.clearAllData();
         this.settings = window.storageManager.getSettings();
+        window.audioManager.enabled = this.settings.sound;
         this.stats = window.storageManager.getStats();
         this.achievements = window.storageManager.getAchievements();
         this.applyLanguage(this.settings.lang);
@@ -766,7 +792,7 @@ class ConnectFourGame {
 
   vibrate(ms = 35) {
     if (this.settings.vibration && navigator.vibrate) {
-      navigator.vibrate(ms);
+      try { navigator.vibrate(ms); } catch (e) {}
     }
   }
 
@@ -790,6 +816,7 @@ class ConnectFourGame {
   }
 
   openSettings() {
+    window.audioManager.unlock();
     window.audioManager.playClick();
     document.getElementById('select-lang').value = this.settings.lang;
     document.getElementById('toggle-sound').checked = this.settings.sound;
@@ -827,7 +854,6 @@ class ConnectFourGame {
     this.modalConfirm.classList.remove('hidden');
   }
 
-  /* --- 3段階 先攻後攻決定シーケンス --- */
   openOrderSequence() {
     const choicesBox = document.getElementById('order-choices');
     const resultText = document.getElementById('order-result-text');
@@ -843,10 +869,10 @@ class ConnectFourGame {
     const disks = choicesBox.querySelectorAll('.mystery-disk');
     disks.forEach(disk => {
       disk.addEventListener('click', () => {
+        window.audioManager.unlock();
         window.audioManager.playClick();
         this.vibrate(30);
 
-        // ランダム決定（0: Red/先攻, 1: Yellow/後攻）
         const isRed = Math.random() < 0.5;
         this.playerRole = isRed ? 1 : 2;
 
@@ -883,7 +909,7 @@ class ConnectFourGame {
 
   startNewMatch() {
     this.board = Array(this.ROWS).fill(null).map(() => Array(this.COLS).fill(0));
-    this.currentPlayer = 1; // 常に赤が先攻
+    this.currentPlayer = 1;
     this.isGameOver = false;
     this.isAiThinking = false;
     this.moveHistory = [];
@@ -959,7 +985,6 @@ class ConnectFourGame {
     this.checkResumeAvailable();
   }
 
-  /* --- 盤面描画 --- */
   renderBoard() {
     for (let r = 0; r < this.ROWS; r++) {
       for (let c = 0; c < this.COLS; c++) {
@@ -998,7 +1023,6 @@ class ConnectFourGame {
     }
   }
 
-  /* --- ゲーム進行ロジック --- */
   handleColumnSelect(col) {
     if (this.isGameOver || this.isAiThinking) return;
     if (this.mode === 'pve' && this.currentPlayer !== this.playerRole) return;
@@ -1015,15 +1039,15 @@ class ConnectFourGame {
 
   dropDisk(col) {
     const row = this.getLowestEmptyRow(col);
-    if (row === -1) return; // 満杯
+    if (row === -1) return;
 
     this.board[row][col] = this.currentPlayer;
     this.moveHistory.push({ row, col, player: this.currentPlayer });
 
+    window.audioManager.unlock();
     window.audioManager.playDrop();
     this.vibrate(25);
 
-    // ドロップアニメーション
     const cell = this.gridBoardEl.querySelector(`[data-row="${row}"][data-col="${col}"]`);
     const disk = document.createElement('div');
     disk.className = `disk ${this.currentPlayer === 1 ? 'red' : 'yellow'}`;
@@ -1032,20 +1056,17 @@ class ConnectFourGame {
     }
     cell.appendChild(disk);
 
-    // 勝利判定
     const winResult = this.checkWin(row, col, this.currentPlayer);
     if (winResult) {
       this.handleGameEnd(this.currentPlayer, winResult);
       return;
     }
 
-    // 引き分け判定
     if (this.board.every(row => row.every(val => val !== 0))) {
       this.handleGameEnd(0, null);
       return;
     }
 
-    // ターン交代
     this.currentPlayer = this.currentPlayer === 1 ? 2 : 1;
     this.saveCurrentState();
     this.updateStatusText();
@@ -1112,7 +1133,6 @@ class ConnectFourGame {
     const aiColor = this.currentPlayer;
     const humanColor = aiColor === 1 ? 2 : 1;
 
-    // 1. 自身の即座の勝利手を探索
     for (const c of validCols) {
       const r = this.getLowestEmptyRow(c);
       this.board[r][c] = aiColor;
@@ -1121,7 +1141,6 @@ class ConnectFourGame {
       if (win) return c;
     }
 
-    // 2. 相手の勝利手を阻止
     for (const c of validCols) {
       const r = this.getLowestEmptyRow(c);
       this.board[r][c] = humanColor;
@@ -1134,7 +1153,6 @@ class ConnectFourGame {
       return validCols[Math.floor(Math.random() * validCols.length)];
     }
 
-    // 3. Normal / Hard: 相手に勝利チャンスを与えてしまう手を回避
     const safeCols = validCols.filter(c => {
       const r = this.getLowestEmptyRow(c);
       if (r - 1 >= 0) {
@@ -1147,8 +1165,6 @@ class ConnectFourGame {
     });
 
     const candidates = safeCols.length > 0 ? safeCols : validCols;
-
-    // 優先度配分（中央優先）
     const columnWeights = [1, 2, 4, 7, 4, 2, 1];
     candidates.sort((a, b) => columnWeights[b] - columnWeights[a]);
 
@@ -1156,7 +1172,6 @@ class ConnectFourGame {
       return candidates[0];
     }
 
-    // Hard: ミニマックス簡易探索 (深さ 4)
     let bestScore = -Infinity;
     let chosenCol = candidates[0];
 
@@ -1218,7 +1233,6 @@ class ConnectFourGame {
     }
   }
 
-  /* --- 終了処理・実績 --- */
   handleGameEnd(winner, winResult) {
     this.isGameOver = true;
     this.saveCurrentState();
@@ -1277,25 +1291,21 @@ class ConnectFourGame {
   checkAndUnlockAchievements(winResult) {
     let changed = false;
 
-    // 1. 初勝利
     if (!this.achievements.firstWin) {
       this.achievements.firstWin = true;
       changed = true;
     }
 
-    // 2. 電光石火 (16手以内)
     if (!this.achievements.quickWin && this.moveHistory.length <= 16) {
       this.achievements.quickWin = true;
       changed = true;
     }
 
-    // 3. 上級撃破
     if (!this.achievements.hardWin && this.diff === 'hard') {
       this.achievements.hardWin = true;
       changed = true;
     }
 
-    // 4. 中央支配 (中央のマス c=3 を含むライン)
     if (!this.achievements.centerWin && winResult.cells.some(([r, c]) => c === 3)) {
       this.achievements.centerWin = true;
       changed = true;
