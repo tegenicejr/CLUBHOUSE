@@ -49,7 +49,7 @@ button, select {
   position: absolute;
   top: calc(var(--safe-top) + 12px);
   left: 16px;
-  z-index: 100;
+  z-index: 200;
   background: rgba(255, 255, 255, 0.12);
   backdrop-filter: blur(8px);
   -webkit-backdrop-filter: blur(8px);
@@ -60,6 +60,7 @@ button, select {
   font-size: 13px;
   font-weight: 600;
   transition: background 0.2s;
+  pointer-events: auto;
 }
 .portal-nav:active {
   background: rgba(255, 255, 255, 0.25);
@@ -72,12 +73,15 @@ button, select {
   flex-direction: column;
   padding: calc(var(--safe-top) + 16px) 16px calc(var(--safe-bottom) + 16px);
   opacity: 1;
+  z-index: 10;
+  pointer-events: auto;
   transition: opacity 0.25s ease;
 }
 .screen-container.hidden {
-  opacity: 0;
-  pointer-events: none;
-  z-index: -1;
+  display: none !important;
+  opacity: 0 !important;
+  pointer-events: none !important;
+  z-index: -1 !important;
 }
 
 /* --- タイトル画面 --- */
@@ -90,21 +94,21 @@ button, select {
 }
 
 .title-hero {
-  margin-top: 40px;
+  margin-top: 48px;
   display: flex;
   flex-direction: column;
   align-items: center;
 }
 
 .game-symbol {
-  width: 120px;
-  height: 120px;
+  width: 100px;
+  height: 100px;
   filter: drop-shadow(0 12px 24px rgba(0, 0, 0, 0.5));
   margin-bottom: 12px;
 }
 
 .title-hero h1 {
-  font-size: 38px;
+  font-size: 36px;
   font-weight: 900;
   letter-spacing: 1px;
   background: linear-gradient(135deg, #60a5fa, #facc15, #f87171);
@@ -130,6 +134,8 @@ button, select {
   flex-direction: column;
   gap: 14px;
   margin: 16px 0;
+  pointer-events: auto;
+  z-index: 20;
 }
 
 .config-item {
@@ -156,6 +162,7 @@ button, select {
   font-size: 13px;
   font-weight: 600;
   transition: all 0.2s;
+  pointer-events: auto;
 }
 
 .seg-btn.active {
@@ -171,6 +178,8 @@ button, select {
   flex-direction: column;
   gap: 10px;
   margin-bottom: 10px;
+  pointer-events: auto;
+  z-index: 20;
 }
 
 .btn-primary {
@@ -182,6 +191,7 @@ button, select {
   border-radius: 14px;
   box-shadow: 0 6px 18px rgba(37, 99, 235, 0.45);
   transition: transform 0.1s, filter 0.2s;
+  pointer-events: auto;
 }
 .btn-primary:active {
   transform: scale(0.98);
@@ -196,6 +206,7 @@ button, select {
   padding: 13px;
   border-radius: 12px;
   transition: background 0.2s, transform 0.1s;
+  pointer-events: auto;
 }
 .btn-secondary:active {
   background: #334155;
@@ -217,6 +228,7 @@ button, select {
   justify-content: space-between;
   align-items: center;
   height: 44px;
+  z-index: 30;
 }
 
 .header-btn {
@@ -229,6 +241,7 @@ button, select {
   display: flex;
   align-items: center;
   gap: 6px;
+  pointer-events: auto;
 }
 .header-btn:active {
   background: rgba(255, 255, 255, 0.2);
@@ -294,6 +307,7 @@ button, select {
   display: flex;
   justify-content: center;
   align-items: center;
+  pointer-events: auto;
 }
 
 .hover-arrow {
@@ -334,6 +348,7 @@ button, select {
   overflow: hidden;
   cursor: pointer;
   touch-action: manipulation;
+  pointer-events: auto;
 }
 
 .disk {
@@ -374,20 +389,22 @@ button, select {
 .modal-overlay {
   position: fixed;
   inset: 0;
-  background: rgba(0, 0, 0, 0.72);
+  background: rgba(0, 0, 0, 0.75);
   backdrop-filter: blur(6px);
   -webkit-backdrop-filter: blur(6px);
   display: flex;
   justify-content: center;
   align-items: center;
-  z-index: 500;
+  z-index: 9999;
   padding: 16px;
+  pointer-events: auto;
   opacity: 1;
   transition: opacity 0.2s ease;
 }
 .modal-overlay.hidden {
-  opacity: 0;
-  pointer-events: none;
+  display: none !important;
+  opacity: 0 !important;
+  pointer-events: none !important;
 }
 
 .modal-content {
@@ -402,6 +419,8 @@ button, select {
   display: flex;
   flex-direction: column;
   overflow: hidden;
+  z-index: 10000;
+  pointer-events: auto;
 }
 
 .modal-scroll {
@@ -441,6 +460,7 @@ button, select {
   font-weight: 900;
   color: #94a3b8;
   cursor: pointer;
+  pointer-events: auto;
   transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 }
 .mystery-disk:active {
