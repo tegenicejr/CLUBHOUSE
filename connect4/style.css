@@ -201,16 +201,28 @@ button, select {
 .btn-secondary {
   background: var(--bg-card-light);
   color: #fff;
-  font-size: 15px;
+  font-size: 14px;
   font-weight: 600;
-  padding: 13px;
+  padding: 12px 6px;
   border-radius: 12px;
   transition: background 0.2s, transform 0.1s;
   pointer-events: auto;
+  text-align: center;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 .btn-secondary:active {
   background: #334155;
   transform: scale(0.98);
+}
+
+/* 3カラム横並び配置 */
+.secondary-btn-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 8px;
+  width: 100%;
 }
 
 .btn-resume {
