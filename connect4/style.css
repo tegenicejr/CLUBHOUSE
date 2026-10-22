@@ -1,12 +1,15 @@
 :root {
-  --bg-main: #0b132b;
-  --bg-card: #1c2541;
-  --bg-card-light: #253259;
+  --bg-main: #070c18;
+  --bg-card: rgba(22, 33, 62, 0.75);
+  --bg-card-border: rgba(96, 165, 250, 0.25);
+  --bg-btn-sec: rgba(30, 41, 69, 0.85);
+  --bg-btn-sec-border: rgba(255, 255, 255, 0.12);
   --text-main: #ffffff;
   --text-dim: #94a3b8;
-  --accent-blue: #3b82f6;
+  --accent-blue: #2563eb;
+  --accent-blue-light: #60a5fa;
   --accent-board: #1d4ed8;
-  --accent-slot: #090e1a;
+  --accent-slot: #060913;
   --p1-red: #ef4444;
   --p1-light: #f87171;
   --p2-yellow: #eab308;
@@ -32,8 +35,15 @@ html, body {
   position: fixed;
   inset: 0;
   background-color: var(--bg-main);
+  /* 奥行きのあるスポットライト＆微細なグリッド */
+  background-image: 
+    radial-gradient(circle at 50% 15%, rgba(56, 189, 248, 0.16) 0%, transparent 60%),
+    radial-gradient(circle at 50% 90%, rgba(30, 58, 138, 0.2) 0%, transparent 70%),
+    linear-gradient(rgba(255, 255, 255, 0.02) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
+  background-size: 100% 100%, 100% 100%, 24px 24px, 24px 24px;
   color: var(--text-main);
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", "Hiragino Kaku Gothic ProN", Arial, sans-serif;
 }
 
 button, select {
@@ -50,20 +60,24 @@ button, select {
   top: calc(var(--safe-top) + 12px);
   left: 16px;
   z-index: 200;
-  background: rgba(255, 255, 255, 0.12);
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
-  color: #fff;
-  padding: 8px 14px;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  color: #e2e8f0;
+  padding: 8px 16px;
   border-radius: 20px;
   text-decoration: none;
   font-size: 13px;
-  font-weight: 600;
-  transition: background 0.2s;
+  font-weight: 700;
+  letter-spacing: 0.3px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.35);
+  transition: all 0.2s;
   pointer-events: auto;
 }
 .portal-nav:active {
-  background: rgba(255, 255, 255, 0.25);
+  background: rgba(255, 255, 255, 0.18);
+  transform: scale(0.96);
 }
 
 .screen-container {
@@ -91,46 +105,89 @@ button, select {
   text-align: center;
   overflow-y: auto;
   -webkit-overflow-scrolling: touch;
-  gap: 16px;
+  gap: 18px;
 }
 
 .title-hero {
   display: flex;
   flex-direction: column;
   align-items: center;
+  margin-top: 10px;
+}
+
+.symbol-wrapper {
+  position: relative;
+  margin-bottom: 14px;
+}
+.symbol-wrapper::after {
+  content: "";
+  position: absolute;
+  inset: -8px;
+  background: radial-gradient(circle, rgba(56, 189, 248, 0.3) 0%, transparent 70%);
+  z-index: -1;
+  border-radius: 50%;
 }
 
 .game-symbol {
-  width: 96px;
-  height: 96px;
-  filter: drop-shadow(0 12px 24px rgba(0, 0, 0, 0.5));
-  margin-bottom: 12px;
+  width: 104px;
+  height: 104px;
+  filter: drop-shadow(0 16px 28px rgba(0, 0, 0, 0.7));
 }
 
-.title-hero h1 {
-  font-size: 36px;
+.logo-box {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.game-logo {
+  font-size: 38px;
   font-weight: 900;
-  letter-spacing: 1px;
-  background: linear-gradient(135deg, #60a5fa, #facc15, #f87171);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  margin-bottom: 4px;
+  letter-spacing: 2px;
+  color: #ffffff;
+  /* メタリック＆エッジの立体テキストシャドウ */
+  text-shadow: 
+    0 1px 0 #93c5fd,
+    0 2px 0 #60a5fa,
+    0 3px 0 #2563eb,
+    0 4px 0 #1d4ed8,
+    0 8px 18px rgba(0, 0, 0, 0.85);
+  line-height: 1.1;
+}
+
+.logo-accent {
+  color: #facc15;
+  text-shadow: 
+    0 1px 0 #fef08a,
+    0 2px 0 #eab308,
+    0 3px 0 #ca8a04,
+    0 4px 0 #854d0e,
+    0 8px 18px rgba(234, 179, 8, 0.5);
 }
 
 .subtitle {
-  font-size: 14px;
-  color: var(--text-dim);
-  font-weight: 500;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  color: #94a3b8;
+  margin-top: 8px;
+  text-transform: uppercase;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.8);
 }
 
-/* 幅を統一する基準コンテナ */
+/* 設定カード（グラスモーフィズム・リッチ化） */
 .config-card {
   width: 100%;
   max-width: 360px;
   background: var(--bg-card);
+  border: 1px solid var(--bg-card-border);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
   padding: 16px 20px;
-  border-radius: 20px;
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+  border-radius: 22px;
+  box-shadow: 
+    0 12px 32px rgba(0, 0, 0, 0.6),
+    inset 0 1px 1px rgba(255, 255, 255, 0.2);
   display: flex;
   flex-direction: column;
   gap: 14px;
@@ -143,33 +200,42 @@ button, select {
   display: flex;
   justify-content: space-between;
   align-items: center;
+}
+
+.config-title {
   font-size: 14px;
-  color: var(--text-dim);
+  font-weight: 700;
+  color: #cbd5e1;
+  text-shadow: 0 1px 2px rgba(0,0,0,0.5);
 }
 
 .segmented-control {
   display: flex;
-  background: rgba(0, 0, 0, 0.35);
-  border-radius: 10px;
+  background: rgba(8, 14, 26, 0.7);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 12px;
   padding: 3px;
-  gap: 4px;
+  gap: 3px;
+  box-shadow: inset 0 2px 6px rgba(0, 0, 0, 0.6);
 }
 
 .seg-btn {
   background: transparent;
-  color: var(--text-dim);
-  padding: 6px 12px;
-  border-radius: 7px;
+  color: #94a3b8;
+  padding: 7px 13px;
+  border-radius: 9px;
   font-size: 13px;
-  font-weight: 600;
-  transition: all 0.2s;
+  font-weight: 700;
+  transition: all 0.2s cubic-bezier(0.2, 0.8, 0.2, 1);
   pointer-events: auto;
 }
 
 .seg-btn.active {
-  background: var(--accent-blue);
-  color: #fff;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.3);
+  background: linear-gradient(180deg, #3b82f6 0%, #1d4ed8 100%);
+  color: #ffffff;
+  box-shadow: 
+    0 2px 8px rgba(37, 99, 235, 0.5),
+    inset 0 1px 1px rgba(255, 255, 255, 0.4);
 }
 
 .menu-buttons {
@@ -177,35 +243,65 @@ button, select {
   max-width: 360px;
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 12px;
   margin: 0 auto;
   pointer-events: auto;
   z-index: 20;
 }
 
+/* メインボタン（3D立体厚み＋光沢） */
 .btn-primary {
   width: 100%;
-  background: linear-gradient(135deg, #2563eb, #1d4ed8);
-  color: #fff;
+  position: relative;
+  background: linear-gradient(180deg, #3b82f6 0%, #1d4ed8 70%, #1e40af 100%);
+  border-top: 1px solid rgba(255, 255, 255, 0.4);
+  color: #ffffff;
   font-size: 17px;
-  font-weight: 800;
+  font-weight: 900;
+  letter-spacing: 0.5px;
   padding: 16px;
-  border-radius: 16px;
-  box-shadow: 0 6px 18px rgba(37, 99, 235, 0.45);
-  transition: transform 0.1s, filter 0.2s;
+  border-radius: 18px;
+  box-shadow: 
+    0 6px 0 #172554,
+    0 12px 24px rgba(29, 78, 216, 0.45);
+  transition: transform 0.08s ease, box-shadow 0.08s ease;
   pointer-events: auto;
+  overflow: hidden;
 }
 .btn-primary:active {
-  transform: scale(0.98);
-  filter: brightness(1.1);
+  transform: translateY(4px);
+  box-shadow: 
+    0 2px 0 #172554,
+    0 6px 12px rgba(29, 78, 216, 0.35);
+}
+
+/* 天面反射ハイライト */
+.btn-shine {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 48%;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.28) 0%, rgba(255, 255, 255, 0) 100%);
+  border-radius: 18px 18px 50% 50%;
+  pointer-events: none;
 }
 
 .btn-resume {
-  background: linear-gradient(135deg, #059669, #10b981);
-  box-shadow: 0 6px 18px rgba(16, 185, 129, 0.4);
+  background: linear-gradient(180deg, #10b981 0%, #059669 70%, #047857 100%);
+  border-top: 1px solid rgba(255, 255, 255, 0.4);
+  box-shadow: 
+    0 6px 0 #064e3b,
+    0 12px 24px rgba(16, 185, 129, 0.4);
+}
+.btn-resume:active {
+  transform: translateY(4px);
+  box-shadow: 
+    0 2px 0 #064e3b,
+    0 6px 12px rgba(16, 185, 129, 0.3);
 }
 
-/* 3連ボタングループ：幅100%均等割り付け */
+/* 3連ボタングループ：横幅完全一致＆立体化 */
 .secondary-btn-row {
   display: flex;
   gap: 8px;
@@ -215,30 +311,38 @@ button, select {
 .secondary-btn-row .btn-secondary {
   flex: 1;
   min-width: 0;
-  background: var(--bg-card-light);
-  color: #fff;
+  background: var(--bg-btn-sec);
+  border: 1px solid var(--bg-btn-sec-border);
+  border-top: 1px solid rgba(255, 255, 255, 0.22);
+  color: #e2e8f0;
   font-size: 13px;
-  font-weight: 600;
+  font-weight: 700;
   padding: 13px 4px;
   border-radius: 14px;
-  transition: background 0.2s, transform 0.1s;
+  box-shadow: 
+    0 4px 0 #0a0f1d,
+    0 8px 16px rgba(0, 0, 0, 0.4);
+  transition: transform 0.08s ease, box-shadow 0.08s ease, background 0.2s;
   pointer-events: auto;
   text-align: center;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
 }
 .secondary-btn-row .btn-secondary:active {
-  background: #334155;
-  transform: scale(0.98);
+  transform: translateY(3px);
+  box-shadow: 
+    0 1px 0 #0a0f1d,
+    0 4px 8px rgba(0, 0, 0, 0.3);
+  background: #253356;
 }
 
 .btn-secondary {
-  background: var(--bg-card-light);
+  background: var(--bg-btn-sec);
+  border: 1px solid var(--bg-btn-sec-border);
   color: #fff;
   font-size: 15px;
-  font-weight: 600;
+  font-weight: 700;
   padding: 13px;
   border-radius: 14px;
   transition: background 0.2s, transform 0.1s;
@@ -263,19 +367,22 @@ button, select {
 }
 
 .header-btn {
-  background: rgba(255, 255, 255, 0.12);
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.15);
   color: #fff;
-  padding: 8px 12px;
-  border-radius: 12px;
+  padding: 8px 14px;
+  border-radius: 14px;
   font-size: 13px;
-  font-weight: 600;
+  font-weight: 700;
   display: flex;
   align-items: center;
   gap: 6px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
   pointer-events: auto;
 }
 .header-btn:active {
-  background: rgba(255, 255, 255, 0.2);
+  background: rgba(255, 255, 255, 0.18);
+  transform: scale(0.96);
 }
 
 .status-bar {
@@ -284,33 +391,38 @@ button, select {
   align-items: center;
   gap: 12px;
   background: var(--bg-card);
-  padding: 10px 18px;
-  border-radius: 16px;
+  border: 1px solid var(--bg-card-border);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  padding: 10px 20px;
+  border-radius: 18px;
   margin: 6px 0 10px;
-  box-shadow: 0 4px 14px rgba(0,0,0,0.25);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.4);
 }
 
 .player-badge {
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 10px;
   font-size: 14px;
-  font-weight: 700;
+  font-weight: 800;
 }
 
 .mini-disk {
-  width: 20px;
-  height: 20px;
+  width: 22px;
+  height: 22px;
   border-radius: 50%;
-  box-shadow: inset 0 2px 4px rgba(255,255,255,0.4), 0 2px 5px rgba(0,0,0,0.3);
+  box-shadow: 
+    inset 0 2px 4px rgba(255, 255, 255, 0.7), 
+    0 3px 6px rgba(0, 0, 0, 0.5);
 }
-.mini-disk.red { background: radial-gradient(circle at 35% 35%, var(--p1-light), var(--p1-red)); }
-.mini-disk.yellow { background: radial-gradient(circle at 35% 35%, var(--p2-light), var(--p2-yellow)); }
+.mini-disk.red { background: radial-gradient(circle at 35% 35%, #ffffff 0%, var(--p1-light) 30%, var(--p1-red) 70%, #991b1b 100%); }
+.mini-disk.yellow { background: radial-gradient(circle at 35% 35%, #ffffff 0%, var(--p2-light) 30%, var(--p2-yellow) 70%, #854d0e 100%); }
 
 .status-text {
   font-size: 14px;
-  color: #e2e8f0;
-  font-weight: 600;
+  color: #f1f5f9;
+  font-weight: 700;
 }
 
 /* 盤面エリア */
@@ -346,7 +458,8 @@ button, select {
   height: 0;
   border-left: 9px solid transparent;
   border-right: 9px solid transparent;
-  border-top: 14px solid var(--accent-blue);
+  border-top: 14px solid var(--accent-blue-light);
+  filter: drop-shadow(0 2px 6px rgba(56, 189, 248, 0.6));
   opacity: 0;
   transform: translateY(-4px);
   transition: opacity 0.15s, transform 0.15s;
@@ -360,10 +473,13 @@ button, select {
 .grid-board {
   width: 100%;
   aspect-ratio: 7 / 6;
-  background: linear-gradient(145deg, #2563eb, var(--accent-board));
-  border-radius: 20px;
-  padding: 8px;
-  box-shadow: 0 16px 36px rgba(0, 0, 0, 0.6), inset 0 3px 6px rgba(255, 255, 255, 0.35);
+  background: linear-gradient(155deg, #2563eb, #1d4ed8 60%, #172554 100%);
+  border: 2px solid #60a5fa;
+  border-radius: 24px;
+  padding: 10px;
+  box-shadow: 
+    0 20px 48px rgba(0, 0, 0, 0.8),
+    inset 0 4px 8px rgba(255, 255, 255, 0.45);
   display: grid;
   grid-template-columns: repeat(7, 1fr);
   grid-template-rows: repeat(6, 1fr);
@@ -375,7 +491,9 @@ button, select {
   position: relative;
   background: var(--accent-slot);
   border-radius: 50%;
-  box-shadow: inset 0 6px 12px rgba(0, 0, 0, 0.85), 0 1px 2px rgba(255, 255, 255, 0.1);
+  box-shadow: 
+    inset 0 8px 16px rgba(0, 0, 0, 0.95), 
+    0 1px 2px rgba(255, 255, 255, 0.15);
   overflow: hidden;
   cursor: pointer;
   touch-action: manipulation;
@@ -386,13 +504,16 @@ button, select {
   position: absolute;
   inset: 0;
   border-radius: 50%;
-  box-shadow: inset 0 3px 6px rgba(255, 255, 255, 0.4), inset 0 -4px 6px rgba(0, 0, 0, 0.3), 0 3px 6px rgba(0, 0, 0, 0.4);
+  box-shadow: 
+    inset 0 3px 6px rgba(255, 255, 255, 0.6), 
+    inset 0 -5px 8px rgba(0, 0, 0, 0.5), 
+    0 4px 8px rgba(0, 0, 0, 0.5);
 }
 .disk.red {
-  background: radial-gradient(circle at 35% 35%, var(--p1-light), var(--p1-red) 70%, #991b1b);
+  background: radial-gradient(circle at 35% 30%, #ffffff 0%, var(--p1-light) 25%, var(--p1-red) 70%, #7f1d1d 100%);
 }
 .disk.yellow {
-  background: radial-gradient(circle at 35% 35%, var(--p2-light), var(--p2-yellow) 70%, #a16207);
+  background: radial-gradient(circle at 35% 30%, #ffffff 0%, var(--p2-light) 25%, var(--p2-yellow) 70%, #78350f 100%);
 }
 
 .disk.drop-animate {
@@ -401,7 +522,7 @@ button, select {
 
 .disk.winning {
   animation: winPulse 0.9s infinite alternate;
-  box-shadow: 0 0 16px var(--win-gold), inset 0 2px 4px #ffffff;
+  box-shadow: 0 0 20px var(--win-gold), inset 0 2px 4px #ffffff;
 }
 
 @keyframes dropIn {
@@ -412,17 +533,17 @@ button, select {
 }
 
 @keyframes winPulse {
-  0% { transform: scale(0.94); filter: brightness(1); }
-  100% { transform: scale(1.06); filter: brightness(1.35); }
+  0% { transform: scale(0.93); filter: brightness(1); }
+  100% { transform: scale(1.07); filter: brightness(1.4); }
 }
 
 /* --- モーダル全般 --- */
 .modal-overlay {
   position: fixed;
   inset: 0;
-  background: rgba(0, 0, 0, 0.75);
-  backdrop-filter: blur(6px);
-  -webkit-backdrop-filter: blur(6px);
+  background: rgba(4, 7, 15, 0.82);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
   display: flex;
   justify-content: center;
   align-items: center;
@@ -439,14 +560,14 @@ button, select {
 }
 
 .modal-content {
-  background: var(--bg-card);
-  border-radius: 24px;
+  background: rgba(18, 27, 49, 0.92);
+  border-radius: 26px;
   width: 100%;
   max-width: 380px;
   max-height: 85vh;
-  padding: 24px 20px;
-  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.6);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  padding: 26px 22px;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.7);
+  border: 1px solid rgba(255, 255, 255, 0.15);
   display: flex;
   flex-direction: column;
   overflow: hidden;
@@ -457,17 +578,18 @@ button, select {
 .modal-scroll {
   overflow-y: auto;
   -webkit-overflow-scrolling: touch;
-  margin: 14px 0;
+  margin: 16px 0;
   display: flex;
   flex-direction: column;
   gap: 14px;
 }
 
 .modal-title {
-  font-size: 20px;
+  font-size: 21px;
   font-weight: 800;
   text-align: center;
   color: #fff;
+  letter-spacing: 0.5px;
 }
 
 /* 先攻後攻決定演出 */
@@ -479,11 +601,14 @@ button, select {
 }
 
 .mystery-disk {
-  width: 80px;
-  height: 80px;
+  width: 82px;
+  height: 82px;
   border-radius: 50%;
-  background: radial-gradient(circle at 35% 35%, #475569, #1e293b);
-  box-shadow: 0 8px 18px rgba(0, 0, 0, 0.4), inset 0 2px 4px rgba(255, 255, 255, 0.2);
+  background: radial-gradient(circle at 35% 30%, #475569, #0f172a);
+  border: 2px solid rgba(255, 255, 255, 0.15);
+  box-shadow: 
+    0 10px 22px rgba(0, 0, 0, 0.6), 
+    inset 0 3px 5px rgba(255, 255, 255, 0.25);
   display: flex;
   justify-content: center;
   align-items: center;
@@ -512,7 +637,7 @@ button, select {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 6px 0;
+  padding: 8px 0;
   border-bottom: 1px solid rgba(255, 255, 255, 0.06);
 }
 .setting-label {
@@ -520,10 +645,11 @@ button, select {
   font-weight: 600;
 }
 .setting-select {
-  background: var(--bg-card-light);
+  background: rgba(30, 41, 69, 0.8);
+  border: 1px solid rgba(255, 255, 255, 0.1);
   color: #fff;
   padding: 8px 12px;
-  border-radius: 10px;
+  border-radius: 12px;
   font-size: 14px;
 }
 
@@ -540,7 +666,7 @@ button, select {
 .slider {
   position: absolute;
   inset: 0;
-  background-color: #475569;
+  background-color: #334155;
   border-radius: 28px;
   transition: 0.3s;
 }
@@ -553,6 +679,7 @@ button, select {
   bottom: 3px;
   background-color: white;
   border-radius: 50%;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
   transition: 0.3s;
 }
 input:checked + .slider {
@@ -567,13 +694,14 @@ input:checked + .slider:before {
   display: flex;
   align-items: center;
   gap: 12px;
-  background: var(--bg-card-light);
+  background: rgba(30, 41, 69, 0.6);
+  border: 1px solid rgba(255, 255, 255, 0.08);
   padding: 12px;
-  border-radius: 12px;
+  border-radius: 14px;
 }
 .achieve-card.locked {
   opacity: 0.45;
-  filter: grayscale(0.8);
+  filter: grayscale(0.85);
 }
 .achieve-icon {
   font-size: 26px;
@@ -590,15 +718,16 @@ input:checked + .slider:before {
 
 /* ルールステップ図解 */
 .rule-step {
-  background: var(--bg-card-light);
+  background: rgba(30, 41, 69, 0.6);
+  border: 1px solid rgba(255, 255, 255, 0.08);
   padding: 14px;
-  border-radius: 14px;
+  border-radius: 16px;
   font-size: 13px;
   line-height: 1.5;
 }
 .rule-step h4 {
   font-size: 14px;
   margin-bottom: 6px;
-  color: var(--accent-blue);
-  font-weight: 700;
+  color: var(--accent-blue-light);
+  font-weight: 800;
 }
