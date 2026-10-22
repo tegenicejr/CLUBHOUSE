@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-  <meta name="theme-color" content="#0b132b">
+  <meta name="theme-color" content="#070c18">
   <title>Connect 4 - Games Clubhouse</title>
   <link rel="manifest" href="./manifest.json">
   <link rel="icon" type="image/svg+xml" href="./icon.svg">
@@ -18,21 +18,25 @@
     <a href="../" class="portal-nav" id="btn-back-clubhouse">‹ CLUB HOUSEへ戻る</a>
     
     <div class="title-hero">
-      <img src="./icon.svg" alt="Connect 4" class="game-symbol">
-      <h1 data-i18n="gameTitle">CONNECT 4</h1>
-      <p class="subtitle" data-i18n="tagline">四目並べ 重力ストラテジー</p>
+      <div class="symbol-wrapper">
+        <img src="./icon.svg" alt="Connect 4" class="game-symbol">
+      </div>
+      <div class="logo-box">
+        <h1 class="game-logo">CONNECT <span class="logo-accent">4</span></h1>
+        <p class="subtitle" data-i18n="tagline">四目並べ 重力ストラテジー</p>
+      </div>
     </div>
 
     <div class="config-card">
       <div class="config-item">
-        <span data-i18n="modeLabel">対戦形式</span>
+        <span class="config-title" data-i18n="modeLabel">対戦形式</span>
         <div class="segmented-control" id="mode-selector">
           <button class="seg-btn active" data-val="pve" data-i18n="modePve">1P vs CPU</button>
           <button class="seg-btn" data-val="pvp" data-i18n="modePvp">2P 対戦</button>
         </div>
       </div>
       <div class="config-item" id="cpu-diff-row">
-        <span data-i18n="diffLabel">CPU難易度</span>
+        <span class="config-title" data-i18n="diffLabel">CPU難易度</span>
         <div class="segmented-control" id="diff-selector">
           <button class="seg-btn" data-val="easy" data-i18n="diffEasy">初級</button>
           <button class="seg-btn active" data-val="normal" data-i18n="diffNormal">中級</button>
@@ -42,10 +46,16 @@
     </div>
 
     <div class="menu-buttons">
-      <button id="btn-resume" class="btn-primary btn-resume hidden" data-i18n="btnResume">つづきから</button>
-      <button id="btn-start" class="btn-primary" data-i18n="btnStart">ゲームスタート</button>
+      <button id="btn-resume" class="btn-primary btn-resume hidden">
+        <span class="btn-shine"></span>
+        <span class="btn-label" data-i18n="btnResume">つづきから</span>
+      </button>
+      <button id="btn-start" class="btn-primary">
+        <span class="btn-shine"></span>
+        <span class="btn-label" data-i18n="btnStart">ゲームスタート</span>
+      </button>
       
-      <!-- 横並びボタングループ -->
+      <!-- 統一幅3連ボタングループ -->
       <div class="secondary-btn-row">
         <button id="btn-rules" class="btn-secondary" data-i18n="btnRules">あそびかた</button>
         <button id="btn-stats" class="btn-secondary" data-i18n="btnStats">戦績・実績</button>
