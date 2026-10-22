@@ -87,22 +87,22 @@ button, select {
 /* --- タイトル画面 --- */
 #title-screen {
   align-items: center;
-  justify-content: space-between;
+  justify-content: center;
   text-align: center;
   overflow-y: auto;
   -webkit-overflow-scrolling: touch;
+  gap: 16px;
 }
 
 .title-hero {
-  margin-top: 48px;
   display: flex;
   flex-direction: column;
   align-items: center;
 }
 
 .game-symbol {
-  width: 100px;
-  height: 100px;
+  width: 96px;
+  height: 96px;
   filter: drop-shadow(0 12px 24px rgba(0, 0, 0, 0.5));
   margin-bottom: 12px;
 }
@@ -123,17 +123,18 @@ button, select {
   font-weight: 500;
 }
 
+/* 幅を統一する基準コンテナ */
 .config-card {
   width: 100%;
-  max-width: 380px;
+  max-width: 360px;
   background: var(--bg-card);
   padding: 16px 20px;
-  border-radius: 18px;
+  border-radius: 20px;
   box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
   display: flex;
   flex-direction: column;
   gap: 14px;
-  margin: 16px 0;
+  margin: 0 auto;
   pointer-events: auto;
   z-index: 20;
 }
@@ -173,22 +174,23 @@ button, select {
 
 .menu-buttons {
   width: 100%;
-  max-width: 380px;
+  max-width: 360px;
   display: flex;
   flex-direction: column;
   gap: 10px;
-  margin-bottom: 10px;
+  margin: 0 auto;
   pointer-events: auto;
   z-index: 20;
 }
 
 .btn-primary {
+  width: 100%;
   background: linear-gradient(135deg, #2563eb, #1d4ed8);
   color: #fff;
   font-size: 17px;
   font-weight: 800;
   padding: 16px;
-  border-radius: 14px;
+  border-radius: 16px;
   box-shadow: 0 6px 18px rgba(37, 99, 235, 0.45);
   transition: transform 0.1s, filter 0.2s;
   pointer-events: auto;
@@ -198,36 +200,53 @@ button, select {
   filter: brightness(1.1);
 }
 
-.btn-secondary {
+.btn-resume {
+  background: linear-gradient(135deg, #059669, #10b981);
+  box-shadow: 0 6px 18px rgba(16, 185, 129, 0.4);
+}
+
+/* 3連ボタングループ：幅100%均等割り付け */
+.secondary-btn-row {
+  display: flex;
+  gap: 8px;
+  width: 100%;
+}
+
+.secondary-btn-row .btn-secondary {
+  flex: 1;
+  min-width: 0;
   background: var(--bg-card-light);
   color: #fff;
-  font-size: 14px;
+  font-size: 13px;
   font-weight: 600;
-  padding: 12px 6px;
-  border-radius: 12px;
+  padding: 13px 4px;
+  border-radius: 14px;
   transition: background 0.2s, transform 0.1s;
   pointer-events: auto;
   text-align: center;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
 }
-.btn-secondary:active {
+.secondary-btn-row .btn-secondary:active {
   background: #334155;
   transform: scale(0.98);
 }
 
-/* 3カラム横並び配置 */
-.secondary-btn-row {
-  display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
-  gap: 8px;
-  width: 100%;
+.btn-secondary {
+  background: var(--bg-card-light);
+  color: #fff;
+  font-size: 15px;
+  font-weight: 600;
+  padding: 13px;
+  border-radius: 14px;
+  transition: background 0.2s, transform 0.1s;
+  pointer-events: auto;
 }
-
-.btn-resume {
-  background: linear-gradient(135deg, #059669, #10b981);
-  box-shadow: 0 6px 18px rgba(16, 185, 129, 0.4);
+.btn-secondary:active {
+  background: #334155;
+  transform: scale(0.98);
 }
 
 /* --- メインゲーム画面 --- */
