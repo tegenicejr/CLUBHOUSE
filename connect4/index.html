@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-  <meta name="theme-color" content="#070c18">
+  <meta name="theme-color" content="#191412">
   <title>Connect 4 - Games Clubhouse</title>
   <link rel="manifest" href="./manifest.json">
   <link rel="icon" type="image/svg+xml" href="./icon.svg">
@@ -55,7 +55,6 @@
         <span class="btn-label" data-i18n="btnStart">ゲームスタート</span>
       </button>
       
-      <!-- 統一幅3連ボタングループ -->
       <div class="secondary-btn-row">
         <button id="btn-rules" class="btn-secondary" data-i18n="btnRules">あそびかた</button>
         <button id="btn-stats" class="btn-secondary" data-i18n="btnStats">戦績・実績</button>
@@ -80,28 +79,36 @@
     </div>
 
     <div class="board-container">
-      <div class="drop-indicators" id="drop-indicators">
-        <!-- 7つの投下列ボタン -->
-      </div>
-      <div class="grid-board" id="grid-board">
-        <!-- 42マス -->
-      </div>
+      <div class="drop-indicators" id="drop-indicators"></div>
+      <div class="grid-board" id="grid-board"></div>
     </div>
   </div>
 
-  <!-- 先手後手決定モーダル（3段階シーケンス） -->
+  <!-- 直感ビジュアル 先攻・後攻コイントスモーダル -->
   <div id="modal-order" class="modal-overlay hidden">
-    <div class="modal-content">
+    <div class="modal-content order-modal-content">
       <h3 class="modal-title" data-i18n="orderTitle">先攻・後攻の決定</h3>
-      <div class="modal-scroll" style="text-align: center;">
-        <p id="order-desc" data-i18n="orderDesc">赤が先攻、黄が後攻です。伏せられたディスクを1枚選んでください。</p>
-        <div class="order-choice-box" id="order-choices">
-          <div class="mystery-disk" data-choice="0">?</div>
-          <div class="mystery-disk" data-choice="1">?</div>
+      <p class="order-subtitle" id="order-hint-text" data-i18n="orderTapToFlip">タップしてトス！</p>
+      
+      <!-- 3D回転フリップコイン -->
+      <div class="coin-stage">
+        <div class="flipper-coin" id="flipper-coin">
+          <div class="coin-side coin-red">
+            <span class="coin-tag" data-i18n="tagFirst">先攻</span>
+          </div>
+          <div class="coin-side coin-yellow">
+            <span class="coin-tag" data-i18n="tagSecond">後攻</span>
+          </div>
         </div>
-        <p id="order-result-text" style="font-weight: 800; font-size: 16px; min-height: 24px; color: var(--win-gold);"></p>
       </div>
-      <button id="btn-order-start" class="btn-primary hidden" data-i18n="btnBeginGame">対局開始</button>
+
+      <!-- 結果バッジ表示エリア -->
+      <div id="order-result-badge" class="result-badge-box hidden">
+        <div class="result-disk-preview" id="result-disk-preview"></div>
+        <div class="result-text-main" id="order-result-main">あなたの先攻！</div>
+      </div>
+
+      <button id="btn-order-start" class="btn-primary hidden" style="margin-top: 14px;" data-i18n="btnBeginGame">対局開始</button>
     </div>
   </div>
 
@@ -185,9 +192,7 @@
           <div class="config-item"><span data-i18n="statWinRate">勝率</span><strong id="stat-win-rate">0%</strong></div>
           <div class="config-item"><span data-i18n="statStreak">連勝記録</span><strong id="stat-streak">0</strong></div>
         </div>
-        <div id="achievements-container" style="display:flex; flex-direction:column; gap:10px;">
-          <!-- 実績リスト動的挿入 -->
-        </div>
+        <div id="achievements-container" style="display:flex; flex-direction:column; gap:10px;"></div>
       </div>
       <button id="btn-close-stats" class="btn-primary" data-i18n="btnClose">閉じる</button>
     </div>
@@ -198,7 +203,7 @@
     <div class="modal-content">
       <h3 class="modal-title" id="gameover-title">勝利！</h3>
       <div class="modal-scroll" style="text-align: center;">
-        <p id="gameover-desc" style="font-size: 15px; color: var(--text-dim); margin-bottom: 12px;"></p>
+        <p id="gameover-desc" style="font-size: 15px; color: var(--text-muted); margin-bottom: 12px;"></p>
         <button id="btn-share-x" class="btn-secondary" style="margin-bottom: 8px;">𝕏 ポストで結果を共有</button>
       </div>
       <div style="display: flex; gap: 8px;">
@@ -212,7 +217,7 @@
   <div id="modal-confirm" class="modal-overlay hidden">
     <div class="modal-content" style="max-width: 320px;">
       <h3 class="modal-title" id="confirm-title" data-i18n="confirmTitle">確認</h3>
-      <p id="confirm-msg" style="margin: 16px 0; font-size: 14px; text-align: center; color: var(--text-dim);"></p>
+      <p id="confirm-msg" style="margin: 16px 0; font-size: 14px; text-align: center; color: var(--text-muted);"></p>
       <div style="display: flex; gap: 8px;">
         <button id="btn-confirm-cancel" class="btn-secondary" style="flex: 1;" data-i18n="btnCancel">キャンセル</button>
         <button id="btn-confirm-ok" class="btn-primary" style="flex: 1;" data-i18n="btnOk">決定</button>
