@@ -84,13 +84,13 @@
     </div>
   </div>
 
-  <!-- 直感ビジュアル 先攻・後攻コイントスモーダル -->
+  <!-- 先攻・後攻決定モーダル -->
   <div id="modal-order" class="modal-overlay hidden">
     <div class="modal-content order-modal-content">
       <h3 class="modal-title" data-i18n="orderTitle">先攻・後攻の決定</h3>
-      <p class="order-subtitle" id="order-hint-text" data-i18n="orderTapToFlip">タップしてトス！</p>
+      <p class="order-subtitle" id="order-hint-text" data-i18n="orderTapToFlip">コインをタップしてトス！</p>
       
-      <!-- 3D回転フリップコイン -->
+      <!-- コインステージ（被り防止のためマージンと高さを独立確保） -->
       <div class="coin-stage">
         <div class="flipper-coin" id="flipper-coin">
           <div class="coin-side coin-red">
@@ -102,13 +102,16 @@
         </div>
       </div>
 
-      <!-- 結果バッジ表示エリア -->
-      <div id="order-result-badge" class="result-badge-box hidden">
-        <div class="result-disk-preview" id="result-disk-preview"></div>
-        <div class="result-text-main" id="order-result-main">あなたの先攻！</div>
+      <!-- 誰が見ても一瞬でわかる結果明示エリア -->
+      <div id="order-result-banner" class="order-result-banner hidden">
+        <div class="result-role-badge" id="result-role-badge">先攻</div>
+        <div class="result-player-desc" id="result-player-desc">あなたが先攻（赤）です</div>
       </div>
 
-      <button id="btn-order-start" class="btn-primary hidden" style="margin-top: 14px;" data-i18n="btnBeginGame">対局開始</button>
+      <!-- 初期状態では完全に非表示 -->
+      <div class="order-action-area">
+        <button id="btn-order-start" class="btn-primary hidden" data-i18n="btnBeginGame">対局開始</button>
+      </div>
     </div>
   </div>
 
