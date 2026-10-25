@@ -1,20 +1,27 @@
 :root {
-  --bg-main: #070c18;
-  --bg-card: rgba(22, 33, 62, 0.75);
-  --bg-card-border: rgba(96, 165, 250, 0.25);
-  --bg-btn-sec: rgba(30, 41, 69, 0.85);
-  --bg-btn-sec-border: rgba(255, 255, 255, 0.12);
-  --text-main: #ffffff;
-  --text-dim: #94a3b8;
-  --accent-blue: #2563eb;
-  --accent-blue-light: #60a5fa;
-  --accent-board: #1d4ed8;
-  --accent-slot: #060913;
-  --p1-red: #ef4444;
-  --p1-light: #f87171;
-  --p2-yellow: #eab308;
-  --p2-light: #fde047;
-  --win-gold: #facc15;
+  /* 本物のボードゲーム玩具のカラーパレット */
+  --bg-table: #191412;
+  --toy-blue-top: #2f79e8;
+  --toy-blue-mid: #1d5fc2;
+  --toy-blue-bot: #0f3d85;
+  --toy-blue-border: #4d93f7;
+  --toy-yellow-stand: #eab308;
+  --toy-yellow-border: #ca8a04;
+  
+  --p1-red-core: #dc2626;
+  --p1-red-ring: #ef4444;
+  --p1-red-dark: #7f1d1d;
+  
+  --p2-yel-core: #eab308;
+  --p2-yel-ring: #fde047;
+  --p2-yel-dark: #854d0e;
+  
+  --card-mat: rgba(28, 22, 19, 0.88);
+  --card-border: rgba(255, 235, 205, 0.12);
+  --text-main: #f8fafc;
+  --text-muted: #a8a29e;
+  --win-gold: #fbbf24;
+  
   --safe-top: env(safe-area-inset-top, 0px);
   --safe-bottom: env(safe-area-inset-bottom, 0px);
 }
@@ -34,14 +41,12 @@ html, body {
   overflow: hidden;
   position: fixed;
   inset: 0;
-  background-color: var(--bg-main);
-  /* 奥行きのあるスポットライト＆微細なグリッド */
+  background-color: var(--bg-table);
+  /* テーブル上の暖かみのある温白色スポットライト＆上質なマットウッド調の木目 */
   background-image: 
-    radial-gradient(circle at 50% 15%, rgba(56, 189, 248, 0.16) 0%, transparent 60%),
-    radial-gradient(circle at 50% 90%, rgba(30, 58, 138, 0.2) 0%, transparent 70%),
-    linear-gradient(rgba(255, 255, 255, 0.02) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
-  background-size: 100% 100%, 100% 100%, 24px 24px, 24px 24px;
+    radial-gradient(ellipse at 50% 18%, rgba(254, 243, 199, 0.12) 0%, transparent 65%),
+    radial-gradient(circle at 50% 100%, rgba(0, 0, 0, 0.7) 0%, transparent 70%),
+    repeating-linear-gradient(45deg, rgba(255, 255, 255, 0.015) 0px, rgba(255, 255, 255, 0.015) 2px, transparent 2px, transparent 16px);
   color: var(--text-main);
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", "Hiragino Kaku Gothic ProN", Arial, sans-serif;
 }
@@ -60,24 +65,24 @@ button, select {
   top: calc(var(--safe-top) + 12px);
   left: 16px;
   z-index: 200;
-  background: rgba(255, 255, 255, 0.08);
+  background: rgba(35, 28, 24, 0.8);
   border: 1px solid rgba(255, 255, 255, 0.15);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  color: #e2e8f0;
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  color: #e7e5e4;
   padding: 8px 16px;
   border-radius: 20px;
   text-decoration: none;
   font-size: 13px;
   font-weight: 700;
   letter-spacing: 0.3px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.35);
-  transition: all 0.2s;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+  transition: all 0.15s ease;
   pointer-events: auto;
 }
 .portal-nav:active {
-  background: rgba(255, 255, 255, 0.18);
   transform: scale(0.96);
+  background: rgba(50, 40, 35, 0.9);
 }
 
 .screen-container {
@@ -105,33 +110,34 @@ button, select {
   text-align: center;
   overflow-y: auto;
   -webkit-overflow-scrolling: touch;
-  gap: 18px;
+  gap: 16px;
 }
 
 .title-hero {
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin-top: 10px;
 }
 
 .symbol-wrapper {
   position: relative;
-  margin-bottom: 14px;
+  margin-bottom: 10px;
 }
 .symbol-wrapper::after {
   content: "";
   position: absolute;
-  inset: -8px;
-  background: radial-gradient(circle, rgba(56, 189, 248, 0.3) 0%, transparent 70%);
+  bottom: -6px;
+  left: 10%;
+  right: 10%;
+  height: 16px;
+  background: radial-gradient(ellipse at center, rgba(0, 0, 0, 0.85) 0%, transparent 80%);
   z-index: -1;
-  border-radius: 50%;
 }
 
 .game-symbol {
-  width: 104px;
-  height: 104px;
-  filter: drop-shadow(0 16px 28px rgba(0, 0, 0, 0.7));
+  width: 106px;
+  height: 106px;
+  filter: drop-shadow(0 14px 24px rgba(0, 0, 0, 0.7));
 }
 
 .logo-box {
@@ -140,19 +146,21 @@ button, select {
   align-items: center;
 }
 
+/* トイ・パッケージ調の立体ボールドロゴ */
 .game-logo {
-  font-size: 38px;
-  font-weight: 900;
-  letter-spacing: 2px;
+  font-size: 40px;
+  font-weight: 950;
+  letter-spacing: 3px;
   color: #ffffff;
-  /* メタリック＆エッジの立体テキストシャドウ */
+  /* 本物の玩具パッケージのような多重ベベルエンボス */
   text-shadow: 
     0 1px 0 #93c5fd,
-    0 2px 0 #60a5fa,
-    0 3px 0 #2563eb,
-    0 4px 0 #1d4ed8,
-    0 8px 18px rgba(0, 0, 0, 0.85);
-  line-height: 1.1;
+    0 2px 0 #3b82f6,
+    0 3px 0 #1d4ed8,
+    0 4px 0 #1e3a8a,
+    0 6px 1px rgba(0, 0, 0, 0.5),
+    0 10px 20px rgba(0, 0, 0, 0.9);
+  line-height: 1.05;
 }
 
 .logo-accent {
@@ -160,37 +168,38 @@ button, select {
   text-shadow: 
     0 1px 0 #fef08a,
     0 2px 0 #eab308,
-    0 3px 0 #ca8a04,
-    0 4px 0 #854d0e,
-    0 8px 18px rgba(234, 179, 8, 0.5);
+    0 3px 0 #a16207,
+    0 4px 0 #713f12,
+    0 6px 1px rgba(0, 0, 0, 0.5),
+    0 10px 20px rgba(0, 0, 0, 0.8);
 }
 
 .subtitle {
   font-size: 13px;
-  font-weight: 700;
+  font-weight: 800;
   letter-spacing: 2px;
-  color: #94a3b8;
-  margin-top: 8px;
+  color: #d6d3d1;
+  margin-top: 6px;
   text-transform: uppercase;
-  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.8);
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.9);
 }
 
-/* 設定カード（グラスモーフィズム・リッチ化） */
+/* 設定カード（トイマットボード調） */
 .config-card {
   width: 100%;
   max-width: 360px;
-  background: var(--bg-card);
-  border: 1px solid var(--bg-card-border);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
+  background: var(--card-mat);
+  border: 1px solid var(--card-border);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
   padding: 16px 20px;
-  border-radius: 22px;
+  border-radius: 20px;
   box-shadow: 
-    0 12px 32px rgba(0, 0, 0, 0.6),
-    inset 0 1px 1px rgba(255, 255, 255, 0.2);
+    0 12px 28px rgba(0, 0, 0, 0.7),
+    inset 0 1px 1px rgba(255, 255, 255, 0.15);
   display: flex;
   flex-direction: column;
-  gap: 14px;
+  gap: 12px;
   margin: 0 auto;
   pointer-events: auto;
   z-index: 20;
@@ -204,29 +213,29 @@ button, select {
 
 .config-title {
   font-size: 14px;
-  font-weight: 700;
-  color: #cbd5e1;
-  text-shadow: 0 1px 2px rgba(0,0,0,0.5);
+  font-weight: 800;
+  color: #e7e5e4;
+  text-shadow: 0 1px 2px rgba(0,0,0,0.6);
 }
 
 .segmented-control {
   display: flex;
-  background: rgba(8, 14, 26, 0.7);
+  background: rgba(14, 11, 9, 0.8);
   border: 1px solid rgba(255, 255, 255, 0.08);
   border-radius: 12px;
   padding: 3px;
   gap: 3px;
-  box-shadow: inset 0 2px 6px rgba(0, 0, 0, 0.6);
+  box-shadow: inset 0 3px 6px rgba(0, 0, 0, 0.7);
 }
 
 .seg-btn {
   background: transparent;
-  color: #94a3b8;
+  color: #a8a29e;
   padding: 7px 13px;
   border-radius: 9px;
   font-size: 13px;
-  font-weight: 700;
-  transition: all 0.2s cubic-bezier(0.2, 0.8, 0.2, 1);
+  font-weight: 800;
+  transition: all 0.15s cubic-bezier(0.2, 0.8, 0.2, 1);
   pointer-events: auto;
 }
 
@@ -234,8 +243,8 @@ button, select {
   background: linear-gradient(180deg, #3b82f6 0%, #1d4ed8 100%);
   color: #ffffff;
   box-shadow: 
-    0 2px 8px rgba(37, 99, 235, 0.5),
-    inset 0 1px 1px rgba(255, 255, 255, 0.4);
+    0 2px 6px rgba(0, 0, 0, 0.4),
+    inset 0 1px 1px rgba(255, 255, 255, 0.5);
 }
 
 .menu-buttons {
@@ -249,59 +258,60 @@ button, select {
   z-index: 20;
 }
 
-/* メインボタン（3D立体厚み＋光沢） */
+/* ボタン（玩具の硬質プラスチック押しボタン） */
 .btn-primary {
   width: 100%;
   position: relative;
-  background: linear-gradient(180deg, #3b82f6 0%, #1d4ed8 70%, #1e40af 100%);
-  border-top: 1px solid rgba(255, 255, 255, 0.4);
+  background: linear-gradient(180deg, #327fed 0%, #1a5ac2 70%, #124396 100%);
+  border-top: 1.5px solid rgba(255, 255, 255, 0.55);
+  border-bottom: 2px solid #0a2554;
   color: #ffffff;
   font-size: 17px;
   font-weight: 900;
-  letter-spacing: 0.5px;
+  letter-spacing: 0.6px;
   padding: 16px;
-  border-radius: 18px;
+  border-radius: 16px;
   box-shadow: 
-    0 6px 0 #172554,
-    0 12px 24px rgba(29, 78, 216, 0.45);
-  transition: transform 0.08s ease, box-shadow 0.08s ease;
+    0 6px 0 #0a2554,
+    0 12px 20px rgba(0, 0, 0, 0.6);
+  transition: transform 0.06s ease, box-shadow 0.06s ease;
   pointer-events: auto;
   overflow: hidden;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
 }
 .btn-primary:active {
   transform: translateY(4px);
   box-shadow: 
-    0 2px 0 #172554,
-    0 6px 12px rgba(29, 78, 216, 0.35);
+    0 2px 0 #0a2554,
+    0 6px 10px rgba(0, 0, 0, 0.5);
 }
 
-/* 天面反射ハイライト */
 .btn-shine {
   position: absolute;
   top: 0;
   left: 0;
   right: 0;
   height: 48%;
-  background: linear-gradient(180deg, rgba(255, 255, 255, 0.28) 0%, rgba(255, 255, 255, 0) 100%);
-  border-radius: 18px 18px 50% 50%;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.3) 0%, rgba(255, 255, 255, 0) 100%);
+  border-radius: 16px 16px 50% 50%;
   pointer-events: none;
 }
 
 .btn-resume {
   background: linear-gradient(180deg, #10b981 0%, #059669 70%, #047857 100%);
-  border-top: 1px solid rgba(255, 255, 255, 0.4);
+  border-top: 1.5px solid rgba(255, 255, 255, 0.55);
+  border-bottom: 2px solid #064e3b;
   box-shadow: 
     0 6px 0 #064e3b,
-    0 12px 24px rgba(16, 185, 129, 0.4);
+    0 12px 20px rgba(0, 0, 0, 0.6);
 }
 .btn-resume:active {
   transform: translateY(4px);
   box-shadow: 
     0 2px 0 #064e3b,
-    0 6px 12px rgba(16, 185, 129, 0.3);
+    0 6px 10px rgba(0, 0, 0, 0.5);
 }
 
-/* 3連ボタングループ：横幅完全一致＆立体化 */
 .secondary-btn-row {
   display: flex;
   gap: 8px;
@@ -311,49 +321,44 @@ button, select {
 .secondary-btn-row .btn-secondary {
   flex: 1;
   min-width: 0;
-  background: var(--bg-btn-sec);
-  border: 1px solid var(--bg-btn-sec-border);
-  border-top: 1px solid rgba(255, 255, 255, 0.22);
-  color: #e2e8f0;
+  background: linear-gradient(180deg, #372e29 0%, #251e1a 100%);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-top: 1.5px solid rgba(255, 255, 255, 0.25);
+  color: #f5f5f4;
   font-size: 13px;
-  font-weight: 700;
+  font-weight: 800;
   padding: 13px 4px;
   border-radius: 14px;
   box-shadow: 
-    0 4px 0 #0a0f1d,
-    0 8px 16px rgba(0, 0, 0, 0.4);
-  transition: transform 0.08s ease, box-shadow 0.08s ease, background 0.2s;
+    0 4px 0 #120e0c,
+    0 8px 16px rgba(0, 0, 0, 0.5);
+  transition: transform 0.06s ease, box-shadow 0.06s ease;
   pointer-events: auto;
   text-align: center;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+  text-shadow: 0 1px 2px rgba(0,0,0,0.6);
 }
 .secondary-btn-row .btn-secondary:active {
   transform: translateY(3px);
   box-shadow: 
-    0 1px 0 #0a0f1d,
-    0 4px 8px rgba(0, 0, 0, 0.3);
-  background: #253356;
+    0 1px 0 #120e0c,
+    0 4px 8px rgba(0, 0, 0, 0.4);
 }
 
 .btn-secondary {
-  background: var(--bg-btn-sec);
-  border: 1px solid var(--bg-btn-sec-border);
+  background: linear-gradient(180deg, #372e29 0%, #251e1a 100%);
+  border: 1px solid rgba(255, 255, 255, 0.15);
   color: #fff;
   font-size: 15px;
-  font-weight: 700;
+  font-weight: 800;
   padding: 13px;
   border-radius: 14px;
-  transition: background 0.2s, transform 0.1s;
   pointer-events: auto;
 }
-.btn-secondary:active {
-  background: #334155;
-  transform: scale(0.98);
-}
 
-/* --- メインゲーム画面 --- */
+/* --- メインゲーム画面（本物のボード玩具ステージ） --- */
 #game-screen {
   justify-content: space-between;
 }
@@ -367,21 +372,20 @@ button, select {
 }
 
 .header-btn {
-  background: rgba(255, 255, 255, 0.08);
-  border: 1px solid rgba(255, 255, 255, 0.15);
+  background: rgba(35, 28, 24, 0.8);
+  border: 1px solid rgba(255, 255, 255, 0.18);
   color: #fff;
   padding: 8px 14px;
   border-radius: 14px;
   font-size: 13px;
-  font-weight: 700;
+  font-weight: 800;
   display: flex;
   align-items: center;
   gap: 6px;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
   pointer-events: auto;
 }
 .header-btn:active {
-  background: rgba(255, 255, 255, 0.18);
   transform: scale(0.96);
 }
 
@@ -390,14 +394,14 @@ button, select {
   justify-content: center;
   align-items: center;
   gap: 12px;
-  background: var(--bg-card);
-  border: 1px solid var(--bg-card-border);
+  background: var(--card-mat);
+  border: 1px solid var(--card-border);
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
   padding: 10px 20px;
   border-radius: 18px;
-  margin: 6px 0 10px;
-  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.4);
+  margin: 4px 0 8px;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.5);
 }
 
 .player-badge {
@@ -405,27 +409,38 @@ button, select {
   align-items: center;
   gap: 10px;
   font-size: 14px;
-  font-weight: 800;
+  font-weight: 900;
 }
 
+/* ミニディスク（本物と同構造のリブリング） */
 .mini-disk {
-  width: 22px;
-  height: 22px;
+  width: 24px;
+  height: 24px;
   border-radius: 50%;
-  box-shadow: 
-    inset 0 2px 4px rgba(255, 255, 255, 0.7), 
-    0 3px 6px rgba(0, 0, 0, 0.5);
+  position: relative;
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.6);
 }
-.mini-disk.red { background: radial-gradient(circle at 35% 35%, #ffffff 0%, var(--p1-light) 30%, var(--p1-red) 70%, #991b1b 100%); }
-.mini-disk.yellow { background: radial-gradient(circle at 35% 35%, #ffffff 0%, var(--p2-light) 30%, var(--p2-yellow) 70%, #854d0e 100%); }
+.mini-disk::before {
+  content: "";
+  position: absolute;
+  inset: 4px;
+  border-radius: 50%;
+  border: 1.5px solid rgba(255, 255, 255, 0.35);
+}
+.mini-disk.red {
+  background: radial-gradient(circle at 35% 30%, #ff8080 0%, var(--p1-red-core) 40%, var(--p1-red-dark) 100%);
+}
+.mini-disk.yellow {
+  background: radial-gradient(circle at 35% 30%, #fffa99 0%, var(--p2-yel-core) 40%, var(--p2-yel-dark) 100%);
+}
 
 .status-text {
   font-size: 14px;
-  color: #f1f5f9;
-  font-weight: 700;
+  color: #f5f5f4;
+  font-weight: 800;
 }
 
-/* 盤面エリア */
+/* --- リアルボードコンテナ --- */
 .board-container {
   flex: 1;
   display: flex;
@@ -435,6 +450,33 @@ button, select {
   max-width: 440px;
   width: 100%;
   margin: 0 auto;
+  position: relative;
+}
+
+/* 本体の黄色いスタンド脚（左右）を疑似要素で立体造形 */
+.board-container::before {
+  content: "";
+  position: absolute;
+  left: -12px;
+  bottom: 0;
+  width: 22px;
+  height: 75%;
+  background: linear-gradient(180deg, #ffdc40 0%, #d49e00 80%, #a16207 100%);
+  border-radius: 8px 0 0 14px;
+  box-shadow: -4px 10px 20px rgba(0, 0, 0, 0.6);
+  z-index: 1;
+}
+.board-container::after {
+  content: "";
+  position: absolute;
+  right: -12px;
+  bottom: 0;
+  width: 22px;
+  height: 75%;
+  background: linear-gradient(180deg, #ffdc40 0%, #d49e00 80%, #a16207 100%);
+  border-radius: 0 8px 14px 0;
+  box-shadow: 4px 10px 20px rgba(0, 0, 0, 0.6);
+  z-index: 1;
 }
 
 .drop-indicators {
@@ -442,7 +484,8 @@ button, select {
   grid-template-columns: repeat(7, 1fr);
   width: 100%;
   height: 38px;
-  margin-bottom: 6px;
+  margin-bottom: 4px;
+  z-index: 5;
 }
 
 .drop-col-btn {
@@ -458,8 +501,8 @@ button, select {
   height: 0;
   border-left: 9px solid transparent;
   border-right: 9px solid transparent;
-  border-top: 14px solid var(--accent-blue-light);
-  filter: drop-shadow(0 2px 6px rgba(56, 189, 248, 0.6));
+  border-top: 15px solid #60a5fa;
+  filter: drop-shadow(0 2px 6px rgba(0, 0, 0, 0.8));
   opacity: 0;
   transform: translateY(-4px);
   transition: opacity 0.15s, transform 0.15s;
@@ -470,78 +513,122 @@ button, select {
   transform: translateY(2px);
 }
 
+/* 青色の直立ボード本体（本物の射出成型プラスチック厚み） */
 .grid-board {
   width: 100%;
   aspect-ratio: 7 / 6;
-  background: linear-gradient(155deg, #2563eb, #1d4ed8 60%, #172554 100%);
-  border: 2px solid #60a5fa;
-  border-radius: 24px;
-  padding: 10px;
+  background: linear-gradient(180deg, var(--toy-blue-top) 0%, var(--toy-blue-mid) 40%, var(--toy-blue-bot) 100%);
+  border: 3px solid var(--toy-blue-border);
+  border-top: 4px solid #70aeff;
+  border-bottom: 6px solid #091f42;
+  border-radius: 16px;
+  padding: 9px;
+  /* ボード自体がテーブルに落とす深みのある重厚な影 */
   box-shadow: 
-    0 20px 48px rgba(0, 0, 0, 0.8),
-    inset 0 4px 8px rgba(255, 255, 255, 0.45);
+    0 24px 44px rgba(0, 0, 0, 0.9),
+    inset 0 2px 4px rgba(255, 255, 255, 0.6),
+    inset 0 -3px 6px rgba(0, 0, 0, 0.6);
   display: grid;
   grid-template-columns: repeat(7, 1fr);
   grid-template-rows: repeat(6, 1fr);
   gap: 7px;
   position: relative;
+  z-index: 2;
 }
 
+/* 本体のスライドラッチバー（ボードの底にある黄色いバー） */
+.grid-board::after {
+  content: "";
+  position: absolute;
+  bottom: -14px;
+  left: 10px;
+  right: 10px;
+  height: 12px;
+  background: linear-gradient(180deg, #ffdc40 0%, #ca8a04 100%);
+  border-radius: 4px;
+  border: 1px solid #854d0e;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.6);
+}
+
+/* 穴マス（実機特有の成型穴ベベル・奥板の暗がり） */
 .cell {
   position: relative;
-  background: var(--accent-slot);
+  background: #080605;
   border-radius: 50%;
+  /* 穴の縁にできるプラスチックの面取り立体光沢と内部シャドウ */
   box-shadow: 
-    inset 0 8px 16px rgba(0, 0, 0, 0.95), 
-    0 1px 2px rgba(255, 255, 255, 0.15);
+    inset 0 6px 12px rgba(0, 0, 0, 0.95),
+    inset 0 -2px 4px rgba(255, 255, 255, 0.25),
+    0 1px 2px rgba(255, 255, 255, 0.35);
   overflow: hidden;
   cursor: pointer;
   touch-action: manipulation;
   pointer-events: auto;
 }
 
+/* --- 本物のディスク（中央凹み＋同心円リングリブ加工） --- */
 .disk {
   position: absolute;
   inset: 0;
   border-radius: 50%;
   box-shadow: 
-    inset 0 3px 6px rgba(255, 255, 255, 0.6), 
-    inset 0 -5px 8px rgba(0, 0, 0, 0.5), 
-    0 4px 8px rgba(0, 0, 0, 0.5);
+    inset 0 3px 5px rgba(255, 255, 255, 0.6),
+    inset 0 -5px 8px rgba(0, 0, 0, 0.6),
+    0 4px 8px rgba(0, 0, 0, 0.7);
 }
+
+/* ディスク表面の同心円モールドリブ（実物のプラスチック加工） */
+.disk::before {
+  content: "";
+  position: absolute;
+  inset: 18%;
+  border-radius: 50%;
+  border: 2px solid rgba(255, 255, 255, 0.35);
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.4);
+}
+.disk::after {
+  content: "";
+  position: absolute;
+  inset: 38%;
+  border-radius: 50%;
+  background: rgba(0, 0, 0, 0.15);
+  border: 1.5px solid rgba(0, 0, 0, 0.3);
+  box-shadow: inset 0 2px 3px rgba(0, 0, 0, 0.5);
+}
+
 .disk.red {
-  background: radial-gradient(circle at 35% 30%, #ffffff 0%, var(--p1-light) 25%, var(--p1-red) 70%, #7f1d1d 100%);
+  background: radial-gradient(circle at 35% 30%, #ff7b7b 0%, var(--p1-red-core) 50%, var(--p1-red-dark) 100%);
 }
 .disk.yellow {
-  background: radial-gradient(circle at 35% 30%, #ffffff 0%, var(--p2-light) 25%, var(--p2-yellow) 70%, #78350f 100%);
+  background: radial-gradient(circle at 35% 30%, #fffa9e 0%, var(--p2-yel-core) 50%, var(--p2-yel-dark) 100%);
 }
 
 .disk.drop-animate {
-  animation: dropIn 0.38s cubic-bezier(0.3, 0, 0.2, 1);
+  animation: dropIn 0.34s cubic-bezier(0.25, 0, 0.2, 1);
 }
 
 .disk.winning {
-  animation: winPulse 0.9s infinite alternate;
-  box-shadow: 0 0 20px var(--win-gold), inset 0 2px 4px #ffffff;
+  animation: winPulse 0.85s infinite alternate;
+  box-shadow: 0 0 24px var(--win-gold), inset 0 2px 4px #ffffff;
 }
 
 @keyframes dropIn {
-  0% { transform: translateY(-400%); opacity: 0.5; }
+  0% { transform: translateY(-400%); opacity: 0.6; }
   75% { transform: translateY(0); }
-  88% { transform: translateY(-10%); }
+  88% { transform: translateY(-12%); }
   100% { transform: translateY(0); opacity: 1; }
 }
 
 @keyframes winPulse {
-  0% { transform: scale(0.93); filter: brightness(1); }
-  100% { transform: scale(1.07); filter: brightness(1.4); }
+  0% { transform: scale(0.92); filter: brightness(1); }
+  100% { transform: scale(1.08); filter: brightness(1.4); }
 }
 
 /* --- モーダル全般 --- */
 .modal-overlay {
   position: fixed;
   inset: 0;
-  background: rgba(4, 7, 15, 0.82);
+  background: rgba(10, 8, 7, 0.84);
   backdrop-filter: blur(8px);
   -webkit-backdrop-filter: blur(8px);
   display: flex;
@@ -560,14 +647,14 @@ button, select {
 }
 
 .modal-content {
-  background: rgba(18, 27, 49, 0.92);
-  border-radius: 26px;
+  background: rgba(26, 21, 18, 0.95);
+  border-radius: 24px;
   width: 100%;
   max-width: 380px;
   max-height: 85vh;
-  padding: 26px 22px;
-  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.7);
-  border: 1px solid rgba(255, 255, 255, 0.15);
+  padding: 24px 20px;
+  box-shadow: 0 24px 50px rgba(0, 0, 0, 0.8);
+  border: 1px solid rgba(255, 235, 205, 0.15);
   display: flex;
   flex-direction: column;
   overflow: hidden;
@@ -578,7 +665,7 @@ button, select {
 .modal-scroll {
   overflow-y: auto;
   -webkit-overflow-scrolling: touch;
-  margin: 16px 0;
+  margin: 14px 0;
   display: flex;
   flex-direction: column;
   gap: 14px;
@@ -586,7 +673,7 @@ button, select {
 
 .modal-title {
   font-size: 21px;
-  font-weight: 800;
+  font-weight: 900;
   text-align: center;
   color: #fff;
   letter-spacing: 0.5px;
@@ -604,17 +691,17 @@ button, select {
   width: 82px;
   height: 82px;
   border-radius: 50%;
-  background: radial-gradient(circle at 35% 30%, #475569, #0f172a);
+  background: radial-gradient(circle at 35% 30%, #574c43, #29221d);
   border: 2px solid rgba(255, 255, 255, 0.15);
   box-shadow: 
-    0 10px 22px rgba(0, 0, 0, 0.6), 
-    inset 0 3px 5px rgba(255, 255, 255, 0.25);
+    0 12px 24px rgba(0, 0, 0, 0.7), 
+    inset 0 3px 5px rgba(255, 255, 255, 0.2);
   display: flex;
   justify-content: center;
   align-items: center;
   font-size: 32px;
   font-weight: 900;
-  color: #94a3b8;
+  color: #a8a29e;
   cursor: pointer;
   pointer-events: auto;
   transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
@@ -642,15 +729,16 @@ button, select {
 }
 .setting-label {
   font-size: 14px;
-  font-weight: 600;
+  font-weight: 700;
 }
 .setting-select {
-  background: rgba(30, 41, 69, 0.8);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: rgba(45, 36, 31, 0.8);
+  border: 1px solid rgba(255, 255, 255, 0.15);
   color: #fff;
   padding: 8px 12px;
   border-radius: 12px;
   font-size: 14px;
+  font-weight: 700;
 }
 
 .toggle-switch {
@@ -666,7 +754,7 @@ button, select {
 .slider {
   position: absolute;
   inset: 0;
-  background-color: #334155;
+  background-color: #443a34;
   border-radius: 28px;
   transition: 0.3s;
 }
@@ -679,11 +767,11 @@ button, select {
   bottom: 3px;
   background-color: white;
   border-radius: 50%;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.4);
   transition: 0.3s;
 }
 input:checked + .slider {
-  background-color: var(--accent-blue);
+  background-color: #2563eb;
 }
 input:checked + .slider:before {
   transform: translateX(22px);
@@ -694,7 +782,7 @@ input:checked + .slider:before {
   display: flex;
   align-items: center;
   gap: 12px;
-  background: rgba(30, 41, 69, 0.6);
+  background: rgba(45, 36, 31, 0.6);
   border: 1px solid rgba(255, 255, 255, 0.08);
   padding: 12px;
   border-radius: 14px;
@@ -708,17 +796,17 @@ input:checked + .slider:before {
 }
 .achieve-info h4 {
   font-size: 14px;
-  font-weight: 700;
+  font-weight: 800;
   margin-bottom: 2px;
 }
 .achieve-info p {
   font-size: 12px;
-  color: var(--text-dim);
+  color: var(--text-muted);
 }
 
 /* ルールステップ図解 */
 .rule-step {
-  background: rgba(30, 41, 69, 0.6);
+  background: rgba(45, 36, 31, 0.6);
   border: 1px solid rgba(255, 255, 255, 0.08);
   padding: 14px;
   border-radius: 16px;
@@ -728,6 +816,6 @@ input:checked + .slider:before {
 .rule-step h4 {
   font-size: 14px;
   margin-bottom: 6px;
-  color: var(--accent-blue-light);
+  color: #60a5fa;
   font-weight: 800;
 }
