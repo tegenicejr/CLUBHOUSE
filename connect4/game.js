@@ -16,12 +16,14 @@ const I18N = {
     btnStats: "Stats & Records",
     btnSettings: "⚙️ Settings",
     btnBackTitle: "‹ Title",
-    orderTitle: "Decide Turn Order",
-    orderDesc: "Red goes first, Yellow second. Tap a disk to flip!",
-    orderResultYouFirst: "You got RED! You go First.",
-    orderResultYouSecond: "You got YELLOW! You go Second.",
-    orderResultP1First: "Player 1 got RED! Goes First.",
-    orderResultP1Second: "Player 1 got YELLOW! Player 2 goes First.",
+    orderTitle: "Coin Toss",
+    orderTapToFlip: "Tap the coin to toss!",
+    tagFirst: "1st",
+    tagSecond: "2nd",
+    orderYouFirst: "You: First (RED)",
+    orderYouSecond: "You: Second (YELLOW)",
+    orderP1First: "Player 1: First (RED)",
+    orderP1Second: "Player 2: First (RED)",
     btnBeginGame: "Start Match",
     yourTurn: "Your Turn",
     cpuThinking: "CPU is Thinking...",
@@ -86,11 +88,13 @@ const I18N = {
     btnSettings: "⚙️ 設定",
     btnBackTitle: "‹ タイトル",
     orderTitle: "先攻・後攻の決定",
-    orderDesc: "赤が先攻、黄が後攻です。伏せられたディスクを1枚選んでください。",
-    orderResultYouFirst: "赤が出ました！ あなたの【先攻】です！",
-    orderResultYouSecond: "黄が出ました！ あなたの【後攻】です！",
-    orderResultP1First: "赤が出ました！ プレイヤー1の【先攻】です！",
-    orderResultP1Second: "黄が出ました！ プレイヤー2の【先攻】です！",
+    orderTapToFlip: "タップしてトス！",
+    tagFirst: "先攻",
+    tagSecond: "後攻",
+    orderYouFirst: "あなたの先攻（赤）！",
+    orderYouSecond: "あなたの後攻（黄）！",
+    orderP1First: "プレイヤー1の先攻（赤）！",
+    orderP1Second: "プレイヤー2の先攻（赤）！",
     btnBeginGame: "対局開始",
     yourTurn: "あなたの番です",
     cpuThinking: "CPUが考え中...",
@@ -154,12 +158,14 @@ const I18N = {
     btnStats: "战绩与成就",
     btnSettings: "⚙️ 设置",
     btnBackTitle: "‹ 标题",
-    orderTitle: "决定先手后手",
-    orderDesc: "红棋先手，黄棋后手。请点击选择一枚暗棋！",
-    orderResultYouFirst: "获得红棋！你执先手！",
-    orderResultYouSecond: "获得黄棋！你执后手！",
-    orderResultP1First: "获得红棋！玩家1先手！",
-    orderResultP1Second: "获得黄棋！玩家2先手！",
+    orderTitle: "掷币定先后",
+    orderTapToFlip: "点击抛掷硬币！",
+    tagFirst: "先手",
+    tagSecond: "后手",
+    orderYouFirst: "你执先手（红棋）！",
+    orderYouSecond: "你执后手（黄棋）！",
+    orderP1First: "玩家1先手（红棋）！",
+    orderP1Second: "玩家2先手（红棋）！",
     btnBeginGame: "进入对局",
     yourTurn: "轮到你的回合",
     cpuThinking: "CPU思考中...",
@@ -223,12 +229,14 @@ const I18N = {
     btnStats: "戰績與成就",
     btnSettings: "⚙️ 設定",
     btnBackTitle: "‹ 標題",
-    orderTitle: "決定先手後手",
-    orderDesc: "紅棋先手，黃棋後手。請點擊選擇一枚暗棋！",
-    orderResultYouFirst: "獲得紅棋！你執先手！",
-    orderResultYouSecond: "獲得黃棋！你執後手！",
-    orderResultP1First: "獲得紅棋！玩家1先手！",
-    orderResultP1Second: "獲得黃棋！玩家2先手！",
+    orderTitle: "擲幣定先後",
+    orderTapToFlip: "點擊拋擲硬幣！",
+    tagFirst: "先手",
+    tagSecond: "後手",
+    orderYouFirst: "你執先手（紅棋）！",
+    orderYouSecond: "你執後手（黃棋）！",
+    orderP1First: "玩家1先手（紅棋）！",
+    orderP1Second: "玩家2先手（紅棋）！",
     btnBeginGame: "進入對局",
     yourTurn: "輪到你的回合",
     cpuThinking: "CPU思考中...",
@@ -293,11 +301,13 @@ const I18N = {
     btnSettings: "⚙️ 설정",
     btnBackTitle: "‹ 타이틀",
     orderTitle: "선공/후공 결정",
-    orderDesc: "빨강이 선공, 노랑이 후공입니다. 디스크를 선택하세요!",
-    orderResultYouFirst: "빨강 선택! 당신의 [선공]입니다!",
-    orderResultYouSecond: "노랑 선택! 당신의 [후공]입니다!",
-    orderResultP1First: "빨강 선택! 플레이어 1의 [선공]입니다!",
-    orderResultP1Second: "노랑 선택! 플레이어 2의 [선공]입니다!",
+    orderTapToFlip: "동전을 터치해 토스하세요!",
+    tagFirst: "선공",
+    tagSecond: "후공",
+    orderYouFirst: "당신의 선공 (빨강)!",
+    orderYouSecond: "당신의 후공 (노랑)!",
+    orderP1First: "플레이어 1 선공 (빨강)!",
+    orderP1Second: "플레이어 2 선공 (빨강)!",
     btnBeginGame: "대전 시작",
     yourTurn: "당신의 차례입니다",
     cpuThinking: "CPU 생각 중...",
@@ -362,11 +372,13 @@ const I18N = {
     btnSettings: "⚙️ Ajustes",
     btnBackTitle: "‹ Título",
     orderTitle: "Decidir Turno",
-    orderDesc: "El rojo va primero, amarillo segundo. ¡Elige un disco!",
-    orderResultYouFirst: "¡Rojo! Empiezas primero.",
-    orderResultYouSecond: "¡Amarillo! Empiezas segundo.",
-    orderResultP1First: "¡Rojo! El Jugador 1 empieza primero.",
-    orderResultP1Second: "¡Amarillo! El Jugador 2 empieza primero.",
+    orderTapToFlip: "¡Toca para lanzar la moneda!",
+    tagFirst: "1º",
+    tagSecond: "2º",
+    orderYouFirst: "Empiezas tú (ROJO)",
+    orderYouSecond: "Empieza rival (AMARILLO)",
+    orderP1First: "Jugador 1: Primero (ROJO)",
+    orderP1Second: "Jugador 2: Primero (ROJO)",
     btnBeginGame: "Empezar Partida",
     yourTurn: "Tu turno",
     cpuThinking: "CPU pensando...",
@@ -430,12 +442,14 @@ const I18N = {
     btnStats: "Statistiques",
     btnSettings: "⚙️ Paramètres",
     btnBackTitle: "‹ Titre",
-    orderTitle: "Ordre de Jeu",
-    orderDesc: "Rouge commence, Jaune en second. Choisissez un disque !",
-    orderResultYouFirst: "Rouge ! Vous commencez.",
-    orderResultYouSecond: "Jaune ! Vous jouez en second.",
-    orderResultP1First: "Rouge ! Joueur 1 commence.",
-    orderResultP1Second: "Jaune ! Joueur 2 commence.",
+    orderTitle: "Tirage au Sort",
+    orderTapToFlip: "Touchez pour lancer la pièce !",
+    tagFirst: "1er",
+    tagSecond: "2e",
+    orderYouFirst: "Vous commencez (ROUGE)",
+    orderYouSecond: "Adversaire commence (JAUNE)",
+    orderP1First: "Joueur 1 commence (ROUGE)",
+    orderP1Second: "Joueur 2 commence (ROUGE)",
     btnBeginGame: "Lancer la partie",
     yourTurn: "À votre tour",
     cpuThinking: "CPU réfléchit...",
@@ -499,12 +513,14 @@ const I18N = {
     btnStats: "Estatísticas",
     btnSettings: "⚙️ Configurações",
     btnBackTitle: "‹ Início",
-    orderTitle: "Ordem dos Turnos",
-    orderDesc: "Vermelho começa, Amarelo segundo. Escolha um disco!",
-    orderResultYouFirst: "Vermelho! Você começa primeiro.",
-    orderResultYouSecond: "Amarelo! Você joga em segundo.",
-    orderResultP1First: "Vermelho! Jogador 1 começa.",
-    orderResultP1Second: "Amarelo! Jogador 2 começa.",
+    orderTitle: "Cara ou Coroa",
+    orderTapToFlip: "Toque para jogar a moeda!",
+    tagFirst: "1º",
+    tagSecond: "2º",
+    orderYouFirst: "Você começa (VERMELHO)",
+    orderYouSecond: "Oponente começa (AMARELO)",
+    orderP1First: "Jogador 1 começa (VERMELHO)",
+    orderP1Second: "Jogador 2 começa (VERMELHO)",
     btnBeginGame: "Começar Partida",
     yourTurn: "Sua vez",
     cpuThinking: "CPU pensando...",
@@ -578,7 +594,6 @@ class ConnectFourGame {
     this.applyLanguage(this.settings.lang);
     this.checkResumeAvailable();
 
-    // 初回タップによるオーディオ完全アンロックリスナー
     const unlockAudio = () => {
       window.audioManager.unlock();
       window.removeEventListener('pointerdown', unlockAudio);
@@ -603,6 +618,13 @@ class ConnectFourGame {
     this.btnStart = document.getElementById('btn-start');
 
     this.modalOrder = document.getElementById('modal-order');
+    this.flipperCoin = document.getElementById('flipper-coin');
+    this.orderHintText = document.getElementById('order-hint-text');
+    this.orderResultBadge = document.getElementById('order-result-badge');
+    this.resultDiskPreview = document.getElementById('result-disk-preview');
+    this.orderResultMain = document.getElementById('order-result-main');
+    this.btnOrderStart = document.getElementById('btn-order-start');
+
     this.modalSettings = document.getElementById('modal-settings');
     this.modalRules = document.getElementById('modal-rules');
     this.modalStats = document.getElementById('modal-stats');
@@ -640,7 +662,6 @@ class ConnectFourGame {
   }
 
   bindEvents() {
-    // モード切替
     document.querySelectorAll('#mode-selector .seg-btn').forEach(btn => {
       btn.addEventListener('click', (e) => {
         window.audioManager.unlock();
@@ -652,7 +673,6 @@ class ConnectFourGame {
       });
     });
 
-    // 難易度切替
     document.querySelectorAll('#diff-selector .seg-btn').forEach(btn => {
       btn.addEventListener('click', (e) => {
         window.audioManager.unlock();
@@ -663,7 +683,6 @@ class ConnectFourGame {
       });
     });
 
-    // スタート & つづきから
     this.btnStart.addEventListener('click', () => {
       window.audioManager.unlock();
       window.audioManager.playClick();
@@ -676,7 +695,6 @@ class ConnectFourGame {
       this.resumeGame();
     });
 
-    // ヘッダー操作
     document.getElementById('btn-to-title').addEventListener('click', () => {
       window.audioManager.playClick();
       if (!this.isGameOver) {
@@ -696,16 +714,11 @@ class ConnectFourGame {
       window.audioManager.enabled = this.settings.sound;
       soundBtn.textContent = this.settings.sound ? '🔊' : '🔇';
       window.storageManager.saveSettings(this.settings);
-      if (this.settings.sound) {
-        window.audioManager.playClick();
-      }
+      if (this.settings.sound) window.audioManager.playClick();
     });
 
-    document.getElementById('btn-game-settings').addEventListener('click', () => {
-      this.openSettings();
-    });
+    document.getElementById('btn-game-settings').addEventListener('click', () => this.openSettings());
 
-    // メニューボタン
     document.getElementById('btn-rules').addEventListener('click', () => {
       window.audioManager.unlock();
       window.audioManager.playClick();
@@ -733,11 +746,8 @@ class ConnectFourGame {
       this.modalSettings.classList.add('hidden');
     });
 
-    // 設定項目
     const langSelect = document.getElementById('select-lang');
-    langSelect.addEventListener('change', (e) => {
-      this.applyLanguage(e.target.value);
-    });
+    langSelect.addEventListener('change', (e) => this.applyLanguage(e.target.value));
 
     document.getElementById('toggle-sound').addEventListener('change', (e) => {
       window.audioManager.unlock();
@@ -771,7 +781,6 @@ class ConnectFourGame {
       });
     });
 
-    // 終了後アクション
     document.getElementById('btn-gameover-replay').addEventListener('click', () => {
       window.audioManager.playClick();
       this.modalGameover.classList.add('hidden');
@@ -803,9 +812,7 @@ class ConnectFourGame {
 
     document.querySelectorAll('[data-i18n]').forEach(el => {
       const key = el.dataset.i18n;
-      if (I18N[lang][key]) {
-        el.textContent = I18N[lang][key];
-      }
+      if (I18N[lang][key]) el.textContent = I18N[lang][key];
     });
 
     document.getElementById('select-lang').value = lang;
@@ -854,62 +861,59 @@ class ConnectFourGame {
     this.modalConfirm.classList.remove('hidden');
   }
 
+  /* --- 直感ビジュアル コイントス演出 --- */
   openOrderSequence() {
-    const choicesBox = document.getElementById('order-choices');
-    const resultText = document.getElementById('order-result-text');
-    const btnBegin = document.getElementById('btn-order-start');
+    const lang = this.settings.lang;
+    this.orderHintText.textContent = I18N[lang].orderTapToFlip;
+    this.orderHintText.classList.remove('hidden');
+    this.orderResultBadge.classList.add('hidden');
+    this.btnOrderStart.classList.add('hidden');
 
-    resultText.textContent = '';
-    btnBegin.classList.add('hidden');
-    choicesBox.innerHTML = `
-      <div class="mystery-disk" data-choice="0">?</div>
-      <div class="mystery-disk" data-choice="1">?</div>
-    `;
+    this.flipperCoin.className = 'flipper-coin';
+    this.flipperCoin.style.pointerEvents = 'auto';
 
-    const disks = choicesBox.querySelectorAll('.mystery-disk');
-    disks.forEach(disk => {
-      disk.addEventListener('click', () => {
-        window.audioManager.unlock();
+    const handleCoinTap = () => {
+      this.flipperCoin.style.pointerEvents = 'none';
+      window.audioManager.unlock();
+      window.audioManager.playDrop();
+      this.vibrate(40);
+
+      // 50%で赤（先攻）または黄（後攻）
+      const isRed = Math.random() < 0.5;
+      this.playerRole = isRed ? 1 : 2;
+
+      this.orderHintText.classList.add('hidden');
+      this.flipperCoin.classList.add(isRed ? 'spinning-to-red' : 'spinning-to-yellow');
+
+      setTimeout(() => {
         window.audioManager.playClick();
         this.vibrate(30);
 
-        const isRed = Math.random() < 0.5;
-        this.playerRole = isRed ? 1 : 2;
-
-        disks.forEach((d, idx) => {
-          d.classList.add('revealed');
-          if ((idx === 0 && isRed) || (idx === 1 && !isRed)) {
-            d.style.background = 'radial-gradient(circle at 35% 35%, var(--p1-light), var(--p1-red))';
-            d.textContent = '';
-          } else {
-            d.style.background = 'radial-gradient(circle at 35% 35%, var(--p2-light), var(--p2-yellow))';
-            d.textContent = '';
-          }
-          d.style.pointerEvents = 'none';
-        });
-
-        const lang = this.settings.lang;
+        this.resultDiskPreview.className = `result-disk-preview ${isRed ? 'red' : 'yellow'}`;
         if (this.mode === 'pve') {
-          resultText.textContent = isRed ? I18N[lang].orderResultYouFirst : I18N[lang].orderResultYouSecond;
+          this.orderResultMain.textContent = isRed ? I18N[lang].orderYouFirst : I18N[lang].orderYouSecond;
         } else {
-          resultText.textContent = isRed ? I18N[lang].orderResultP1First : I18N[lang].orderResultP1Second;
+          this.orderResultMain.textContent = isRed ? I18N[lang].orderP1First : I18N[lang].orderP1Second;
         }
 
-        btnBegin.classList.remove('hidden');
-        btnBegin.onclick = () => {
+        this.orderResultBadge.classList.remove('hidden');
+        this.btnOrderStart.classList.remove('hidden');
+
+        this.btnOrderStart.onclick = () => {
           window.audioManager.playClick();
           this.modalOrder.classList.add('hidden');
           this.startNewMatch();
         };
-      }, { once: true });
-    });
+      }, 1100);
+    };
 
+    this.flipperCoin.onclick = handleCoinTap;
     this.modalOrder.classList.remove('hidden');
   }
 
   startNewMatch() {
     this.board = Array(this.ROWS).fill(null).map(() => Array(this.COLS).fill(0));
-    this.currentPlayer = 1;
+    this.currentPlayer = 1; // 赤が先攻
     this.isGameOver = false;
     this.isAiThinking = false;
     this.moveHistory = [];
