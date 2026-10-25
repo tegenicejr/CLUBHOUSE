@@ -16,14 +16,16 @@ const I18N = {
     btnStats: "Stats & Records",
     btnSettings: "⚙️ Settings",
     btnBackTitle: "‹ Title",
-    orderTitle: "Coin Toss",
-    orderTapToFlip: "Tap the coin to toss!",
+    orderTitle: "Decide Turn Order",
+    orderTapToFlip: "Tap coin to flip!",
     tagFirst: "1st",
     tagSecond: "2nd",
-    orderYouFirst: "You: First (RED)",
-    orderYouSecond: "You: Second (YELLOW)",
-    orderP1First: "Player 1: First (RED)",
-    orderP1Second: "Player 2: First (RED)",
+    badgeFirst: "FIRST (RED)",
+    badgeSecond: "SECOND (YELLOW)",
+    youGoFirst: "You play First with RED",
+    youGoSecond: "You play Second with YELLOW",
+    p1GoFirst: "Player 1 plays First with RED",
+    p2GoFirst: "Player 2 plays First with RED",
     btnBeginGame: "Start Match",
     yourTurn: "Your Turn",
     cpuThinking: "CPU is Thinking...",
@@ -88,13 +90,15 @@ const I18N = {
     btnSettings: "⚙️ 設定",
     btnBackTitle: "‹ タイトル",
     orderTitle: "先攻・後攻の決定",
-    orderTapToFlip: "タップしてトス！",
+    orderTapToFlip: "コインをタップしてトス！",
     tagFirst: "先攻",
     tagSecond: "後攻",
-    orderYouFirst: "あなたの先攻（赤）！",
-    orderYouSecond: "あなたの後攻（黄）！",
-    orderP1First: "プレイヤー1の先攻（赤）！",
-    orderP1Second: "プレイヤー2の先攻（赤）！",
+    badgeFirst: "先攻（赤）",
+    badgeSecond: "後攻（黄）",
+    youGoFirst: "あなたが【先攻・赤】です！",
+    youGoSecond: "あなたが【後攻・黄】です！",
+    p1GoFirst: "プレイヤー1が【先攻・赤】です！",
+    p2GoFirst: "プレイヤー2が【先攻・赤】です！",
     btnBeginGame: "対局開始",
     yourTurn: "あなたの番です",
     cpuThinking: "CPUが考え中...",
@@ -159,13 +163,15 @@ const I18N = {
     btnSettings: "⚙️ 设置",
     btnBackTitle: "‹ 标题",
     orderTitle: "掷币定先后",
-    orderTapToFlip: "点击抛掷硬币！",
+    orderTapToFlip: "点击硬币开始抛掷！",
     tagFirst: "先手",
     tagSecond: "后手",
-    orderYouFirst: "你执先手（红棋）！",
-    orderYouSecond: "你执后手（黄棋）！",
-    orderP1First: "玩家1先手（红棋）！",
-    orderP1Second: "玩家2先手（红棋）！",
+    badgeFirst: "先手（红棋）",
+    badgeSecond: "后手（黄棋）",
+    youGoFirst: "你执【先手・红棋】！",
+    youGoSecond: "你执【后手・黄棋】！",
+    p1GoFirst: "玩家1执【先手・红棋】！",
+    p2GoFirst: "玩家2执【先手・红棋】！",
     btnBeginGame: "进入对局",
     yourTurn: "轮到你的回合",
     cpuThinking: "CPU思考中...",
@@ -230,13 +236,15 @@ const I18N = {
     btnSettings: "⚙️ 設定",
     btnBackTitle: "‹ 標題",
     orderTitle: "擲幣定先後",
-    orderTapToFlip: "點擊拋擲硬幣！",
+    orderTapToFlip: "點擊硬幣開始拋擲！",
     tagFirst: "先手",
     tagSecond: "後手",
-    orderYouFirst: "你執先手（紅棋）！",
-    orderYouSecond: "你執後手（黃棋）！",
-    orderP1First: "玩家1先手（紅棋）！",
-    orderP1Second: "玩家2先手（紅棋）！",
+    badgeFirst: "先手（紅棋）",
+    badgeSecond: "後手（黃棋）",
+    youGoFirst: "你執【先手・紅棋】！",
+    youGoSecond: "你執【後手・黃棋】！",
+    p1GoFirst: "玩家1執【先手・紅棋】！",
+    p2GoFirst: "玩家2執【先手・紅棋】！",
     btnBeginGame: "進入對局",
     yourTurn: "輪到你的回合",
     cpuThinking: "CPU思考中...",
@@ -304,10 +312,12 @@ const I18N = {
     orderTapToFlip: "동전을 터치해 토스하세요!",
     tagFirst: "선공",
     tagSecond: "후공",
-    orderYouFirst: "당신의 선공 (빨강)!",
-    orderYouSecond: "당신의 후공 (노랑)!",
-    orderP1First: "플레이어 1 선공 (빨강)!",
-    orderP1Second: "플레이어 2 선공 (빨강)!",
+    badgeFirst: "선공 (빨강)",
+    badgeSecond: "후공 (노랑)",
+    youGoFirst: "당신이 [선공・빨강]입니다!",
+    youGoSecond: "당신이 [후공・노랑]입니다!",
+    p1GoFirst: "플레이어 1이 [선공・빨강]입니다!",
+    p2GoFirst: "플레이어 2가 [선공・빨강]입니다!",
     btnBeginGame: "대전 시작",
     yourTurn: "당신의 차례입니다",
     cpuThinking: "CPU 생각 중...",
@@ -375,10 +385,12 @@ const I18N = {
     orderTapToFlip: "¡Toca para lanzar la moneda!",
     tagFirst: "1º",
     tagSecond: "2º",
-    orderYouFirst: "Empiezas tú (ROJO)",
-    orderYouSecond: "Empieza rival (AMARILLO)",
-    orderP1First: "Jugador 1: Primero (ROJO)",
-    orderP1Second: "Jugador 2: Primero (ROJO)",
+    badgeFirst: "PRIMERO (ROJO)",
+    badgeSecond: "SEGUNDO (AMARILLO)",
+    youGoFirst: "¡Tú empiezas primero (ROJO)!",
+    youGoSecond: "¡Tú juegas segundo (AMARILLO)!",
+    p1GoFirst: "¡Jugador 1 empieza primero (ROJO)!",
+    p2GoFirst: "¡Jugador 2 empieza primero (ROJO)!",
     btnBeginGame: "Empezar Partida",
     yourTurn: "Tu turno",
     cpuThinking: "CPU pensando...",
@@ -446,10 +458,12 @@ const I18N = {
     orderTapToFlip: "Touchez pour lancer la pièce !",
     tagFirst: "1er",
     tagSecond: "2e",
-    orderYouFirst: "Vous commencez (ROUGE)",
-    orderYouSecond: "Adversaire commence (JAUNE)",
-    orderP1First: "Joueur 1 commence (ROUGE)",
-    orderP1Second: "Joueur 2 commence (ROUGE)",
+    badgeFirst: "PREMIER (ROUGE)",
+    badgeSecond: "SECOND (JAUNE)",
+    youGoFirst: "Vous commencez en ROUGE !",
+    youGoSecond: "Vous jouez en second (JAUNE) !",
+    p1GoFirst: "Joueur 1 commence en ROUGE !",
+    p2GoFirst: "Joueur 2 commence en ROUGE !",
     btnBeginGame: "Lancer la partie",
     yourTurn: "À votre tour",
     cpuThinking: "CPU réfléchit...",
@@ -517,10 +531,12 @@ const I18N = {
     orderTapToFlip: "Toque para jogar a moeda!",
     tagFirst: "1º",
     tagSecond: "2º",
-    orderYouFirst: "Você começa (VERMELHO)",
-    orderYouSecond: "Oponente começa (AMARELO)",
-    orderP1First: "Jogador 1 começa (VERMELHO)",
-    orderP1Second: "Jogador 2 começa (VERMELHO)",
+    badgeFirst: "PRIMEIRO (VERMELHO)",
+    badgeSecond: "SEGUNDO (AMARELO)",
+    youGoFirst: "Você começa em VERMELHO!",
+    youGoSecond: "Você joga em segundo (AMARELO)!",
+    p1GoFirst: "Jogador 1 começa em VERMELHO!",
+    p2GoFirst: "Jogador 2 começa em VERMELHO!",
     btnBeginGame: "Começar Partida",
     yourTurn: "Sua vez",
     cpuThinking: "CPU pensando...",
@@ -620,9 +636,9 @@ class ConnectFourGame {
     this.modalOrder = document.getElementById('modal-order');
     this.flipperCoin = document.getElementById('flipper-coin');
     this.orderHintText = document.getElementById('order-hint-text');
-    this.orderResultBadge = document.getElementById('order-result-badge');
-    this.resultDiskPreview = document.getElementById('result-disk-preview');
-    this.orderResultMain = document.getElementById('order-result-main');
+    this.orderResultBanner = document.getElementById('order-result-banner');
+    this.resultRoleBadge = document.getElementById('result-role-badge');
+    this.resultPlayerDesc = document.getElementById('result-player-desc');
     this.btnOrderStart = document.getElementById('btn-order-start');
 
     this.modalSettings = document.getElementById('modal-settings');
@@ -861,42 +877,50 @@ class ConnectFourGame {
     this.modalConfirm.classList.remove('hidden');
   }
 
-  /* --- 直感ビジュアル コイントス演出 --- */
+  /* --- 先攻後攻決定：完全な直感コイントス制御 --- */
   openOrderSequence() {
     const lang = this.settings.lang;
+    
+    // リセット初期化
     this.orderHintText.textContent = I18N[lang].orderTapToFlip;
     this.orderHintText.classList.remove('hidden');
-    this.orderResultBadge.classList.add('hidden');
+    this.orderResultBanner.classList.add('hidden');
     this.btnOrderStart.classList.add('hidden');
 
     this.flipperCoin.className = 'flipper-coin';
     this.flipperCoin.style.pointerEvents = 'auto';
 
     const handleCoinTap = () => {
+      // 連続タップ防止
       this.flipperCoin.style.pointerEvents = 'none';
       window.audioManager.unlock();
       window.audioManager.playDrop();
       this.vibrate(40);
 
-      // 50%で赤（先攻）または黄（後攻）
+      // 50%の確率で先攻(赤) / 後攻(黄)
       const isRed = Math.random() < 0.5;
       this.playerRole = isRed ? 1 : 2;
 
       this.orderHintText.classList.add('hidden');
       this.flipperCoin.classList.add(isRed ? 'spinning-to-red' : 'spinning-to-yellow');
 
+      // 回転終了後の結果クローズアップ
       setTimeout(() => {
         window.audioManager.playClick();
         this.vibrate(30);
 
-        this.resultDiskPreview.className = `result-disk-preview ${isRed ? 'red' : 'yellow'}`;
+        // バッジ色と文言をダイナミックに設定
+        this.resultRoleBadge.className = `result-role-badge ${isRed ? 'red' : 'yellow'}`;
+        this.resultRoleBadge.textContent = isRed ? I18N[lang].badgeFirst : I18N[lang].badgeSecond;
+
         if (this.mode === 'pve') {
-          this.orderResultMain.textContent = isRed ? I18N[lang].orderYouFirst : I18N[lang].orderYouSecond;
+          this.resultPlayerDesc.textContent = isRed ? I18N[lang].youGoFirst : I18N[lang].youGoSecond;
         } else {
-          this.orderResultMain.textContent = isRed ? I18N[lang].orderP1First : I18N[lang].orderP1Second;
+          this.resultPlayerDesc.textContent = isRed ? I18N[lang].p1GoFirst : I18N[lang].p2GoFirst;
         }
 
-        this.orderResultBadge.classList.remove('hidden');
+        // バナーと対局開始ボタンを初めて表示
+        this.orderResultBanner.classList.remove('hidden');
         this.btnOrderStart.classList.remove('hidden');
 
         this.btnOrderStart.onclick = () => {
@@ -913,7 +937,7 @@ class ConnectFourGame {
 
   startNewMatch() {
     this.board = Array(this.ROWS).fill(null).map(() => Array(this.COLS).fill(0));
-    this.currentPlayer = 1; // 赤が先攻
+    this.currentPlayer = 1; // 常に赤が先攻
     this.isGameOver = false;
     this.isAiThinking = false;
     this.moveHistory = [];
