@@ -837,7 +837,6 @@ class BackgammonGame {
     this.isTransitioning = false;
     this.lastWinResult = null;
 
-    // CPUタイマー管理ID
     this.cpuTimeoutId = null;
 
     this.initDOM();
@@ -846,7 +845,6 @@ class BackgammonGame {
     this.checkResume();
   }
 
-  // CPU思考・着手タイマーの完全停止
   clearCpuTimer() {
     if (this.cpuTimeoutId !== null) {
       clearTimeout(this.cpuTimeoutId);
@@ -1007,7 +1005,14 @@ class BackgammonGame {
         this.dom.modeSeg.querySelectorAll('.seg-btn').forEach(b => b.classList.remove('active'));
         btn.classList.add('active');
         this.mode = btn.dataset.val;
-        this.dom.difficultyRow.style.display = this.mode === 'cpu' ? 'flex' : 'none';
+
+        // 高さを崩さず滑らかに非表示化する
+        if (this.mode === 'cpu') {
+          this.dom.difficultyRow.classList.remove('invisible-row');
+        } else {
+          this.dom.difficultyRow.classList.add('invisible-row');
+        }
+
         this.vibrate(15);
       });
     });
@@ -1065,11 +1070,9 @@ class BackgammonGame {
       this.shareOnX();
     });
 
-    // タイトルに戻るボタン
     this.dom.headerBackBtn.addEventListener('click', () => {
       const curLang = I18N[this.settings.lang] || I18N.en;
       this.confirmDialog(curLang.confirmLeaveTitle, curLang.confirmLeaveDesc, () => {
-        // CPUの思考・動作を即座に完全停止
         this.clearCpuTimer();
         this.saveGameState();
         this.dom.titleScreen.classList.remove('hidden');
@@ -1299,7 +1302,6 @@ class BackgammonGame {
     this.renderBoard();
     this.updateControls();
 
-    // 再開時にCPU番であれば自然に再開
     if (this.turn === 'black' && this.mode === 'cpu') {
       this.cpuTimeoutId = setTimeout(() => this.triggerCpuTurn(), 600);
     } else {
@@ -1734,7 +1736,6 @@ class BackgammonGame {
     }
   }
 
-  // --- CPU ターン処理（安全なタイマー制御） ---
   triggerCpuTurn() {
     if (this.turn !== 'black' || this.isTransitioning) return;
     this.clearCpuTimer();
