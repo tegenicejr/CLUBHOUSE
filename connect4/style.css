@@ -186,6 +186,7 @@ button, select {
   text-shadow: 0 2px 4px rgba(0, 0, 0, 0.9);
 }
 
+/* 設定カード（高さを固定しレイアウト飛びを防止） */
 .config-card {
   width: 100%;
   max-width: 360px;
@@ -210,6 +211,15 @@ button, select {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  height: 38px;
+  transition: opacity 0.2s ease, filter 0.2s ease;
+}
+
+/* 2P対戦時の無効化スタイル（高さを維持したまま半透明化） */
+.config-item.disabled-row {
+  opacity: 0.28;
+  filter: grayscale(1);
+  pointer-events: none !important;
 }
 
 .config-title {
