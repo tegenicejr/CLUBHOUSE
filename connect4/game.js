@@ -649,6 +649,8 @@ class ConnectFourGame {
     this.btnResume = document.getElementById('btn-resume');
     this.btnStart = document.getElementById('btn-start');
 
+    this.cpuDiffRow = document.getElementById('cpu-diff-row');
+
     this.modalOrder = document.getElementById('modal-order');
     this.flipperCoin = document.getElementById('flipper-coin');
     this.orderHintText = document.getElementById('order-hint-text');
@@ -694,6 +696,7 @@ class ConnectFourGame {
   }
 
   bindEvents() {
+    // モード切替：高さを変えずに非活性クラスを切り替える
     document.querySelectorAll('#mode-selector .seg-btn').forEach(btn => {
       btn.addEventListener('click', (e) => {
         window.audioManager.unlock();
@@ -701,12 +704,19 @@ class ConnectFourGame {
         document.querySelectorAll('#mode-selector .seg-btn').forEach(b => b.classList.remove('active'));
         e.target.classList.add('active');
         this.mode = e.target.dataset.val;
-        document.getElementById('cpu-diff-row').style.display = this.mode === 'pve' ? 'flex' : 'none';
+        
+        // 2P対戦時は難易度行を高さを残したまま無効化（レイアウトのズレを完全防止）
+        if (this.mode === 'pvp') {
+          this.cpuDiffRow.classList.add('disabled-row');
+        } else {
+          this.cpuDiffRow.classList.remove('disabled-row');
+        }
       });
     });
 
     document.querySelectorAll('#diff-selector .seg-btn').forEach(btn => {
       btn.addEventListener('click', (e) => {
+        if (this.mode === 'pvp') return;
         window.audioManager.unlock();
         window.audioManager.playClick();
         document.querySelectorAll('#diff-selector .seg-btn').forEach(b => b.classList.remove('active'));
