@@ -1006,12 +1006,14 @@ class BackgammonGame {
         btn.classList.add('active');
         this.mode = btn.dataset.val;
 
-        // ふたりで遊ぶ時は難易度行を半透明＆操作不可（グレーアウト）にし、画面のガタつきを防ぐ
-        if (this.mode === 'cpu') {
-          this.dom.difficultyRow.classList.remove('invisible-row');
-        } else {
-          this.dom.difficultyRow.classList.add('invisible-row');
-        }
+        const isCpu = (this.mode === 'cpu');
+        this.dom.difficultyRow.classList.toggle('invisible-row', !isCpu);
+
+        // ボタンの disabled 属性と pointerEvents も直接切り替えて完全無効化
+        this.dom.diffSeg.querySelectorAll('.seg-btn').forEach(dBtn => {
+          dBtn.disabled = !isCpu;
+          dBtn.style.pointerEvents = isCpu ? 'auto' : 'none';
+        });
 
         this.vibrate(15);
       });
@@ -1019,6 +1021,7 @@ class BackgammonGame {
 
     this.dom.diffSeg.querySelectorAll('.seg-btn').forEach(btn => {
       btn.addEventListener('click', () => {
+        if (this.mode !== 'cpu') return; // 2人プレイ時はクリックを完全に無視
         this.dom.diffSeg.querySelectorAll('.seg-btn').forEach(b => b.classList.remove('active'));
         btn.classList.add('active');
         this.diff = btn.dataset.val;
