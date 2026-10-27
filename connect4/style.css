@@ -57,6 +57,13 @@ button, select {
   outline: none;
 }
 
+.hidden {
+  display: none !important;
+  opacity: 0 !important;
+  pointer-events: none !important;
+  visibility: hidden !important;
+}
+
 .portal-nav {
   position: absolute;
   top: calc(var(--safe-top) + 12px);
@@ -821,6 +828,12 @@ button, select {
   display: flex;
   justify-content: center;
   align-items: center;
+}
+
+/* 確認モーダル（自然な改行対応） */
+#confirm-msg {
+  white-space: pre-line;
+  line-height: 1.6;
 }
 
 /* 設定モーダル */
