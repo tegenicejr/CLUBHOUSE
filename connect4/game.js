@@ -66,6 +66,8 @@ const I18N = {
     confirmTitle: "Confirm",
     confirmReset: "Are you sure you want to reset all game data?",
     confirmExit: "Return to title screen? (Current game is saved)",
+    confirmOverwriteTitle: "Start New Game?",
+    confirmOverwriteMsg: "Start a new match?\nPrevious play data will be overwritten and you will start from the beginning.",
     winYou: "Victory!",
     winCpu: "CPU Wins!",
     winP1: "Player 1 Wins!",
@@ -139,6 +141,8 @@ const I18N = {
     confirmTitle: "確認",
     confirmReset: "すべての戦績と実績データを初期化しますか？",
     confirmExit: "タイトルへ戻りますか？（進行状態は自動保存されます）",
+    confirmOverwriteTitle: "新しく始めますか？",
+    confirmOverwriteMsg: "前回のプレイデータは上書きされ、\n最初からスタートします。",
     winYou: "あなたの勝利！",
     winCpu: "CPUの勝利！",
     winP1: "プレイヤー1の勝利！",
@@ -212,6 +216,8 @@ const I18N = {
     confirmTitle: "提示",
     confirmReset: "确定要重置所有统计与成就吗？",
     confirmExit: "要返回标题界面吗？（当前游戏进度已自动保存）",
+    confirmOverwriteTitle: "重新开始？",
+    confirmOverwriteMsg: "确定要开始新游戏吗？\n之前的游戏存档将被覆盖，从头开始。",
     winYou: "你赢了！",
     winCpu: "CPU获胜！",
     winP1: "玩家1获胜！",
@@ -285,6 +291,8 @@ const I18N = {
     confirmTitle: "提示",
     confirmReset: "確定要重置所有統計與成就嗎？",
     confirmExit: "要返回標題畫面嗎？（目前進度已自動儲存）",
+    confirmOverwriteTitle: "重新開始？",
+    confirmOverwriteMsg: "確定要開始新遊戲嗎？\n之前的遊戲進度將被覆蓋，從頭開始。",
     winYou: "你贏了！",
     winCpu: "CPU獲勝！",
     winP1: "玩家1獲勝！",
@@ -358,6 +366,8 @@ const I18N = {
     confirmTitle: "확인",
     confirmReset: "모든 전적과 기록을 초기화하시겠습니까?",
     confirmExit: "타이틀로 돌아가시겠습니까? (현재 게임은 저장됩니다)",
+    confirmOverwriteTitle: "새로 시작하시겠습니까?",
+    confirmOverwriteMsg: "이전 플레이 데이터가 덮어씌워지며\n처음부터 시작합니다.",
     winYou: "당신의 승리!",
     winCpu: "CPU 승리!",
     winP1: "플레이어 1 승리!",
@@ -431,6 +441,8 @@ const I18N = {
     confirmTitle: "Confirmar",
     confirmReset: "¿Deseas borrar todas las estadísticas?",
     confirmExit: "¿Volver al título? (La partida se guardará automáticamente)",
+    confirmOverwriteTitle: "¿Empezar de nuevo?",
+    confirmOverwriteMsg: "¿Deseas iniciar una nueva partida?\nSe sobrescribirán los datos guardados anteriores y comenzarás desde el principio.",
     winYou: "¡Victoria!",
     winCpu: "¡Gana la CPU!",
     winP1: "¡Gana el Jugador 1!",
@@ -504,6 +516,8 @@ const I18N = {
     confirmTitle: "Confirmer",
     confirmReset: "Réinitialiser toutes les statistiques ?",
     confirmExit: "Retourner au titre ? (La partie sera sauvegardée)",
+    confirmOverwriteTitle: "Nouvelle partie ?",
+    confirmOverwriteMsg: "Voulez-vous recommencer une nouvelle partie ?\nLa progression précédente sera écrasée et recommencera depuis le début.",
     winYou: "Victoire !",
     winCpu: "Le CPU gagne !",
     winP1: "Joueur 1 gagne !",
@@ -577,6 +591,8 @@ const I18N = {
     confirmTitle: "Confirmar",
     confirmReset: "Deseja apagar todos os dados e conquistas?",
     confirmExit: "Voltar ao início? (O progresso será salvo)",
+    confirmOverwriteTitle: "Novo jogo?",
+    confirmOverwriteMsg: "Deseja iniciar uma nova partida?\nO progresso anterior será sobrescrito e começará do início.",
     winYou: "Vitória!",
     winCpu: "CPU Venceu!",
     winP1: "Jogador 1 Venceu!",
@@ -699,10 +715,26 @@ class ConnectFourGame {
       });
     });
 
+    // ゲームスタートボタン（セーブデータがある場合は確認モーダルを挟む）
     this.btnStart.addEventListener('click', () => {
       window.audioManager.unlock();
       window.audioManager.playClick();
-      this.openOrderSequence();
+      
+      if (this.hasActiveSavedGame()) {
+        const lang = this.settings.lang;
+        this.showConfirm(
+          I18N[lang].confirmOverwriteMsg,
+          () => {
+            // 前回のデータを消去して新規開始
+            window.storageManager.saveGame(null);
+            this.checkResumeAvailable();
+            this.openOrderSequence();
+          },
+          I18N[lang].confirmOverwriteTitle
+        );
+      } else {
+        this.openOrderSequence();
+      }
     });
 
     this.btnResume.addEventListener('click', () => {
@@ -848,13 +880,13 @@ class ConnectFourGame {
     this.modalSettings.classList.remove('hidden');
   }
 
-  showConfirm(msg, onOk) {
+  showConfirm(msg, onOk, customTitle = null) {
     const titleEl = document.getElementById('confirm-title');
     const msgEl = document.getElementById('confirm-msg');
     const okBtn = document.getElementById('btn-confirm-ok');
     const cancelBtn = document.getElementById('btn-confirm-cancel');
 
-    titleEl.textContent = I18N[this.settings.lang].confirmTitle;
+    titleEl.textContent = customTitle || I18N[this.settings.lang].confirmTitle;
     msgEl.textContent = msg;
 
     const cleanup = () => {
@@ -877,11 +909,27 @@ class ConnectFourGame {
     this.modalConfirm.classList.remove('hidden');
   }
 
+  /* --- 有効な途中セーブデータが存在するか判定 --- */
+  hasActiveSavedGame() {
+    const saved = window.storageManager.getSavedGame();
+    if (!saved || saved.isGameOver) return false;
+    if (!Array.isArray(saved.board)) return false;
+    // 盤面に少なくとも1手以上のディスクがあること
+    return saved.board.some(row => row.some(cell => cell !== 0));
+  }
+
+  checkResumeAvailable() {
+    if (this.hasActiveSavedGame()) {
+      this.btnResume.classList.remove('hidden');
+    } else {
+      this.btnResume.classList.add('hidden');
+    }
+  }
+
   /* --- 先攻後攻決定：完全な直感コイントス制御 --- */
   openOrderSequence() {
     const lang = this.settings.lang;
     
-    // リセット初期化
     this.orderHintText.textContent = I18N[lang].orderTapToFlip;
     this.orderHintText.classList.remove('hidden');
     this.orderResultBanner.classList.add('hidden');
@@ -891,25 +939,21 @@ class ConnectFourGame {
     this.flipperCoin.style.pointerEvents = 'auto';
 
     const handleCoinTap = () => {
-      // 連続タップ防止
       this.flipperCoin.style.pointerEvents = 'none';
       window.audioManager.unlock();
       window.audioManager.playDrop();
       this.vibrate(40);
 
-      // 50%の確率で先攻(赤) / 後攻(黄)
       const isRed = Math.random() < 0.5;
       this.playerRole = isRed ? 1 : 2;
 
       this.orderHintText.classList.add('hidden');
       this.flipperCoin.classList.add(isRed ? 'spinning-to-red' : 'spinning-to-yellow');
 
-      // 回転終了後の結果クローズアップ
       setTimeout(() => {
         window.audioManager.playClick();
         this.vibrate(30);
 
-        // バッジ色と文言をダイナミックに設定
         this.resultRoleBadge.className = `result-role-badge ${isRed ? 'red' : 'yellow'}`;
         this.resultRoleBadge.textContent = isRed ? I18N[lang].badgeFirst : I18N[lang].badgeSecond;
 
@@ -919,7 +963,6 @@ class ConnectFourGame {
           this.resultPlayerDesc.textContent = isRed ? I18N[lang].p1GoFirst : I18N[lang].p2GoFirst;
         }
 
-        // バナーと対局開始ボタンを初めて表示
         this.orderResultBanner.classList.remove('hidden');
         this.btnOrderStart.classList.remove('hidden');
 
@@ -986,30 +1029,26 @@ class ConnectFourGame {
     }
   }
 
-  checkResumeAvailable() {
-    const saved = window.storageManager.getSavedGame();
-    if (saved && !saved.isGameOver) {
-      this.btnResume.classList.remove('hidden');
-    } else {
-      this.btnResume.classList.add('hidden');
-    }
-  }
-
   saveCurrentState() {
     if (this.isGameOver) {
       window.storageManager.saveGame(null);
       this.checkResumeAvailable();
       return;
     }
-    window.storageManager.saveGame({
-      board: this.board,
-      currentPlayer: this.currentPlayer,
-      mode: this.mode,
-      diff: this.diff,
-      playerRole: this.playerRole,
-      moveHistory: this.moveHistory,
-      isGameOver: false
-    });
+    // 盤面に1つでもディスクが置かれたときのみセーブ
+    if (this.board.some(row => row.some(cell => cell !== 0))) {
+      window.storageManager.saveGame({
+        board: this.board,
+        currentPlayer: this.currentPlayer,
+        mode: this.mode,
+        diff: this.diff,
+        playerRole: this.playerRole,
+        moveHistory: this.moveHistory,
+        isGameOver: false
+      });
+    } else {
+      window.storageManager.saveGame(null);
+    }
     this.checkResumeAvailable();
   }
 
