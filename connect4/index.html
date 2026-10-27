@@ -46,7 +46,6 @@
     </div>
 
     <div class="menu-buttons">
-      <!-- セーブデータがない時は確実に非表示 -->
       <button id="btn-resume" class="btn-primary btn-resume hidden" style="display: none;">
         <span class="btn-shine"></span>
         <span class="btn-label" data-i18n="btnResume">つづきから</span>
@@ -160,23 +159,103 @@
     </div>
   </div>
 
-  <!-- あそびかたモーダル -->
+  <!-- 図解入り「あそびかた」モーダル（SVGミニチュア図解） -->
   <div id="modal-rules" class="modal-overlay hidden">
-    <div class="modal-content">
+    <div class="modal-content rules-modal-content">
       <h3 class="modal-title" data-i18n="rulesTitle">あそびかた</h3>
       <div class="modal-scroll">
-        <div class="rule-step">
-          <h4 data-i18n="ruleStep1Title">1. ディスクを落とす</h4>
-          <p data-i18n="ruleStep1Desc">タップした列の一番上からディスクが落下し、下から順に積み重なります。</p>
+        
+        <!-- STEP 1: 重力落下 -->
+        <div class="rule-card">
+          <div class="rule-visual">
+            <svg viewBox="0 0 160 100" class="rule-svg">
+              <defs>
+                <linearGradient id="svgBoard" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="0%" stop-color="#2f79e8"/>
+                  <stop offset="100%" stop-color="#0f3d85"/>
+                </linearGradient>
+                <radialGradient id="svgRed" cx="35%" cy="30%" r="70%">
+                  <stop offset="0%" stop-color="#ff7b7b"/>
+                  <stop offset="60%" stop-color="#dc2626"/>
+                  <stop offset="100%" stop-color="#7f1d1d"/>
+                </radialGradient>
+              </defs>
+              <!-- ミニボード枠 -->
+              <rect x="20" y="20" width="120" height="75" rx="8" fill="url(#svgBoard)" stroke="#4d93f7" stroke-width="2"/>
+              <!-- 穴（3x2） -->
+              <circle cx="50" cy="42" r="13" fill="#080605"/>
+              <circle cx="80" cy="42" r="13" fill="#080605"/>
+              <circle cx="110" cy="42" r="13" fill="#080605"/>
+              <circle cx="50" cy="72" r="13" fill="#080605"/>
+              <circle cx="80" cy="72" r="13" fill="#080605"/>
+              <circle cx="110" cy="72" r="13" fill="#080605"/>
+              <!-- 底に置かれたディスク -->
+              <circle cx="80" cy="72" r="12" fill="url(#svgRed)"/>
+              <!-- 落下するディスクと点線矢印 -->
+              <path d="M 80 4 L 80 24" stroke="#facc15" stroke-width="3" stroke-dasharray="3,3"/>
+              <polygon points="76,22 84,22 80,28" fill="#facc15"/>
+              <circle cx="80" cy="4" r="9" fill="url(#svgRed)" opacity="0.9"/>
+            </svg>
+          </div>
+          <div class="rule-text">
+            <h4 data-i18n="ruleStep1Title">1. 上から落として積む</h4>
+            <p data-i18n="ruleStep1Desc">タップした列のいちばん上からディスクが落下し、下から順に積み重なります。</p>
+          </div>
         </div>
-        <div class="rule-step">
-          <h4 data-i18n="ruleStep2Title">2. 4つ並べたら勝利</h4>
-          <p data-i18n="ruleStep2Desc">縦・横・斜めのいずれか1方向に自分の色のディスクを4つ連続で並べたプレイヤーの勝ちです。</p>
+
+        <!-- STEP 2: 4つ揃えて勝利 -->
+        <div class="rule-card">
+          <div class="rule-visual">
+            <svg viewBox="0 0 160 100" class="rule-svg">
+              <rect x="10" y="10" width="140" height="80" rx="8" fill="url(#svgBoard)" stroke="#4d93f7" stroke-width="2"/>
+              <!-- 4目並び（斜めライン例） -->
+              <circle cx="35" cy="75" r="11" fill="url(#svgRed)"/>
+              <circle cx="65" cy="55" r="11" fill="url(#svgRed)"/>
+              <circle cx="95" cy="35" r="11" fill="url(#svgRed)"/>
+              <circle cx="125" cy="15" r="11" fill="url(#svgRed)"/>
+              <!-- 勝利のゴールデンライン発光 -->
+              <line x1="35" y1="75" x2="125" y2="15" stroke="#facc15" stroke-width="3.5" stroke-linecap="round"/>
+              <circle cx="35" cy="75" r="13" fill="none" stroke="#facc15" stroke-width="2"/>
+              <circle cx="65" cy="55" r="13" fill="none" stroke="#facc15" stroke-width="2"/>
+              <circle cx="95" cy="35" r="13" fill="none" stroke="#facc15" stroke-width="2"/>
+              <circle cx="125" cy="15" r="13" fill="none" stroke="#facc15" stroke-width="2"/>
+            </svg>
+          </div>
+          <div class="rule-text">
+            <h4 data-i18n="ruleStep2Title">2. 4つ並べば勝利！</h4>
+            <p data-i18n="ruleStep2Desc">縦・横・斜めのいずれか1方向に自分の色を4つ連続で並べた方の勝ちです。</p>
+          </div>
         </div>
-        <div class="rule-step">
-          <h4 data-i18n="ruleStep3Title">3. リーチをブロックする</h4>
-          <p data-i18n="ruleStep3Desc">相手が3つ並んだら即座に阻止！同時に2方向を狙えるマスを作れば必勝です。</p>
+
+        <!-- STEP 3: ブロック＆トラップ -->
+        <div class="rule-card">
+          <div class="rule-visual">
+            <svg viewBox="0 0 160 100" class="rule-svg">
+              <defs>
+                <radialGradient id="svgYel" cx="35%" cy="30%" r="70%">
+                  <stop offset="0%" stop-color="#fffa9e"/>
+                  <stop offset="60%" stop-color="#eab308"/>
+                  <stop offset="100%" stop-color="#854d0e"/>
+                </radialGradient>
+              </defs>
+              <rect x="10" y="15" width="140" height="70" rx="8" fill="url(#svgBoard)" stroke="#4d93f7" stroke-width="2"/>
+              <!-- 相手（黄）の3連 -->
+              <circle cx="35" cy="50" r="11" fill="url(#svgYel)"/>
+              <circle cx="65" cy="50" r="11" fill="url(#svgYel)"/>
+              <circle cx="95" cy="50" r="11" fill="url(#svgYel)"/>
+              <!-- 赤によるブロック手 -->
+              <circle cx="125" cy="50" r="12" fill="url(#svgRed)"/>
+              <!-- ブロック演出シールド/アイコン -->
+              <circle cx="125" cy="50" r="14" fill="none" stroke="#60a5fa" stroke-width="2.5" stroke-dasharray="4,2"/>
+              <path d="M 120 45 L 130 55 M 130 45 L 120 55" stroke="#fff" stroke-width="2.5" stroke-linecap="round"/>
+            </svg>
+          </div>
+          <div class="rule-text">
+            <h4 data-i18n="ruleStep3Title">3. 防ぎつつ罠を仕掛ける</h4>
+            <p data-i18n="ruleStep3Desc">相手の3連をブロック！同時に2方向を狙える「両面リーチ」を作れば勝利確実です。</p>
+          </div>
         </div>
+
       </div>
       <button id="btn-close-rules" class="btn-primary" data-i18n="btnClose">閉じる</button>
     </div>
