@@ -113,10 +113,10 @@ const I18N = {
     rule3Desc: "自分の駒を2枚以上重ねると「安全地帯」になります。相手はここに着地できず、通過するしかありません。",
     rule4Title: "4. ゾロ目（ダブルス）の大逆転",
     rule4Desc: "2つのサイコロが同じ目になると、通常の2回ではなく「同じ出目を4回」進められます！一気に大差をつけられます。",
-    lang: "言語 (Language)",
-    sound: "効果音 (BGM/SE)",
-    vibration: "振動 (Vibration)",
-    resetData: "データ初期化",
+    lang: "言語",
+    sound: "効果音",
+    vibration: "振動",
+    resetData: "全データ初期化",
     resetBtn: "初期化",
     close: "とじる",
     cancel: "キャンセル",
@@ -1006,7 +1006,7 @@ class BackgammonGame {
         btn.classList.add('active');
         this.mode = btn.dataset.val;
 
-        // 高さを崩さず滑らかに非表示化する
+        // ふたりで遊ぶ時は難易度行を半透明＆操作不可（グレーアウト）にし、画面のガタつきを防ぐ
         if (this.mode === 'cpu') {
           this.dom.difficultyRow.classList.remove('invisible-row');
         } else {
