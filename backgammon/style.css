@@ -95,20 +95,32 @@ button {
   z-index: 200 !important;
 }
 
+/* 画面全体の最上部・最左端に直接固定 */
+.title-header {
+  position: fixed;
+  top: calc(16px + env(safe-area-inset-top));
+  left: calc(20px + env(safe-area-inset-left));
+  width: auto;
+  max-width: none;
+  z-index: 150;
+  pointer-events: auto;
+}
+
 .portal-link {
   color: #cca462;
   text-decoration: none;
-  font-size: 0.9rem;
+  font-size: 0.88rem;
   font-weight: 700;
   display: inline-flex;
   align-items: center;
   gap: 4px;
-  padding: 6px 0;
-  transition: opacity 0.2s;
+  padding: 6px 4px;
+  line-height: 1;
+  transition: opacity 0.2s, transform 0.15s;
 }
 
 .portal-link:hover { opacity: 0.85; }
-.portal-link:active { opacity: 0.65; }
+.portal-link:active { opacity: 0.65; transform: scale(0.97); }
 
 /* Title Screen (全画面を確実にロック) */
 #title-screen {
@@ -134,16 +146,6 @@ button {
 
 #title-screen.hidden {
   display: none !important;
-}
-
-/* 画面左端へ完全に寄せる（モバイル・PC共通で最左端へ固定） */
-.title-header {
-  position: fixed;
-  top: calc(16px + env(safe-area-inset-top));
-  left: calc(20px + env(safe-area-inset-left));
-  width: auto;
-  max-width: none;
-  z-index: 150;
 }
 
 .title-center {
@@ -202,7 +204,7 @@ button {
   flex-direction: column;
   gap: 8px;
   flex-shrink: 0;
-  min-height: 84px; /* 高さの急激な変化を防ぐ */
+  min-height: 84px;
 }
 
 .config-row {
@@ -213,7 +215,7 @@ button {
   transition: opacity 0.2s ease, visibility 0.2s ease;
 }
 
-/* ふたりで遊ぶ時に高さを保持したまま非表示にする */
+/* ふたりで遊ぶ時に高さを保持したまま非表示 */
 .config-row.invisible-row {
   visibility: hidden;
   opacity: 0;
@@ -1109,9 +1111,9 @@ button {
     padding: 24px 20px;
   }
 
-  /* 画面全体の完全な左端に固定 */
+  /* 画面全体の完全な最左端に固定 */
   .title-header {
-    top: calc(18px + env(safe-area-inset-top));
+    top: calc(20px + env(safe-area-inset-top));
     left: calc(24px + env(safe-area-inset-left));
     position: fixed;
     z-index: 150;
