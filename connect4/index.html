@@ -46,7 +46,8 @@
     </div>
 
     <div class="menu-buttons">
-      <button id="btn-resume" class="btn-primary btn-resume hidden">
+      <!-- セーブデータがない時は確実に非表示 -->
+      <button id="btn-resume" class="btn-primary btn-resume hidden" style="display: none;">
         <span class="btn-shine"></span>
         <span class="btn-label" data-i18n="btnResume">つづきから</span>
       </button>
@@ -90,7 +91,6 @@
       <h3 class="modal-title" data-i18n="orderTitle">先攻・後攻の決定</h3>
       <p class="order-subtitle" id="order-hint-text" data-i18n="orderTapToFlip">コインをタップしてトス！</p>
       
-      <!-- コインステージ（被り防止のためマージンと高さを独立確保） -->
       <div class="coin-stage">
         <div class="flipper-coin" id="flipper-coin">
           <div class="coin-side coin-red">
@@ -102,13 +102,11 @@
         </div>
       </div>
 
-      <!-- 誰が見ても一瞬でわかる結果明示エリア -->
       <div id="order-result-banner" class="order-result-banner hidden">
         <div class="result-role-badge" id="result-role-badge">先攻</div>
         <div class="result-player-desc" id="result-player-desc">あなたが先攻（赤）です</div>
       </div>
 
-      <!-- 初期状態では完全に非表示 -->
       <div class="order-action-area">
         <button id="btn-order-start" class="btn-primary hidden" data-i18n="btnBeginGame">対局開始</button>
       </div>
