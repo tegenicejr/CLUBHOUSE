@@ -39,12 +39,12 @@ const I18N = {
     btnResetData: "Reset All Data",
     btnClose: "Close",
     rulesTitle: "How to Play",
-    ruleStep1Title: "1. Drop the Disk",
-    ruleStep1Desc: "Disks fall from top to the lowest available space in the column.",
+    ruleStep1Title: "1. Drop & Stack",
+    ruleStep1Desc: "Disks fall to the lowest empty spot in the tapped column.",
     ruleStep2Title: "2. Connect 4 to Win",
-    ruleStep2Desc: "First to line up 4 disks horizontally, vertically, or diagonally wins.",
-    ruleStep3Title: "3. Trap & Block",
-    ruleStep3Desc: "Block opponent's lines while building your own dual threats!",
+    ruleStep2Desc: "First to get 4 disks in a row (horizontal, vertical, diagonal) wins!",
+    ruleStep3Title: "3. Block & Trap",
+    ruleStep3Desc: "Block opponent's lines while creating dual winning threats!",
     statsTitle: "Stats & Achievements",
     statTotal: "Total Matches",
     statWins: "Total Wins",
@@ -114,12 +114,12 @@ const I18N = {
     btnResetData: "全戦績・データの初期化",
     btnClose: "閉じる",
     rulesTitle: "あそびかた",
-    ruleStep1Title: "1. ディスクを落とす",
-    ruleStep1Desc: "タップした列の一番上からディスクが落下し、下から順に積み重なります。",
-    ruleStep2Title: "2. 4つ並べたら勝利",
-    ruleStep2Desc: "縦・横・斜めのいずれか1方向に自分の色のディスクを4つ連続で並べたプレイヤーの勝ちです。",
-    ruleStep3Title: "3. リーチをブロックする",
-    ruleStep3Desc: "相手が3つ並んだら即座に阻止！同時に2方向を狙えるマスを作れば必勝です。",
+    ruleStep1Title: "1. 上から落として積む",
+    ruleStep1Desc: "タップした列のいちばん上からディスクが落下し、下から順に積み重なります。",
+    ruleStep2Title: "2. 4つ並べば勝利！",
+    ruleStep2Desc: "縦・横・斜めのいずれか1方向に自分の色を4つ連続で並べた方の勝ちです。",
+    ruleStep3Title: "3. 防ぎつつ罠を仕掛ける",
+    ruleStep3Desc: "相手の3連をブロック！同時に2方向を狙える「両面リーチ」を作れば勝利確実です。",
     statsTitle: "戦績・実績",
     statTotal: "総対局数",
     statWins: "勝利数",
@@ -189,12 +189,12 @@ const I18N = {
     btnResetData: "重置所有数据",
     btnClose: "关闭",
     rulesTitle: "游戏玩法",
-    ruleStep1Title: "1. 投掷棋子",
-    ruleStep1Desc: "点击任意列，棋子会从上方落下并堆叠在最底部。",
+    ruleStep1Title: "1. 投掷下落",
+    ruleStep1Desc: "点击任意列，棋子自上方落下堆叠在最底部。",
     ruleStep2Title: "2. 四子相连获胜",
-    ruleStep2Desc: "任意横、竖、斜方向率先连成四颗己方棋子即可胜出。",
-    ruleStep3Title: "3. 阻挡与设局",
-    ruleStep3Desc: "在阻止对手连线的同时，创造双重绝杀走法！",
+    ruleStep2Desc: "横、竖、斜任意方向率先连成四颗者胜！",
+    ruleStep3Title: "3. 阻挡与双杀",
+    ruleStep3Desc: "封堵对手连线，同时制造两全必杀的双重威胁。",
     statsTitle: "统计与成就",
     statTotal: "总对局数",
     statWins: "胜场",
@@ -264,12 +264,12 @@ const I18N = {
     btnResetData: "重置所有資料",
     btnClose: "關閉",
     rulesTitle: "遊戲玩法",
-    ruleStep1Title: "1. 投擲棋子",
-    ruleStep1Desc: "點擊任意行，棋子會從上方落下並堆疊在最底部。",
+    ruleStep1Title: "1. 投擲下落",
+    ruleStep1Desc: "點擊任意行，棋子自上方落下堆疊在最底部。",
     ruleStep2Title: "2. 四子相連獲勝",
-    ruleStep2Desc: "任意橫、豎、斜方向率先連成四顆己方棋子即可勝出。",
-    ruleStep3Title: "3. 阻擋與設局",
-    ruleStep3Desc: "在阻止對手連線的同時，創造雙重絕殺走法！",
+    ruleStep2Desc: "橫、豎、斜任意方向率先連成四顆者勝！",
+    ruleStep3Title: "3. 阻擋與雙殺",
+    ruleStep3Desc: "封堵對手連線，同時製造兩全必殺的雙重威脅。",
     statsTitle: "統計與成就",
     statTotal: "總對局數",
     statWins: "勝場",
@@ -340,11 +340,11 @@ const I18N = {
     btnClose: "닫기",
     rulesTitle: "게임 방법",
     ruleStep1Title: "1. 디스크 투하",
-    ruleStep1Desc: "열을 터치하면 위에서 아래로 디스크가 떨어져 쌓입니다.",
-    ruleStep2Title: "2. 4개 연결 시 승리",
-    ruleStep2Desc: "가로, 세로, 대각선 중 한 방향으로 4개를 먼저 연결하면 승리합니다.",
+    ruleStep1Desc: "터치한 열의 위에서 디스크가 떨어져 바닥부터 쌓입니다.",
+    ruleStep2Title: "2. 4목 달성 시 승리",
+    ruleStep2Desc: "가로, 세로, 대각선 중 한 방향으로 4개를 먼저 이으면 승리!",
     ruleStep3Title: "3. 방어와 공격",
-    ruleStep3Desc: "상대의 3목을 차단하며 양방향 노림수를 만드세요!",
+    ruleStep3Desc: "상대의 3목을 차단하며 양방향 공격수를 만드세요.",
     statsTitle: "전적 및 업적",
     statTotal: "총 대전 수",
     statWins: "승리 수",
@@ -414,12 +414,12 @@ const I18N = {
     btnResetData: "Restablecer datos",
     btnClose: "Cerrar",
     rulesTitle: "Cómo Jugar",
-    ruleStep1Title: "1. Suelta la ficha",
-    ruleStep1Desc: "Toca una columna para soltar la ficha desde arriba.",
+    ruleStep1Title: "1. Suelta y apila",
+    ruleStep1Desc: "Las fichas caen hasta la casilla libre inferior.",
     ruleStep2Title: "2. Conecta 4",
-    ruleStep2Desc: "Alinea 4 fichas en horizontal, vertical o diagonal para ganar.",
-    ruleStep3Title: "3. Bloquea y ataca",
-    ruleStep3Desc: "¡Bloquea las líneas del rival y crea ataques dobles!",
+    ruleStep2Desc: "¡Alinea 4 fichas en vertical, horizontal o diagonal para ganar!",
+    ruleStep3Title: "3. Bloqueo y trampa",
+    ruleStep3Desc: "Bloquea las líneas rivales y prepara un ataque doble letal.",
     statsTitle: "Estadísticas",
     statTotal: "Partidas",
     statWins: "Victorias",
@@ -489,12 +489,12 @@ const I18N = {
     btnResetData: "Réinitialiser",
     btnClose: "Fermer",
     rulesTitle: "Règles du Jeu",
-    ruleStep1Title: "1. Lâcher un disque",
-    ruleStep1Desc: "Touchez une colonne pour faire glisser le jeton jusqu'en bas.",
-    ruleStep2Title: "2. Aligner 4 disques",
-    ruleStep2Desc: "Alignez 4 jetons horizontalement, verticalement ou en diagonale.",
-    ruleStep3Title: "3. Bloquer et gagner",
-    ruleStep3Desc: "Empêchez l'adversaire d'aligner 3 jetons et créez des pièges !",
+    ruleStep1Title: "1. Lâcher et empiler",
+    ruleStep1Desc: "Les pions tombent au plus bas de la colonne choisie.",
+    ruleStep2Title: "2. Aligner 4 pions",
+    ruleStep2Desc: "Alignez 4 pions (vertical, horizontal ou diagonal) pour l'emporter !",
+    ruleStep3Title: "3. Bloquer et piéger",
+    ruleStep3Desc: "Bloquez l'adversaire et préparez un coup fatal à double menace.",
     statsTitle: "Statistiques & Succès",
     statTotal: "Parties jouées",
     statWins: "Victoires",
@@ -564,12 +564,12 @@ const I18N = {
     btnResetData: "Redefinir Dados",
     btnClose: "Fechar",
     rulesTitle: "Como Jogar",
-    ruleStep1Title: "1. Soltar o Disco",
-    ruleStep1Desc: "Toque em uma coluna para o disco cair até o ponto mais baixo.",
-    ruleStep2Title: "2. Conectar 4",
-    ruleStep2Desc: "Alinhe 4 discos na horizontal, vertical ou diagonal para vencer.",
-    ruleStep3Title: "3. Bloqueio e Ataque",
-    ruleStep3Desc: "Bloqueie o oponente enquanto prepara linhas duplas!",
+    ruleStep1Title: "1. Soltar e Empilhar",
+    ruleStep1Desc: "Os discos caem até a posição mais baixa da coluna.",
+    ruleStep2Title: "2. Conectar 4 para Vencer",
+    ruleStep2Desc: "Alinhe 4 discos na horizontal, vertical ou diagonal para ganhar!",
+    ruleStep3Title: "3. Bloqueio e Armadilhas",
+    ruleStep3Desc: "Bloqueie o adversário enquanto prepara um duplo ataque fatal.",
     statsTitle: "Estatísticas",
     statTotal: "Partidas",
     statWins: "Vitórias",
@@ -715,7 +715,6 @@ class ConnectFourGame {
       });
     });
 
-    // ゲームスタートボタン（セーブデータがある場合は確認モーダルを挟む）
     this.btnStart.addEventListener('click', () => {
       window.audioManager.unlock();
       window.audioManager.playClick();
@@ -725,7 +724,6 @@ class ConnectFourGame {
         this.showConfirm(
           I18N[lang].confirmOverwriteMsg,
           () => {
-            // 前回のデータを消去して新規開始
             window.storageManager.saveGame(null);
             this.checkResumeAvailable();
             this.openOrderSequence();
@@ -909,24 +907,23 @@ class ConnectFourGame {
     this.modalConfirm.classList.remove('hidden');
   }
 
-  /* --- 有効な途中セーブデータが存在するか判定 --- */
   hasActiveSavedGame() {
     const saved = window.storageManager.getSavedGame();
     if (!saved || saved.isGameOver) return false;
     if (!Array.isArray(saved.board)) return false;
-    // 盤面に少なくとも1手以上のディスクがあること
     return saved.board.some(row => row.some(cell => cell !== 0));
   }
 
   checkResumeAvailable() {
     if (this.hasActiveSavedGame()) {
       this.btnResume.classList.remove('hidden');
+      this.btnResume.style.display = 'block';
     } else {
       this.btnResume.classList.add('hidden');
+      this.btnResume.style.display = 'none';
     }
   }
 
-  /* --- 先攻後攻決定：完全な直感コイントス制御 --- */
   openOrderSequence() {
     const lang = this.settings.lang;
     
@@ -980,7 +977,7 @@ class ConnectFourGame {
 
   startNewMatch() {
     this.board = Array(this.ROWS).fill(null).map(() => Array(this.COLS).fill(0));
-    this.currentPlayer = 1; // 常に赤が先攻
+    this.currentPlayer = 1;
     this.isGameOver = false;
     this.isAiThinking = false;
     this.moveHistory = [];
@@ -1035,7 +1032,6 @@ class ConnectFourGame {
       this.checkResumeAvailable();
       return;
     }
-    // 盤面に1つでもディスクが置かれたときのみセーブ
     if (this.board.some(row => row.some(cell => cell !== 0))) {
       window.storageManager.saveGame({
         board: this.board,
