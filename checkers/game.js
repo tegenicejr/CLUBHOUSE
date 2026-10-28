@@ -1,6 +1,7 @@
 /**
  * Games Clubhouse - Checkers Engine & Application Coordinator
- * Fixed: Isolated Dice Triggers, Fixed Modal Click Bleed-through, Fully Functional Game Start.
+ * Fixed Layout Shifts on 2P Mode, Real-Time Achievement Unlock Toasts,
+ * Custom Skins Reward System, and Flawless Start Sequence.
  */
 
 // ============================================================================
@@ -8,7 +9,7 @@
 // ============================================================================
 const I18N = {
   en: {
-    back_to_clubhouse: "CLUB HOUSE",
+    back_to_clubhouse: "‹ Back to Clubhouse",
     subtitle_desc: "CLASSIC DRAUGHTS 8×8",
     label_mode: "MODE",
     mode_cpu: "vs CPU",
@@ -68,8 +69,10 @@ const I18N = {
     achieve_triple_desc: "Execute a 3-jump combo in a single turn.",
     achieve_gm: "Grandmaster",
     achieve_gm_desc: "Defeat the Hard CPU without losing more than 3 pieces.",
+    achieve_unlocked_toast: "🏆 Achievement Unlocked!",
     settings_modal_title: "⚙️ Settings",
     setting_lang_label: "Language",
+    setting_skin_label: "Board & Piece Skin (Reward)",
     setting_sound_label: "Sound Effects",
     setting_vibrate_label: "Haptics",
     setting_speed_label: "Animation Speed",
@@ -92,7 +95,7 @@ const I18N = {
     btn_back_menu: "Return to Menu"
   },
   ja: {
-    back_to_clubhouse: "CLUB HOUSE",
+    back_to_clubhouse: "CLUB HOUSEへ戻る",
     subtitle_desc: "クラシック チェッカーズ 8×8",
     label_mode: "対戦形式",
     mode_cpu: "vs CPU",
@@ -106,7 +109,7 @@ const I18N = {
     btn_rules: "あそびかた",
     btn_stats: "戦績・実績",
     btn_settings: "⚙️ 設定",
-    nav_title: "タイトル",
+    nav_title: "タイトルへ",
     tag_thinking: "考え中...",
     hud_captured: "獲得数",
     your_turn: "あなた手番",
@@ -152,8 +155,10 @@ const I18N = {
     achieve_triple_desc: "1手番で3連続ジャンプを達成する。",
     achieve_gm: "グランドマスター",
     achieve_gm_desc: "駒損3個以内で上級CPUに勝利する。",
+    achieve_unlocked_toast: "🏆 実績解除！",
     settings_modal_title: "⚙️ 設定",
     setting_lang_label: "言語（Language）",
+    setting_skin_label: "盤面・駒スキン（実績報酬）",
     setting_sound_label: "効果音",
     setting_vibrate_label: "振動・ハプティクス",
     setting_speed_label: "演出速度",
@@ -190,7 +195,7 @@ const I18N = {
     btn_rules: "游戏规则",
     btn_stats: "战绩与成就",
     btn_settings: "⚙️ 设置",
-    nav_title: "主页",
+    nav_title: "返回主页",
     tag_thinking: "思考中...",
     hud_captured: "吃子数",
     your_turn: "轮到您的回合",
@@ -236,8 +241,10 @@ const I18N = {
     achieve_triple_desc: "单回合完成连续3次跳吃。",
     achieve_gm: "宗师之境",
     achieve_gm_desc: "在损失不超过3子的情况下战胜高级电脑。",
+    achieve_unlocked_toast: "🏆 解锁成就！",
     settings_modal_title: "⚙️ 设置",
     setting_lang_label: "语言",
+    setting_skin_label: "棋盘与棋子皮肤（成就奖励）",
     setting_sound_label: "游戏音效",
     setting_vibrate_label: "震动触感",
     setting_speed_label: "动画速度",
@@ -274,7 +281,7 @@ const I18N = {
     btn_rules: "遊戲規則",
     btn_stats: "戰績與成就",
     btn_settings: "⚙️ 設定",
-    nav_title: "主頁",
+    nav_title: "返回主頁",
     tag_thinking: "思考中...",
     hud_captured: "吃子數",
     your_turn: "輪到您的回合",
@@ -320,8 +327,10 @@ const I18N = {
     achieve_triple_desc: "單回合完成連續3次跳吃。",
     achieve_gm: "宗師之境",
     achieve_gm_desc: "在損失不超過3子的情況下戰勝高級電腦。",
+    achieve_unlocked_toast: "🏆 解鎖成就！",
     settings_modal_title: "⚙️ 設定",
     setting_lang_label: "語言",
+    setting_skin_label: "棋盤與棋子皮膚（成就獎勵）",
     setting_sound_label: "遊戲音效",
     setting_vibrate_label: "震動觸感",
     setting_speed_label: "動畫速度",
@@ -344,7 +353,7 @@ const I18N = {
     btn_back_menu: "返回選單"
   },
   ko: {
-    back_to_clubhouse: "클럽하우스",
+    back_to_clubhouse: "클럽하우스로 돌아가기",
     subtitle_desc: "클래식 체커스 8×8",
     label_mode: "대전 모드",
     mode_cpu: "vs CPU",
@@ -358,7 +367,7 @@ const I18N = {
     btn_rules: "게임 방법",
     btn_stats: "전적 및 업적",
     btn_settings: "⚙️ 설정",
-    nav_title: "홈",
+    nav_title: "타이틀로",
     tag_thinking: "생각 중...",
     hud_captured: "포획 수",
     your_turn: "당신의 차례",
@@ -404,8 +413,10 @@ const I18N = {
     achieve_triple_desc: "한 턴에 3연속 점프를 성공합니다.",
     achieve_gm: "그랜드마스터",
     achieve_gm_desc: "말 손실 3개 이하로 고급 CPU를 상대로 승리합니다.",
+    achieve_unlocked_toast: "🏆 업적 달성!",
     settings_modal_title: "⚙️ 설정",
     setting_lang_label: "언어 (Language)",
+    setting_skin_label: "보드 및 말 스킨 (업적 보상)",
     setting_sound_label: "효과음",
     setting_vibrate_label: "진동",
     setting_speed_label: "애니메이션 속도",
@@ -428,7 +439,7 @@ const I18N = {
     btn_back_menu: "메뉴로 돌아가기"
   },
   es: {
-    back_to_clubhouse: "CLUB HOUSE",
+    back_to_clubhouse: "Volver a Clubhouse",
     subtitle_desc: "DAMAS CLÁSICAS 8×8",
     label_mode: "MODO",
     mode_cpu: "vs CPU",
@@ -442,7 +453,7 @@ const I18N = {
     btn_rules: "Cómo Jugar",
     btn_stats: "Estadísticas",
     btn_settings: "⚙️ Ajustes",
-    nav_title: "Menú",
+    nav_title: "Al Menú",
     tag_thinking: "Pensando...",
     hud_captured: "Capturas",
     your_turn: "Tu Turno",
@@ -488,8 +499,10 @@ const I18N = {
     achieve_triple_desc: "Realiza una cadena de 3 saltos consecutivos.",
     achieve_gm: "Gran Maestro",
     achieve_gm_desc: "Derrota a la CPU Difícil perdiendo 3 piezas o menos.",
+    achieve_unlocked_toast: "🏆 ¡Logro desbloqueado!",
     settings_modal_title: "⚙️ Ajustes",
     setting_lang_label: "Idioma",
+    setting_skin_label: "Aspecto de Tablero y Fichas (Recompensa)",
     setting_sound_label: "Efectos de Sonido",
     setting_vibrate_label: "Vibración",
     setting_speed_label: "Velocidad de Animación",
@@ -512,7 +525,7 @@ const I18N = {
     btn_back_menu: "Volver al Menú"
   },
   fr: {
-    back_to_clubhouse: "CLUB HOUSE",
+    back_to_clubhouse: "Retour à Clubhouse",
     subtitle_desc: "DAMES CLASSIQUES 8×8",
     label_mode: "MODE",
     mode_cpu: "vs CPU",
@@ -526,7 +539,7 @@ const I18N = {
     btn_rules: "Règles du jeu",
     btn_stats: "Statistiques",
     btn_settings: "⚙️ Paramètres",
-    nav_title: "Accueil",
+    nav_title: "Vers l'accueil",
     tag_thinking: "Réflexion...",
     hud_captured: "Capturées",
     your_turn: "À votre tour",
@@ -572,8 +585,10 @@ const I18N = {
     achieve_triple_desc: "Exécuter un enchaînement de 3 sauts d'affilée.",
     achieve_gm: "Grand Maître",
     achieve_gm_desc: "Vaincre l'IA Difficile en perdant 3 pions maximum.",
+    achieve_unlocked_toast: "🏆 Succès débloqué !",
     settings_modal_title: "⚙️ Paramètres",
     setting_lang_label: "Langue",
+    setting_skin_label: "Thème Damier & Pions (Récompense)",
     setting_sound_label: "Effets sonores",
     setting_vibrate_label: "Vibrations",
     setting_speed_label: "Vitesse d'animation",
@@ -596,8 +611,8 @@ const I18N = {
     btn_back_menu: "Menu principal"
   },
   pt: {
-    back_to_clubhouse: "CLUB HOUSE",
-    subtitle_desc: "DAMAS CLÁSICAS 8×8",
+    back_to_clubhouse: "Voltar ao Clubhouse",
+    subtitle_desc: "DAMAS CLÁSSICAS 8×8",
     label_mode: "MODO",
     mode_cpu: "vs CPU",
     mode_pass: "2P Passa e Joga",
@@ -610,7 +625,7 @@ const I18N = {
     btn_rules: "Como Jogar",
     btn_stats: "Estatísticas",
     btn_settings: "⚙️ Configurações",
-    nav_title: "Início",
+    nav_title: "Para o Início",
     tag_thinking: "Pensando...",
     hud_captured: "Capturas",
     your_turn: "Sua Vez",
@@ -656,8 +671,10 @@ const I18N = {
     achieve_triple_desc: "Execute 3 saltos consecutivos no mesmo turno.",
     achieve_gm: "Grão-Mestre",
     achieve_gm_desc: "Vença a CPU Difícil perdendo no máximo 3 peças.",
+    achieve_unlocked_toast: "🏆 Conquista Desbloqueada!",
     settings_modal_title: "⚙️ Configurações",
     setting_lang_label: "Idioma",
+    setting_skin_label: "Visual de Tabuleiro e Peças (Recompensa)",
     setting_sound_label: "Efeitos Sonoros",
     setting_vibrate_label: "Vibração",
     setting_speed_label: "Velocidade da Animação",
@@ -682,7 +699,7 @@ const I18N = {
 };
 
 // ============================================================================
-// 2. Exact 3D Single Dice Drop Engine Implementation (Self-Contained)
+// 2. Exact 3D Single Dice Drop Engine Implementation
 // ============================================================================
 class SingleDiceDropEngine {
   constructor(canvasId, trayId) {
@@ -695,7 +712,6 @@ class SingleDiceDropEngine {
   init() {
     if (this.initialized || !this.canvas || !this.tray) return;
 
-    // Web Audio 着地音
     this.AudioEngine = {
       ctx: null,
       init() {
@@ -825,6 +841,7 @@ class SingleDiceDropEngine {
     const pips = {
       1: [[128, 128]],
       2: [[68, 68], [188, 188]],
+      3: [[68, 68], [188, 188]],
       3: [[68, 68], [128, 128], [188, 188]],
       4: [[68, 68], [188, 68], [68, 188], [188, 188]],
       5: [[66, 66], [190, 66], [128, 128], [66, 190], [190, 190]],
@@ -954,8 +971,8 @@ class SingleDiceDropEngine {
 // 3. Checkers Logic Engine
 // ============================================================================
 const PIECE_NONE = 0;
-const PIECE_RED = 1;     // Player 1 (Red starts)
-const PIECE_BLACK = 2;   // Player 2 / CPU (Black)
+const PIECE_RED = 1;     // Player 1
+const PIECE_BLACK = 2;   // Player 2 / CPU
 const KING_MASK = 4;
 
 class CheckersEngine {
@@ -1244,6 +1261,7 @@ class AppCoordinator {
     this.difficulty = 'normal';
     this.lang = 'ja';
     this.speed = 'normal';
+    this.skin = 'classic';
     this.ruleStep = 1;
     this.cpuThinkingTimer = null;
 
@@ -1281,25 +1299,31 @@ class AppCoordinator {
     this.domCpuThinking = document.getElementById('cpuThinkingIndicator');
 
     this.domSettingLang = document.getElementById('settingLanguage');
+    this.domSettingSkin = document.getElementById('settingThemeSkin');
     this.domSettingSound = document.getElementById('settingSoundToggle');
     this.domSettingVibrate = document.getElementById('settingVibrateToggle');
     this.domSpeedTabs = document.getElementById('settingSpeedSelector');
     this.domAudioStatusIcon = document.getElementById('audioStatusIcon');
+    this.domDifficultyRow = document.getElementById('difficultyRow');
   }
 
   loadStateAndSettings() {
     const settings = window.storageManager.getSettings();
     this.lang = settings.lang || 'ja';
     this.speed = settings.speed || 'normal';
+    this.skin = settings.skin || 'classic';
     this.applyLanguage(this.lang);
+    this.applySkin(this.skin);
 
     window.soundEffects.setEnabled(settings.sound !== false);
     if (this.domSettingSound) this.domSettingSound.checked = settings.sound !== false;
     if (this.domSettingVibrate) this.domSettingVibrate.checked = settings.vibrate !== false;
     if (this.domSettingLang) this.domSettingLang.value = this.lang;
+    if (this.domSettingSkin) this.domSettingSkin.value = this.skin;
 
     this.updateSpeedUI(this.speed);
     this.updateAudioIcon(settings.sound !== false);
+    this.refreshSkinOptions();
   }
 
   applyLanguage(lang) {
@@ -1316,19 +1340,72 @@ class AppCoordinator {
     this.renderAchievementsList();
   }
 
+  applySkin(skinName) {
+    this.skin = skinName;
+    document.body.classList.remove('skin-emerald', 'skin-royal');
+    if (skinName === 'emerald') document.body.classList.add('skin-emerald');
+    if (skinName === 'royal') document.body.classList.add('skin-royal');
+  }
+
+  refreshSkinOptions() {
+    const stats = window.storageManager.getStats();
+    const optEmerald = document.getElementById('optSkinEmerald');
+    const optRoyal = document.getElementById('optSkinRoyal');
+
+    if (optEmerald) {
+      if (stats.achievements.first_win) {
+        optEmerald.disabled = false;
+        optEmerald.textContent = "エメラルド・ラウンジ (解放済)";
+      }
+    }
+    if (optRoyal) {
+      if (stats.achievements.crown_master) {
+        optRoyal.disabled = false;
+        optRoyal.textContent = "ロイヤル・ルビー (解放済)";
+      }
+    }
+  }
+
+  // 実績解除チェック＆トースト表示（ファンファーレ音なし）
+  unlockAchievement(key) {
+    const stats = window.storageManager.getStats();
+    if (stats.achievements[key]) return; // 既に獲得済
+
+    stats.achievements[key] = true;
+    window.storageManager.saveStats(stats);
+
+    const dict = I18N[this.lang];
+    const nameMap = {
+      first_win: dict.achieve_first_win,
+      crown_master: dict.achieve_crown,
+      triple_strike: dict.achieve_triple,
+      grandmaster: dict.achieve_gm
+    };
+
+    // 音は鳴らさず、木質の軽いアクション音のみ
+    window.soundEffects.playMove();
+    this.vibrate([40, 60, 40]);
+    this.showToast(`${dict.achieve_unlocked_toast} [${nameMap[key]}]`);
+    this.refreshSkinOptions();
+  }
+
   bindEvents() {
-    // Mode selection
+    // 2P対戦選択時：画面ズレを起こさないよう非表示にせず半透明・操作無効化
     document.getElementById('modeSelector').addEventListener('click', (e) => {
       const btn = e.target.closest('.pill-tab');
       if (!btn) return;
       document.querySelectorAll('#modeSelector .pill-tab').forEach(b => b.classList.remove('active'));
       btn.classList.add('active');
       this.mode = btn.dataset.mode;
-      document.getElementById('difficultyRow').style.display = this.mode === 'cpu' ? 'flex' : 'none';
+
+      if (this.mode === 'pass') {
+        this.domDifficultyRow.classList.add('disabled-row');
+      } else {
+        this.domDifficultyRow.classList.remove('disabled-row');
+      }
       this.updateHUD();
     });
 
-    // Difficulty selection (独立動作・ダイスは回さない)
     document.getElementById('difficultySelector').addEventListener('click', (e) => {
       const btn = e.target.closest('.pill-tab');
       if (!btn) return;
@@ -1390,6 +1467,11 @@ class AppCoordinator {
       window.storageManager.saveSettings({ lang: e.target.value });
     });
 
+    this.domSettingSkin.addEventListener('change', (e) => {
+      this.applySkin(e.target.value);
+      window.storageManager.saveSettings({ skin: e.target.value });
+    });
+
     this.domSettingSound.addEventListener('change', (e) => {
       window.soundEffects.setEnabled(e.target.checked);
       window.storageManager.saveSettings({ sound: e.target.checked });
@@ -1413,6 +1495,9 @@ class AppCoordinator {
         I18N[this.lang].confirm_reset,
         () => {
           window.storageManager.resetAllData();
+          this.applySkin('classic');
+          if (this.domSettingSkin) this.domSettingSkin.value = 'classic';
+          this.refreshSkinOptions();
           this.checkResumeAvailability();
           this.closeSettingsModal();
           this.showToast("Data reset complete.");
@@ -1420,7 +1505,6 @@ class AppCoordinator {
       );
     });
 
-    // 【重要修正】サイコロはボタン押下時のみ実行（トレイクリックは完全無効化）
     document.getElementById('btnRollDice').addEventListener('click', (e) => {
       e.stopPropagation();
       this.handleDiceRollClick();
@@ -1449,9 +1533,6 @@ class AppCoordinator {
     document.getElementById('btnShareTwitter').addEventListener('click', () => this.shareOnX());
   }
 
-  // ==========================================================================
-  // 3-Stage First Player Determination
-  // ==========================================================================
   openSequenceModal() {
     const dict = I18N[this.lang];
     this.rollPhase = 1;
@@ -1472,7 +1553,6 @@ class AppCoordinator {
 
     this.domSequenceModal.classList.add('active');
 
-    // DOM表示後にThree.jsを初期化
     requestAnimationFrame(() => {
       setTimeout(() => {
         if (!this.diceEngine.initialized) {
@@ -1548,9 +1628,6 @@ class AppCoordinator {
     }
   }
 
-  // ==========================================================================
-  // Board Rendering & Move Interaction
-  // ==========================================================================
   renderBoard() {
     this.domBoardGrid.innerHTML = '';
     const legalMoves = this.engine.getLegalMoves();
@@ -1602,7 +1679,6 @@ class AppCoordinator {
           pieceEl.classList.add('selected');
         }
 
-        // 駒タップ時の処理（ダイスは一切回さない）
         if (this.engine.turn === color && (this.mode === 'pass' || color === PIECE_RED)) {
           pieceEl.addEventListener('click', (e) => {
             e.stopPropagation();
@@ -1651,12 +1727,21 @@ class AppCoordinator {
     if (res.jump) {
       window.soundEffects.playCapture();
       this.vibrate(60);
+
+      // 実績チェック: 3連ジャンプ達成時
+      if (this.engine.currentComboCount >= 3) {
+        this.unlockAchievement('triple_strike');
+      }
     } else {
       window.soundEffects.playMove();
     }
 
     if (res.crowned) {
       window.soundEffects.playKing();
+      // 実績チェック: 3個以上キング作成時
+      if (this.engine.kingsCreatedInMatch >= 3) {
+        this.unlockAchievement('crown_master');
+      }
     }
 
     this.engine.selectedSquare = res.multiJump ? move.to : null;
@@ -1694,9 +1779,6 @@ class AppCoordinator {
     }, delay);
   }
 
-  // ==========================================================================
-  // HUD & Persistence
-  // ==========================================================================
   updateHUD() {
     const dict = I18N[this.lang];
     const isRedTurn = this.engine.turn === PIECE_RED;
@@ -1736,11 +1818,9 @@ class AppCoordinator {
     const isUserWin = overCheck.winner === PIECE_RED;
     if (isUserWin) {
       stats.matchesWon++;
-      stats.achievements.first_win = true;
-      if (this.engine.kingsCreatedInMatch >= 3) stats.achievements.crown_master = true;
-      if (this.engine.maxComboInMatch >= 3) stats.achievements.triple_strike = true;
+      this.unlockAchievement('first_win');
       if (this.mode === 'cpu' && this.difficulty === 'hard' && this.engine.capturedCount[PIECE_BLACK] <= 3) {
-        stats.achievements.grandmaster = true;
+        this.unlockAchievement('grandmaster');
       }
     }
     if (this.engine.maxComboInMatch > stats.maxCombo) {
@@ -1800,6 +1880,12 @@ class AppCoordinator {
     this.engine.capturedCount = state.capturedCount;
     this.engine.kingsCreatedInMatch = state.kings || 0;
     this.engine.multiJumpSquare = state.multiJump || null;
+
+    if (this.mode === 'pass') {
+      this.domDifficultyRow.classList.add('disabled-row');
+    } else {
+      this.domDifficultyRow.classList.remove('disabled-row');
+    }
 
     this.showScreen('game');
     this.renderBoard();
@@ -1892,6 +1978,7 @@ class AppCoordinator {
   }
 
   openSettingsModal() {
+    this.refreshSkinOptions();
     this.domSettingsModal.classList.add('active');
   }
 
@@ -1943,7 +2030,7 @@ class AppCoordinator {
     clearTimeout(this.toastTimer);
     this.toastTimer = setTimeout(() => {
       this.domToast.classList.remove('show');
-    }, 1800);
+    }, 2000);
   }
 
   vibrate(ms) {
