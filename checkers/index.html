@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ja">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
@@ -10,10 +10,12 @@
   <link rel="manifest" href="manifest.json">
   <link rel="icon" href="icon.svg" type="image/svg+xml">
   <link rel="stylesheet" href="style.css">
+  <!-- Three.js CDN for 3D Dice -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 </head>
 <body>
   <div id="appContainer">
-    <!-- START / TITLE OVERLAY SCREEN -->
+    <!-- START / TITLE SCREEN -->
     <section id="titleScreen" class="screen-view active">
       <header class="title-header">
         <a href="../" class="clubhouse-back-btn" id="btnBackToClubhouse" aria-label="Back to Clubhouse">
@@ -24,7 +26,7 @@
 
       <main class="title-main-content">
         <div class="symbol-container">
-          <svg class="symbol-crown-piece" viewBox="0 0 200 200" width="140" height="140">
+          <svg class="symbol-crown-piece" viewBox="0 0 200 200" width="130" height="130">
             <defs>
               <radialGradient id="symRed" cx="35%" cy="30%" r="65%">
                 <stop offset="0%" stop-color="#ff7675"/>
@@ -58,7 +60,6 @@
         <p class="game-sub-title" data-i18n="subtitle_desc">CLASSIC DRAUGHTS 8×8</p>
 
         <div class="menu-config-card">
-          <!-- Mode selection -->
           <div class="config-row">
             <span class="config-label" data-i18n="label_mode">MODE</span>
             <div class="pill-tabs" id="modeSelector">
@@ -67,7 +68,6 @@
             </div>
           </div>
 
-          <!-- Difficulty selection (CPU only) -->
           <div class="config-row" id="difficultyRow">
             <span class="config-label" data-i18n="label_difficulty">DIFFICULTY</span>
             <div class="pill-tabs" id="difficultySelector">
@@ -105,7 +105,7 @@
           </div>
           <div class="hud-meta">
             <div class="hud-name-status">
-              <span class="hud-player-name" id="opponentNameLabel">CPU (Normal)</span>
+              <span class="hud-player-name" id="opponentNameLabel">CPU</span>
               <span class="hud-thinking-tag hidden" id="cpuThinkingIndicator" data-i18n="tag_thinking">Thinking...</span>
             </div>
             <div class="hud-captured-capsule">
@@ -156,6 +156,41 @@
       </footer>
     </section>
 
+    <!-- 3-STAGE FIRST/SECOND SEQUENCE MODAL (3D DICE DROP EMBEDDED) -->
+    <div id="sequenceModal" class="app-modal-layer">
+      <div class="modal-card sequence-card">
+        <h2 class="sequence-title" data-i18n="seq_title">先手・後手決定</h2>
+        <p class="seq-desc" data-i18n="seq_rule_desc">
+          チェッカーズは【赤駒】が先手です。サイコロを振って出目の大きい方が先手となります！
+        </p>
+
+        <!-- 3D Dice Tray Canvas -->
+        <div class="dice-tray-box" id="diceTrayContainer">
+          <canvas id="webgl-canvas"></canvas>
+          <div class="tray-turn-tag" id="diceTrayTurnTag">あなた（1P）の投下</div>
+        </div>
+
+        <div class="dice-score-compare">
+          <div class="dice-score-item">
+            <span class="dice-score-name" id="diceLabelP1">あなた (1P)</span>
+            <span class="dice-score-val" id="diceValP1">-</span>
+          </div>
+          <div class="vs-divider-text">VS</div>
+          <div class="dice-score-item">
+            <span class="dice-score-name" id="diceLabelP2">CPU (2P)</span>
+            <span class="dice-score-val" id="diceValP2">-</span>
+          </div>
+        </div>
+
+        <p class="seq-result-banner" id="seqResultText">サイコロを振ってください</p>
+
+        <div class="sequence-action-buttons">
+          <button type="button" id="btnRollDice" class="btn-royal btn-primary" data-i18n="seq_btn_roll">サイコロを振る</button>
+          <button type="button" id="btnStartGameConfirmed" class="btn-royal btn-resume hidden" data-i18n="seq_btn_play">対局開始</button>
+        </div>
+      </div>
+    </div>
+
     <!-- TURN TRANSITION (PASS & PLAY PRIVACY CURTAIN) -->
     <div id="passCurtainModal" class="app-modal-layer">
       <div class="modal-card curtain-card">
@@ -166,64 +201,15 @@
       </div>
     </div>
 
-    <!-- 3-STAGE FIRST/SECOND SEQUENCE MODAL -->
-    <div id="sequenceModal" class="app-modal-layer">
-      <div class="modal-card sequence-card">
-        <h2 class="sequence-title" data-i18n="seq_title">Determining First Player</h2>
-        
-        <!-- Step 1: Explanation -->
-        <div id="seqStepExplain" class="seq-step-content active">
-          <p class="seq-desc" data-i18n="seq_rule_desc">
-            In Checkers, the <strong>Dark/Red pieces</strong> move first. Roll the dice to decide who plays first!
-          </p>
-          <div class="dice-arena">
-            <div class="dice-stand">
-              <span class="player-badge-tag" id="diceTagP1" data-i18n="badge_you">You</span>
-              <div class="standard-die" id="diceP1">
-                <span class="die-pip-center red"></span>
-              </div>
-            </div>
-            <div class="vs-divider-text">VS</div>
-            <div class="dice-stand">
-              <span class="player-badge-tag" id="diceTagP2" data-i18n="badge_cpu">CPU</span>
-              <div class="standard-die" id="diceP2">
-                <span class="die-pip-center red"></span>
-              </div>
-            </div>
-          </div>
-          <button type="button" id="btnRollDice" class="btn-royal btn-primary" data-i18n="seq_btn_roll">Roll the Dice</button>
-        </div>
-
-        <!-- Step 2 & 3: Results -->
-        <div id="seqStepResult" class="seq-step-content">
-          <div class="dice-arena">
-            <div class="dice-stand">
-              <span class="player-badge-tag" id="resTagP1">You</span>
-              <div class="standard-die final" id="diceResP1"></div>
-              <span class="dice-value-num" id="diceValP1">-</span>
-            </div>
-            <div class="dice-stand">
-              <span class="player-badge-tag" id="resTagP2">CPU</span>
-              <div class="standard-die final" id="diceResP2"></div>
-              <span class="dice-value-num" id="diceValP2">-</span>
-            </div>
-          </div>
-          <p class="seq-result-banner" id="seqResultText"></p>
-          <button type="button" id="btnStartGameConfirmed" class="btn-royal btn-primary" data-i18n="seq_btn_play">Start Match</button>
-        </div>
-      </div>
-    </div>
-
-    <!-- VISUAL HOW TO PLAY MODAL (ILLUSTRATED WITH MINI-BOARDS) -->
+    <!-- ILLUSTRATED HOW TO PLAY MODAL -->
     <div id="rulesModal" class="app-modal-layer">
       <div class="modal-card rules-card">
         <header class="modal-card-header">
-          <h2 data-i18n="rules_modal_title">How to Play Checkers</h2>
+          <h2 data-i18n="rules_modal_title">あそびかた（図解）</h2>
           <button type="button" class="btn-modal-close" id="btnCloseRules" aria-label="Close">✕</button>
         </header>
         
         <div class="rules-step-carousel">
-          <!-- Step 1: Diagonal Movement -->
           <div class="rule-slide active" data-step="1">
             <div class="rule-illustration">
               <div class="mini-board">
@@ -238,11 +224,10 @@
                 <div class="mini-cell light"></div>
               </div>
             </div>
-            <h3 class="rule-slide-title" data-i18n="rule1_title">1. Diagonal Forward Movement</h3>
-            <p class="rule-slide-body" data-i18n="rule1_desc">Pieces only move diagonally forward across dark squares, one tile at a time.</p>
+            <h3 class="rule-slide-title" data-i18n="rule1_title">1. 斜め前方への移動</h3>
+            <p class="rule-slide-body" data-i18n="rule1_desc">駒は濃い色のマスだけを斜め前方に1マス進めます。</p>
           </div>
 
-          <!-- Step 2: Jumping and Mandatory Capture -->
           <div class="rule-slide" data-step="2">
             <div class="rule-illustration">
               <div class="mini-board">
@@ -257,11 +242,10 @@
                 <div class="mini-cell dark"></div>
               </div>
             </div>
-            <h3 class="rule-slide-title" data-i18n="rule2_title">2. Mandatory Jump Capture</h3>
-            <p class="rule-slide-body" data-i18n="rule2_desc">Jump over an opponent's adjacent piece into the empty space beyond to capture it. Captures are strictly mandatory!</p>
+            <h3 class="rule-slide-title" data-i18n="rule2_title">2. 駒の捕獲（強制ジャンプ）</h3>
+            <p class="rule-slide-body" data-i18n="rule2_desc">相手駒の奥が空いていれば飛び越えて取れます。取れる駒がある時はジャンプが義務です！</p>
           </div>
 
-          <!-- Step 3: Multi-Jump Chains -->
           <div class="rule-slide" data-step="3">
             <div class="rule-illustration">
               <div class="mini-board wide-mini">
@@ -273,11 +257,10 @@
               </div>
               <div class="combo-visual-badge">COMBO ×2</div>
             </div>
-            <h3 class="rule-slide-title" data-i18n="rule3_title">3. Multi-Jump Streaks</h3>
-            <p class="rule-slide-body" data-i18n="rule3_desc">If another capture is immediately possible after jumping, you must continue hopping within the same turn.</p>
+            <h3 class="rule-slide-title" data-i18n="rule3_title">3. 連続ジャンプ（連鎖）</h3>
+            <p class="rule-slide-body" data-i18n="rule3_desc">飛び越えた後にさらに取れる駒がある場合、同一ターン内で連続して取り続けます。</p>
           </div>
 
-          <!-- Step 4: Crowning & King Backwards Movement -->
           <div class="rule-slide" data-step="4">
             <div class="rule-illustration">
               <div class="mini-board">
@@ -286,9 +269,7 @@
                 <div class="mini-cell dark king-zone"><span class="motion-arrow">↗</span></div>
                 <div class="mini-cell light"></div>
                 <div class="mini-cell dark crowned-cell">
-                  <div class="mini-piece red king-showcase">
-                    <span class="crown-mini-icon">👑</span>
-                  </div>
+                  <div class="mini-piece red king-showcase"><span class="crown-mini-icon">👑</span></div>
                 </div>
                 <div class="mini-cell light"></div>
                 <div class="mini-cell dark king-zone"><span class="motion-arrow">↙</span></div>
@@ -296,8 +277,8 @@
                 <div class="mini-cell dark king-zone"><span class="motion-arrow">↘</span></div>
               </div>
             </div>
-            <h3 class="rule-slide-title" data-i18n="rule4_title">4. Crowning into a King</h3>
-            <p class="rule-slide-body" data-i18n="rule4_desc">Reaching the opponent's back row crowns your piece into a King, granting it the power to move and capture backward!</p>
+            <h3 class="rule-slide-title" data-i18n="rule4_title">4. キング化と後退移動</h3>
+            <p class="rule-slide-body" data-i18n="rule4_desc">相手陣の最奥列に達すると「キング」に昇格。斜め後方への移動・捕獲も可能になります！</p>
           </div>
         </div>
 
@@ -318,7 +299,7 @@
     <div id="statsModal" class="app-modal-layer">
       <div class="modal-card stats-card">
         <header class="modal-card-header">
-          <h2 data-i18n="stats_modal_title">Records &amp; Achievements</h2>
+          <h2 data-i18n="stats_modal_title">戦績・やりこみ実績</h2>
           <button type="button" class="btn-modal-close" id="btnCloseStats" aria-label="Close">✕</button>
         </header>
 
@@ -326,26 +307,24 @@
           <div class="stats-metrics-grid">
             <div class="metric-box">
               <span class="metric-val" id="statMatchesPlayed">0</span>
-              <span class="metric-lbl" data-i18n="stat_played">Matches</span>
+              <span class="metric-lbl" data-i18n="stat_played">総対局数</span>
             </div>
             <div class="metric-box">
               <span class="metric-val" id="statMatchesWon">0</span>
-              <span class="metric-lbl" data-i18n="stat_won">Victories</span>
+              <span class="metric-lbl" data-i18n="stat_won">勝利数</span>
             </div>
             <div class="metric-box">
               <span class="metric-val" id="statWinRate">0%</span>
-              <span class="metric-lbl" data-i18n="stat_rate">Win Rate</span>
+              <span class="metric-lbl" data-i18n="stat_rate">勝率</span>
             </div>
             <div class="metric-box">
               <span class="metric-val" id="statMaxCombo">0</span>
-              <span class="metric-lbl" data-i18n="stat_combo">Max Hop Combo</span>
+              <span class="metric-lbl" data-i18n="stat_combo">最大連続跳躍</span>
             </div>
           </div>
 
-          <h3 class="sub-section-header" data-i18n="header_achievements">Achievements</h3>
-          <ul class="achievement-list" id="achievementList">
-            <!-- Rendered dynamically -->
-          </ul>
+          <h3 class="sub-section-header" data-i18n="header_achievements">実績コレクション</h3>
+          <ul class="achievement-list" id="achievementList"></ul>
         </div>
       </div>
     </div>
@@ -354,14 +333,13 @@
     <div id="settingsModal" class="app-modal-layer">
       <div class="modal-card settings-card">
         <header class="modal-card-header">
-          <h2 data-i18n="settings_modal_title">⚙️ Settings</h2>
+          <h2 data-i18n="settings_modal_title">⚙️ 設定</h2>
           <button type="button" class="btn-modal-close" id="btnCloseSettings" aria-label="Close">✕</button>
         </header>
 
         <div class="settings-form">
-          <!-- Language selector (8 languages) -->
           <div class="form-item">
-            <label for="settingLanguage" data-i18n="setting_lang_label">Language</label>
+            <label for="settingLanguage" data-i18n="setting_lang_label">言語（Language）</label>
             <select id="settingLanguage" class="form-dropdown">
               <option value="en">English</option>
               <option value="ja">日本語</option>
@@ -374,37 +352,32 @@
             </select>
           </div>
 
-          <!-- Sound Effects -->
           <div class="form-item-toggle">
-            <span class="toggle-title" data-i18n="setting_sound_label">Sound Effects</span>
+            <span class="toggle-title" data-i18n="setting_sound_label">効果音</span>
             <label class="switch-control">
               <input type="checkbox" id="settingSoundToggle" checked>
               <span class="switch-slider"></span>
             </label>
           </div>
 
-          <!-- Haptics / Vibration -->
           <div class="form-item-toggle">
-            <span class="toggle-title" data-i18n="setting_vibrate_label">Haptics</span>
+            <span class="toggle-title" data-i18n="setting_vibrate_label">振動・ハプティクス</span>
             <label class="switch-control">
               <input type="checkbox" id="settingVibrateToggle" checked>
               <span class="switch-slider"></span>
             </label>
           </div>
 
-          <!-- Animation Speed -->
           <div class="form-item">
-            <span class="form-sub-label" data-i18n="setting_speed_label">Animation Speed</span>
+            <span class="form-sub-label" data-i18n="setting_speed_label">演出速度</span>
             <div class="pill-tabs" id="settingSpeedSelector">
-              <button type="button" class="pill-tab active" data-speed="normal" data-i18n="speed_normal">Normal</button>
-              <button type="button" class="pill-tab" data-speed="fast" data-i18n="speed_fast">Fast</button>
+              <button type="button" class="pill-tab active" data-speed="normal" data-i18n="speed_normal">通常</button>
+              <button type="button" class="pill-tab" data-speed="fast" data-i18n="speed_fast">高速</button>
             </div>
           </div>
 
           <div class="danger-zone-divider"></div>
-
-          <!-- Reset Data -->
-          <button type="button" id="btnResetAllData" class="btn-danger-outline" data-i18n="btn_reset_data">Reset Statistics &amp; Records</button>
+          <button type="button" id="btnResetAllData" class="btn-danger-outline" data-i18n="btn_reset_data">戦績・実績データを初期化</button>
         </div>
       </div>
     </div>
@@ -412,10 +385,10 @@
     <!-- GENERAL CONFIRMATION DIALOG -->
     <div id="confirmModal" class="app-modal-layer">
       <div class="modal-card confirm-card">
-        <h3 id="confirmTitle">Confirm Action</h3>
-        <p id="confirmMessage">Are you sure you want to proceed?</p>
+        <h3 id="confirmTitle">確認</h3>
+        <p id="confirmMessage">実行してもよろしいですか？</p>
         <div class="confirm-actions-row">
-          <button type="button" id="btnConfirmCancel" class="btn-secondary" data-i18n="btn_cancel">Cancel</button>
+          <button type="button" id="btnConfirmCancel" class="btn-secondary" data-i18n="btn_cancel">キャンセル</button>
           <button type="button" id="btnConfirmOk" class="btn-royal btn-primary" data-i18n="btn_confirm">OK</button>
         </div>
       </div>
@@ -425,27 +398,22 @@
     <div id="resultModal" class="app-modal-layer">
       <div class="modal-card result-card">
         <div class="result-trophy" id="resultTrophyIcon">🏆</div>
-        <h2 id="resultWinnerTitle">Victory!</h2>
-        <p id="resultWinnerDesc" class="result-desc">You captured all opponent pieces.</p>
+        <h2 id="resultWinnerTitle">勝利！</h2>
+        <p id="resultWinnerDesc" class="result-desc">相手のすべての駒を獲得しました。</p>
         
-        <div class="result-stats-summary" id="resultSummaryBox">
-          <!-- Summary rows injected -->
-        </div>
-
         <div class="result-actions-col">
           <button type="button" id="btnShareTwitter" class="btn-twitter-share">
             <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor">
               <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
             </svg>
-            <span data-i18n="btn_share_x">Share on X</span>
+            <span data-i18n="btn_share_x">Xで共有</span>
           </button>
-          <button type="button" id="btnRematch" class="btn-royal btn-primary" data-i18n="btn_play_again">Play Again</button>
-          <button type="button" id="btnResultBackTitle" class="btn-secondary" data-i18n="btn_back_menu">Return to Menu</button>
+          <button type="button" id="btnRematch" class="btn-royal btn-primary" data-i18n="btn_play_again">もう一度遊ぶ</button>
+          <button type="button" id="btnResultBackTitle" class="btn-secondary" data-i18n="btn_back_menu">メニューへ戻る</button>
         </div>
       </div>
     </div>
 
-    <!-- TOAST NOTIFICATION CONTAINER -->
     <div id="toastNotification" class="toast-bubble"></div>
   </div>
 
