@@ -18,13 +18,13 @@
     <a href="../" class="portal-nav" id="btn-back-clubhouse">‹ CLUB HOUSEへ戻る</a>
     
     <div class="title-hero">
-      <!-- アプリアイコン枠を廃止し、本物のボードゲームジオラマを直接配置 -->
+      <!-- 本物のフラットプラスチックコインが収まるジオラマ -->
       <div class="game-diorama">
         <svg viewBox="0 0 320 180" class="diorama-svg">
           <defs>
             <linearGradient id="dioBlue" x1="0%" y1="0%" x2="0%" y2="100%">
               <stop offset="0%" stop-color="#3b82f6"/>
-              <stop offset="40%" stop-color="#1d4ed8"/>
+              <stop offset="35%" stop-color="#1d4ed8"/>
               <stop offset="100%" stop-color="#0f2b66"/>
             </linearGradient>
             <linearGradient id="dioYellowLeg" x1="0%" y1="0%" x2="0%" y2="100%">
@@ -32,29 +32,32 @@
               <stop offset="40%" stop-color="#eab308"/>
               <stop offset="100%" stop-color="#854d0e"/>
             </linearGradient>
-            <radialGradient id="dioRedDisk" cx="35%" cy="30%" r="70%">
-              <stop offset="0%" stop-color="#ff8585"/>
-              <stop offset="35%" stop-color="#ef4444"/>
-              <stop offset="75%" stop-color="#b91c1c"/>
-              <stop offset="100%" stop-color="#580e0e"/>
-            </radialGradient>
-            <radialGradient id="dioYelDisk" cx="35%" cy="30%" r="70%">
-              <stop offset="0%" stop-color="#fffec4"/>
-              <stop offset="35%" stop-color="#facc15"/>
-              <stop offset="75%" stop-color="#ca8a04"/>
-              <stop offset="100%" stop-color="#713f12"/>
-            </radialGradient>
-            <radialGradient id="dioHole" cx="50%" cy="50%" r="50%">
+
+            <!-- フラットコイン用グラデーション（球体感を消し、平らな成型ディスクを表現） -->
+            <linearGradient id="flatRedFace" x1="0%" y1="0%" x2="0%" y2="100%">
+              <stop offset="0%" stop-color="#f87171"/>
+              <stop offset="30%" stop-color="#dc2626"/>
+              <stop offset="100%" stop-color="#991b1b"/>
+            </linearGradient>
+            <linearGradient id="flatYelFace" x1="0%" y1="0%" x2="0%" y2="100%">
+              <stop offset="0%" stop-color="#fef08a"/>
+              <stop offset="30%" stop-color="#eab308"/>
+              <stop offset="100%" stop-color="#a16207"/>
+            </linearGradient>
+
+            <!-- スロット内部の深み影 -->
+            <radialGradient id="dioHoleShadow" cx="50%" cy="50%" r="50%">
               <stop offset="65%" stop-color="#000000" stop-opacity="0"/>
               <stop offset="90%" stop-color="#000000" stop-opacity="0.8"/>
               <stop offset="100%" stop-color="#000000"/>
             </radialGradient>
+
             <filter id="dioShadow" x="-20%" y="-10%" width="140%" height="130%">
               <feDropShadow dx="0" dy="16" stdDeviation="14" flood-color="#000000" flood-opacity="0.85"/>
             </filter>
           </defs>
 
-          <!-- テーブル接地影 -->
+          <!-- 接地シャドウ -->
           <ellipse cx="160" cy="165" rx="140" ry="14" fill="#000000" opacity="0.6"/>
 
           <g filter="url(#dioShadow)">
@@ -64,91 +67,128 @@
             <rect x="46" y="154" width="46" height="12" rx="5" fill="#ca8a04"/>
             <rect x="228" y="154" width="46" height="12" rx="5" fill="#ca8a04"/>
 
-            <!-- 青色の縦型グリッドボード本体（5列×3行の立体ミニチュア） -->
+            <!-- グリッドボード本体 -->
             <rect x="74" y="24" width="172" height="128" rx="14" fill="url(#dioBlue)" stroke="#60a5fa" stroke-width="2.5"/>
             <path d="M 86 26 L 234 26" stroke="#93c5fd" stroke-width="2" stroke-linecap="round" opacity="0.6"/>
-            <!-- 底のイエローリリースバー -->
             <rect x="70" y="146" width="180" height="9" rx="3" fill="url(#dioYellowLeg)" stroke="#854d0e" stroke-width="1"/>
 
-            <!-- 盤面の穴とコマ（斜め4連が揃った立体配置） -->
+            <!-- 盤面のマスとコイン（球体ではなく平坦なコインモールド） -->
             <!-- 1段目（底） -->
             <circle cx="94"  cy="124" r="13" fill="#050811"/>
-            <circle cx="94"  cy="124" r="12" fill="url(#dioYelDisk)"/>
-            <circle cx="94"  cy="124" r="13" fill="url(#dioHole)"/>
+            <!-- 黄コイン -->
+            <g transform="translate(94, 124)">
+              <circle cx="0" cy="0" r="12" fill="url(#flatYelFace)" stroke="#713f12" stroke-width="0.8"/>
+              <circle cx="0" cy="0" r="8" fill="none" stroke="#fffde0" stroke-width="0.8" opacity="0.6"/>
+              <circle cx="0" cy="0" r="4" fill="none" stroke="#854d0e" stroke-width="0.8"/>
+            </g>
+            <circle cx="94"  cy="124" r="13" fill="url(#dioHoleShadow)"/>
 
             <circle cx="127" cy="124" r="13" fill="#050811"/>
-            <circle cx="127" cy="124" r="12" fill="url(#dioRedDisk)"/>
-            <circle cx="127" cy="124" r="13" fill="url(#dioHole)"/>
+            <!-- 赤コイン -->
+            <g transform="translate(127, 124)">
+              <circle cx="0" cy="0" r="12" fill="url(#flatRedFace)" stroke="#7f1d1d" stroke-width="0.8"/>
+              <circle cx="0" cy="0" r="8" fill="none" stroke="#ffa8a8" stroke-width="0.8" opacity="0.6"/>
+              <circle cx="0" cy="0" r="4" fill="none" stroke="#7f1d1d" stroke-width="0.8"/>
+            </g>
+            <circle cx="127" cy="124" r="13" fill="url(#dioHoleShadow)"/>
 
             <circle cx="160" cy="124" r="13" fill="#050811"/>
-            <circle cx="160" cy="124" r="12" fill="url(#dioYelDisk)"/>
-            <circle cx="160" cy="124" r="13" fill="url(#dioHole)"/>
+            <!-- 黄コイン -->
+            <g transform="translate(160, 124)">
+              <circle cx="0" cy="0" r="12" fill="url(#flatYelFace)" stroke="#713f12" stroke-width="0.8"/>
+              <circle cx="0" cy="0" r="8" fill="none" stroke="#fffde0" stroke-width="0.8" opacity="0.6"/>
+              <circle cx="0" cy="0" r="4" fill="none" stroke="#854d0e" stroke-width="0.8"/>
+            </g>
+            <circle cx="160" cy="124" r="13" fill="url(#dioHoleShadow)"/>
 
             <circle cx="193" cy="124" r="13" fill="#050811"/>
-            <circle cx="193" cy="124" r="12" fill="url(#dioRedDisk)"/>
-            <circle cx="193" cy="124" r="13" fill="url(#dioHole)"/>
+            <!-- 赤コイン -->
+            <g transform="translate(193, 124)">
+              <circle cx="0" cy="0" r="12" fill="url(#flatRedFace)" stroke="#7f1d1d" stroke-width="0.8"/>
+              <circle cx="0" cy="0" r="8" fill="none" stroke="#ffa8a8" stroke-width="0.8" opacity="0.6"/>
+              <circle cx="0" cy="0" r="4" fill="none" stroke="#7f1d1d" stroke-width="0.8"/>
+            </g>
+            <circle cx="193" cy="124" r="13" fill="url(#dioHoleShadow)"/>
 
             <circle cx="226" cy="124" r="13" fill="#050811"/>
-            <circle cx="226" cy="124" r="13" fill="url(#dioHole)"/>
+            <circle cx="226" cy="124" r="13" fill="url(#dioHoleShadow)"/>
 
             <!-- 2段目（中） -->
             <circle cx="94"  cy="88" r="13" fill="#050811"/>
-            <circle cx="94"  cy="88" r="13" fill="url(#dioHole)"/>
+            <circle cx="94"  cy="88" r="13" fill="url(#dioHoleShadow)"/>
 
             <circle cx="127" cy="88" r="13" fill="#050811"/>
-            <circle cx="127" cy="88" r="12" fill="url(#dioYelDisk)"/>
-            <circle cx="127" cy="88" r="13" fill="url(#dioHole)"/>
+            <g transform="translate(127, 88)">
+              <circle cx="0" cy="0" r="12" fill="url(#flatYelFace)" stroke="#713f12" stroke-width="0.8"/>
+              <circle cx="0" cy="0" r="8" fill="none" stroke="#fffde0" stroke-width="0.8" opacity="0.6"/>
+              <circle cx="0" cy="0" r="4" fill="none" stroke="#854d0e" stroke-width="0.8"/>
+            </g>
+            <circle cx="127" cy="88" r="13" fill="url(#dioHoleShadow)"/>
 
             <circle cx="160" cy="88" r="13" fill="#050811"/>
-            <circle cx="160" cy="12" fill="url(#dioRedDisk)" r="12"/>
-            <circle cx="160" cy="88" r="13" fill="url(#dioHole)"/>
+            <g transform="translate(160, 88)">
+              <circle cx="0" cy="0" r="12" fill="url(#flatRedFace)" stroke="#7f1d1d" stroke-width="0.8"/>
+              <circle cx="0" cy="0" r="8" fill="none" stroke="#ffa8a8" stroke-width="0.8" opacity="0.6"/>
+              <circle cx="0" cy="0" r="4" fill="none" stroke="#7f1d1d" stroke-width="0.8"/>
+            </g>
+            <circle cx="160" cy="88" r="13" fill="url(#dioHoleShadow)"/>
 
             <circle cx="193" cy="88" r="13" fill="#050811"/>
-            <circle cx="193" cy="88" r="13" fill="url(#dioHole)"/>
+            <circle cx="193" cy="88" r="13" fill="url(#dioHoleShadow)"/>
 
             <circle cx="226" cy="88" r="13" fill="#050811"/>
-            <circle cx="226" cy="88" r="13" fill="url(#dioHole)"/>
+            <circle cx="226" cy="88" r="13" fill="url(#dioHoleShadow)"/>
 
             <!-- 3段目（上） -->
             <circle cx="94"  cy="52" r="13" fill="#050811"/>
-            <circle cx="94"  cy="52" r="13" fill="url(#dioHole)"/>
+            <circle cx="94"  cy="52" r="13" fill="url(#dioHoleShadow)"/>
 
             <circle cx="127" cy="52" r="13" fill="#050811"/>
-            <circle cx="127" cy="52" r="13" fill="url(#dioHole)"/>
+            <circle cx="127" cy="52" r="13" fill="url(#dioHoleShadow)"/>
 
             <circle cx="160" cy="52" r="13" fill="#050811"/>
-            <circle cx="160" cy="52" r="13" fill="url(#dioHole)"/>
+            <circle cx="160" cy="52" r="13" fill="url(#dioHoleShadow)"/>
 
             <circle cx="193" cy="52" r="13" fill="#050811"/>
-            <circle cx="193" cy="52" r="12" fill="url(#dioRedDisk)"/>
-            <circle cx="193" cy="52" r="13" fill="url(#dioHole)"/>
+            <g transform="translate(193, 52)">
+              <circle cx="0" cy="0" r="12" fill="url(#flatRedFace)" stroke="#7f1d1d" stroke-width="0.8"/>
+              <circle cx="0" cy="0" r="8" fill="none" stroke="#ffa8a8" stroke-width="0.8" opacity="0.6"/>
+              <circle cx="0" cy="0" r="4" fill="none" stroke="#7f1d1d" stroke-width="0.8"/>
+            </g>
+            <circle cx="193" cy="52" r="13" fill="url(#dioHoleShadow)"/>
 
             <circle cx="226" cy="52" r="13" fill="#050811"/>
-            <circle cx="226" cy="52" r="13" fill="url(#dioHole)"/>
+            <circle cx="226" cy="52" r="13" fill="url(#dioHoleShadow)"/>
           </g>
 
-          <!-- ボードの脇に積み上げられた本物のディスクの山（手札感） -->
-          <!-- 左側：赤ディスクのスタック -->
+          <!-- 左右に平積みされたフラットコインの束 -->
+          <!-- 左側：赤コイン束 -->
           <g filter="url(#dioShadow)">
-            <ellipse cx="38" cy="156" rx="18" ry="7" fill="url(#dioRedDisk)" stroke="#ffffff" stroke-width="0.8" opacity="0.9"/>
-            <ellipse cx="38" cy="149" rx="18" ry="7" fill="url(#dioRedDisk)" stroke="#ffffff" stroke-width="0.8" opacity="0.9"/>
-            <ellipse cx="38" cy="142" rx="18" ry="7" fill="url(#dioRedDisk)" stroke="#ffffff" stroke-width="1.2"/>
-            <ellipse cx="38" cy="142" rx="10" ry="4" fill="none" stroke="#ff8585" stroke-width="1" opacity="0.7"/>
+            <ellipse cx="38" cy="156" rx="18" ry="6" fill="#7f1d1d"/>
+            <ellipse cx="38" cy="154" rx="18" ry="6" fill="url(#flatRedFace)" stroke="#ffffff" stroke-width="0.5"/>
+            <ellipse cx="38" cy="150" rx="18" ry="6" fill="#7f1d1d"/>
+            <ellipse cx="38" cy="148" rx="18" ry="6" fill="url(#flatRedFace)" stroke="#ffffff" stroke-width="0.5"/>
+            <ellipse cx="38" cy="144" rx="18" ry="6" fill="#7f1d1d"/>
+            <ellipse cx="38" cy="142" rx="18" ry="6" fill="url(#flatRedFace)" stroke="#ffffff" stroke-width="0.8"/>
+            <ellipse cx="38" cy="142" rx="11" ry="3.5" fill="none" stroke="#ff9999" stroke-width="0.8" opacity="0.7"/>
           </g>
 
-          <!-- 右側：黄ディスクのスタック -->
+          <!-- 右側：黄コイン束 -->
           <g filter="url(#dioShadow)">
-            <ellipse cx="282" cy="156" rx="18" ry="7" fill="url(#dioYelDisk)" stroke="#ffffff" stroke-width="0.8" opacity="0.9"/>
-            <ellipse cx="282" cy="149" rx="18" ry="7" fill="url(#dioYelDisk)" stroke="#ffffff" stroke-width="0.8" opacity="0.9"/>
-            <ellipse cx="282" cy="142" rx="18" ry="7" fill="url(#dioYelDisk)" stroke="#ffffff" stroke-width="1.2"/>
-            <ellipse cx="282" cy="142" rx="10" ry="4" fill="none" stroke="#fffec4" stroke-width="1" opacity="0.7"/>
+            <ellipse cx="282" cy="156" rx="18" ry="6" fill="#713f12"/>
+            <ellipse cx="282" cy="154" rx="18" ry="6" fill="url(#flatYelFace)" stroke="#ffffff" stroke-width="0.5"/>
+            <ellipse cx="282" cy="150" rx="18" ry="6" fill="#713f12"/>
+            <ellipse cx="282" cy="148" rx="18" ry="6" fill="url(#flatYelFace)" stroke="#ffffff" stroke-width="0.5"/>
+            <ellipse cx="282" cy="144" rx="18" ry="6" fill="#713f12"/>
+            <ellipse cx="282" cy="142" rx="18" ry="6" fill="url(#flatYelFace)" stroke="#ffffff" stroke-width="0.8"/>
+            <ellipse cx="282" cy="142" rx="11" ry="3.5" fill="none" stroke="#fffec4" stroke-width="0.8" opacity="0.7"/>
           </g>
 
-          <!-- 上空からスロットへと吸い込まれる決定打ディスクのアクション -->
+          <!-- スロットへ投下されるフラット赤コイン -->
           <g>
             <line x1="193" y1="4" x2="193" y2="34" stroke="#facc15" stroke-width="2" stroke-dasharray="3,3" opacity="0.9"/>
-            <circle cx="193" cy="14" r="12" fill="url(#dioRedDisk)" stroke="#fef08a" stroke-width="1.5"/>
-            <circle cx="193" cy="14" r="7" fill="none" stroke="#ffffff" stroke-width="1" opacity="0.7"/>
+            <circle cx="193" cy="14" r="12" fill="url(#flatRedFace)" stroke="#ffffff" stroke-width="1"/>
+            <circle cx="193" cy="14" r="7" fill="none" stroke="#ff9999" stroke-width="0.8" opacity="0.7"/>
           </g>
         </svg>
       </div>
@@ -305,11 +345,11 @@
                   <stop offset="0%" stop-color="#2f79e8"/>
                   <stop offset="100%" stop-color="#0f3d85"/>
                 </linearGradient>
-                <radialGradient id="svgRed" cx="35%" cy="30%" r="70%">
-                  <stop offset="0%" stop-color="#ff7b7b"/>
-                  <stop offset="60%" stop-color="#dc2626"/>
-                  <stop offset="100%" stop-color="#7f1d1d"/>
-                </radialGradient>
+                <linearGradient id="svgFlatRed" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="0%" stop-color="#f87171"/>
+                  <stop offset="40%" stop-color="#dc2626"/>
+                  <stop offset="100%" stop-color="#991b1b"/>
+                </linearGradient>
               </defs>
               <rect x="20" y="20" width="120" height="75" rx="8" fill="url(#svgBoard)" stroke="#4d93f7" stroke-width="2"/>
               <circle cx="50" cy="42" r="13" fill="#080605"/>
@@ -318,10 +358,12 @@
               <circle cx="50" cy="72" r="13" fill="#080605"/>
               <circle cx="80" cy="72" r="13" fill="#080605"/>
               <circle cx="110" cy="72" r="13" fill="#080605"/>
-              <circle cx="80" cy="72" r="12" fill="url(#svgRed)"/>
+              <!-- フラットコイン配置 -->
+              <circle cx="80" cy="72" r="12" fill="url(#svgFlatRed)" stroke="#7f1d1d" stroke-width="1"/>
+              <circle cx="80" cy="72" r="7" fill="none" stroke="#ffa8a8" stroke-width="1" opacity="0.6"/>
               <path d="M 80 4 L 80 24" stroke="#facc15" stroke-width="3" stroke-dasharray="3,3"/>
               <polygon points="76,22 84,22 80,28" fill="#facc15"/>
-              <circle cx="80" cy="4" r="9" fill="url(#svgRed)" opacity="0.9"/>
+              <circle cx="80" cy="6" r="10" fill="url(#svgFlatRed)" stroke="#ffffff" stroke-width="0.8"/>
             </svg>
           </div>
           <div class="rule-text">
@@ -334,10 +376,10 @@
           <div class="rule-visual">
             <svg viewBox="0 0 160 100" class="rule-svg">
               <rect x="10" y="10" width="140" height="80" rx="8" fill="url(#svgBoard)" stroke="#4d93f7" stroke-width="2"/>
-              <circle cx="35" cy="75" r="11" fill="url(#svgRed)"/>
-              <circle cx="65" cy="55" r="11" fill="url(#svgRed)"/>
-              <circle cx="95" cy="35" r="11" fill="url(#svgRed)"/>
-              <circle cx="125" cy="15" r="11" fill="url(#svgRed)"/>
+              <circle cx="35" cy="75" r="11" fill="url(#svgFlatRed)" stroke="#7f1d1d" stroke-width="0.8"/>
+              <circle cx="65" cy="55" r="11" fill="url(#svgFlatRed)" stroke="#7f1d1d" stroke-width="0.8"/>
+              <circle cx="95" cy="35" r="11" fill="url(#svgFlatRed)" stroke="#7f1d1d" stroke-width="0.8"/>
+              <circle cx="125" cy="15" r="11" fill="url(#svgFlatRed)" stroke="#7f1d1d" stroke-width="0.8"/>
               <line x1="35" y1="75" x2="125" y2="15" stroke="#facc15" stroke-width="3.5" stroke-linecap="round"/>
               <circle cx="35" cy="75" r="13" fill="none" stroke="#facc15" stroke-width="2"/>
               <circle cx="65" cy="55" r="13" fill="none" stroke="#facc15" stroke-width="2"/>
@@ -355,17 +397,17 @@
           <div class="rule-visual">
             <svg viewBox="0 0 160 100" class="rule-svg">
               <defs>
-                <radialGradient id="svgYel" cx="35%" cy="30%" r="70%">
-                  <stop offset="0%" stop-color="#fffa9e"/>
-                  <stop offset="60%" stop-color="#eab308"/>
-                  <stop offset="100%" stop-color="#854d0e"/>
-                </radialGradient>
+                <linearGradient id="svgFlatYel" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="0%" stop-color="#fef08a"/>
+                  <stop offset="40%" stop-color="#eab308"/>
+                  <stop offset="100%" stop-color="#a16207"/>
+                </linearGradient>
               </defs>
               <rect x="10" y="15" width="140" height="70" rx="8" fill="url(#svgBoard)" stroke="#4d93f7" stroke-width="2"/>
-              <circle cx="35" cy="50" r="11" fill="url(#svgYel)"/>
-              <circle cx="65" cy="50" r="11" fill="url(#svgYel)"/>
-              <circle cx="95" cy="50" r="11" fill="url(#svgYel)"/>
-              <circle cx="125" cy="50" r="12" fill="url(#svgRed)"/>
+              <circle cx="35" cy="50" r="11" fill="url(#svgFlatYel)" stroke="#854d0e" stroke-width="0.8"/>
+              <circle cx="65" cy="50" r="11" fill="url(#svgFlatYel)" stroke="#854d0e" stroke-width="0.8"/>
+              <circle cx="95" cy="50" r="11" fill="url(#svgFlatYel)" stroke="#854d0e" stroke-width="0.8"/>
+              <circle cx="125" cy="50" r="12" fill="url(#svgFlatRed)" stroke="#7f1d1d" stroke-width="0.8"/>
               <circle cx="125" cy="50" r="14" fill="none" stroke="#60a5fa" stroke-width="2.5" stroke-dasharray="4,2"/>
               <path d="M 120 45 L 130 55 M 130 45 L 120 55" stroke="#fff" stroke-width="2.5" stroke-linecap="round"/>
             </svg>
