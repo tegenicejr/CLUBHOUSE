@@ -21,9 +21,9 @@
       background: radial-gradient(circle at 50% 50%, rgba(17, 84, 46, 0.4) 0%, rgba(8, 43, 23, 0.8) 100%), #0d381e;
     }
 
-    /* コネクト4用ステージグラデーション（ポップブルー＆シアン） */
+    /* コネクト4用ステージグラデーション（トイスタジオ・ディープトーン） */
     .banner-c4 {
-      background: linear-gradient(135deg, #70a1ff 0%, #1e90ff 50%, #0984e3 100%);
+      background: radial-gradient(circle at 50% 40%, rgba(59, 130, 246, 0.35) 0%, rgba(15, 23, 42, 0.8) 100%), #181210;
     }
 
     #settings-modal {
@@ -314,78 +314,124 @@
         </div>
       </a>
 
-      <!-- 4. コネクト4 (新規追加) -->
+      <!-- 4. コネクト4 (ご提示の3Dトイアイコンへ差し替え済み) -->
       <a href="connect4/index.html" class="game-card">
         <div class="card-banner banner-c4">
           <span class="card-tag" data-i18n="tag_board">Board Game</span>
           <div class="icon-stage">
-            <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="100%" height="100%">
               <defs>
-                <filter id="c4Shadow" x="-20%" y="-20%" width="140%" height="140%">
-                  <feDropShadow dx="0" dy="8" stdDeviation="6" flood-color="#0984e3" flood-opacity="0.45"/>
-                </filter>
-                <!-- ボード用ブルー -->
-                <linearGradient id="boardGrad" x1="0%" y1="0%" x2="0%" y2="100%">
-                  <stop offset="0%" stop-color="#2e86de"/>
-                  <stop offset="100%" stop-color="#0984e3"/>
+                <radialGradient id="toyStudioBg" cx="50%" cy="30%" r="85%">
+                  <stop offset="0%" stop-color="#2a201c" />
+                  <stop offset="50%" stop-color="#181210" />
+                  <stop offset="100%" stop-color="#0a0706" />
+                </radialGradient>
+                <linearGradient id="framePlastic" x1="0%" y1="0%" x2="100%" y2="100%">
+                  <stop offset="0%" stop-color="#3b82f6" />
+                  <stop offset="25%" stop-color="#2563eb" />
+                  <stop offset="70%" stop-color="#1d4ed8" />
+                  <stop offset="100%" stop-color="#172554" />
                 </linearGradient>
-                <!-- レッドディスク -->
-                <radialGradient id="redDisc" cx="35%" cy="30%" r="70%">
-                  <stop offset="0%" stop-color="#ff7675"/>
-                  <stop offset="70%" stop-color="#d63031"/>
-                  <stop offset="100%" stop-color="#a31718"/>
+                <linearGradient id="standPlastic" x1="0%" y1="0%" x2="0%" y2="100%">
+                  <stop offset="0%" stop-color="#fef08a" />
+                  <stop offset="35%" stop-color="#eab308" />
+                  <stop offset="100%" stop-color="#854d0e" />
+                </linearGradient>
+                <radialGradient id="diskRed" cx="35%" cy="30%" r="70%">
+                  <stop offset="0%" stop-color="#ff9999" />
+                  <stop offset="30%" stop-color="#ef4444" />
+                  <stop offset="75%" stop-color="#b91c1c" />
+                  <stop offset="100%" stop-color="#450a0a" />
                 </radialGradient>
-                <!-- イエローディスク -->
-                <radialGradient id="yellowDisc" cx="35%" cy="30%" r="70%">
-                  <stop offset="0%" stop-color="#fff275"/>
-                  <stop offset="70%" stop-color="#fdcb6e"/>
-                  <stop offset="100%" stop-color="#e17055"/>
+                <radialGradient id="diskYellow" cx="35%" cy="30%" r="70%">
+                  <stop offset="0%" stop-color="#fffec4" />
+                  <stop offset="30%" stop-color="#facc15" />
+                  <stop offset="75%" stop-color="#ca8a04" />
+                  <stop offset="100%" stop-color="#713f12" />
                 </radialGradient>
+                <radialGradient id="slotShadow" cx="50%" cy="50%" r="50%">
+                  <stop offset="65%" stop-color="#000000" stop-opacity="0" />
+                  <stop offset="90%" stop-color="#000000" stop-opacity="0.75" />
+                  <stop offset="100%" stop-color="#000000" />
+                </radialGradient>
+                <filter id="popShadow" x="-25%" y="-20%" width="150%" height="150%">
+                  <feDropShadow dx="0" dy="22" stdDeviation="18" flood-color="#000000" flood-opacity="0.85" />
+                </filter>
+                <filter id="floatShadow" x="-30%" y="-30%" width="160%" height="160%">
+                  <feDropShadow dx="0" dy="16" stdDeviation="12" flood-color="#000000" flood-opacity="0.75" />
+                </filter>
               </defs>
 
-              <g filter="url(#c4Shadow)">
-                <!-- 縦型スタンド・ベース -->
-                <path d="M 24 165 L 176 165 L 168 152 L 32 152 Z" fill="#0652dd" opacity="0.7"/>
-                
-                <!-- ブルーグリッドボード本体（丸みのある立体フレーム） -->
-                <rect x="22" y="32" width="156" height="122" rx="20" fill="url(#boardGrad)" stroke="#54a0ff" stroke-width="2"/>
-                <!-- ボード上部のツヤ -->
-                <path d="M 36 36 L 164 36 C 172 36 174 40 172 44 C 158 54 130 56 100 56 C 70 56 42 54 28 44 C 26 40 28 36 36 36 Z" fill="#ffffff" opacity="0.25"/>
+              <rect width="512" height="512" rx="112" fill="url(#toyStudioBg)" />
+              <ellipse cx="256" cy="140" rx="200" ry="120" fill="#fef08a" opacity="0.08" />
 
-                <!-- 穴と配置されたディスク（3段×4列のミニチュア配置） -->
-                <!-- 列1 (x=50) -->
-                <circle cx="50" cy="58" r="14" fill="#083a7a" opacity="0.6"/>
-                <circle cx="50" cy="92" r="14" fill="url(#yellowDisc)"/>
-                <circle cx="50" cy="92" r="9" fill="none" stroke="#ffffff" stroke-width="1.5" opacity="0.6"/>
-                <circle cx="50" cy="126" r="14" fill="url(#redDisc)"/>
-                <circle cx="50" cy="126" r="9" fill="none" stroke="#ffffff" stroke-width="1.5" opacity="0.6"/>
+              <g filter="url(#popShadow)" transform="rotate(-6 256 256)">
+                <path d="M 64 395 L 102 180 L 132 180 L 106 405 Z" fill="url(#standPlastic)" stroke="#a16207" stroke-width="2" />
+                <path d="M 448 395 L 410 180 L 380 180 L 406 405 Z" fill="url(#standPlastic)" stroke="#a16207" stroke-width="2" />
+                <rect x="52" y="392" width="70" height="20" rx="8" fill="#ca8a04" />
+                <rect x="390" y="392" width="70" height="20" rx="8" fill="#ca8a04" />
 
-                <!-- 列2 (x=83) -->
-                <circle cx="83" cy="58" r="14" fill="url(#yellowDisc)"/>
-                <circle cx="83" cy="58" r="9" fill="none" stroke="#ffffff" stroke-width="1.5" opacity="0.6"/>
-                <circle cx="83" cy="92" r="14" fill="url(#redDisc)"/>
-                <circle cx="83" cy="92" r="9" fill="none" stroke="#ffffff" stroke-width="1.5" opacity="0.6"/>
-                <circle cx="83" cy="126" r="14" fill="url(#yellowDisc)"/>
-                <circle cx="83" cy="126" r="9" fill="none" stroke="#ffffff" stroke-width="1.5" opacity="0.6"/>
+                <rect x="88" y="110" width="336" height="275" rx="24" fill="url(#framePlastic)" stroke="#60a5fa" stroke-width="3" />
+                <path d="M 112 113 L 400 113" stroke="#93c5fd" stroke-width="3" stroke-linecap="round" opacity="0.6" />
+                <rect x="82" y="375" width="348" height="18" rx="5" fill="url(#standPlastic)" stroke="#854d0e" stroke-width="1.5" />
 
-                <!-- 列3 (x=117) -->
-                <circle cx="117" cy="58" r="14" fill="#083a7a" opacity="0.6"/>
-                <circle cx="117" cy="92" r="14" fill="url(#yellowDisc)"/>
-                <circle cx="117" cy="92" r="9" fill="none" stroke="#ffffff" stroke-width="1.5" opacity="0.6"/>
-                <circle cx="117" cy="126" r="14" fill="url(#redDisc)"/>
-                <circle cx="117" cy="126" r="9" fill="none" stroke="#ffffff" stroke-width="1.5" opacity="0.6"/>
+                <!-- 下段 -->
+                <g>
+                  <circle cx="160" cy="325" r="32" fill="#090d16" />
+                  <circle cx="160" cy="325" r="30" fill="url(#diskRed)" />
+                  <circle cx="160" cy="325" r="20" fill="none" stroke="#ff9999" stroke-width="1.5" opacity="0.5" />
+                  <circle cx="160" cy="325" r="32" fill="url(#slotShadow)" />
 
-                <!-- 列4 (x=150) -->
-                <circle cx="150" cy="58" r="14" fill="#083a7a" opacity="0.6"/>
-                <circle cx="150" cy="92" r="14" fill="#083a7a" opacity="0.6"/>
-                <circle cx="150" cy="126" r="14" fill="url(#yellowDisc)"/>
-                <circle cx="150" cy="126" r="9" fill="none" stroke="#ffffff" stroke-width="1.5" opacity="0.6"/>
+                  <circle cx="256" cy="325" r="32" fill="#090d16" />
+                  <circle cx="256" cy="325" r="30" fill="url(#diskYellow)" />
+                  <circle cx="256" cy="325" r="20" fill="none" stroke="#fffda8" stroke-width="1.5" opacity="0.5" />
+                  <circle cx="256" cy="325" r="32" fill="url(#slotShadow)" />
 
-                <!-- 上から投入される弾むレッドディスク -->
-                <g transform="translate(117, 18)">
-                  <circle cx="0" cy="0" r="13" fill="url(#redDisc)" stroke="#ffffff" stroke-width="1.5"/>
-                  <circle cx="0" cy="0" r="8" fill="none" stroke="#ffffff" stroke-width="1" opacity="0.7"/>
+                  <circle cx="352" cy="325" r="32" fill="#090d16" />
+                  <circle cx="352" cy="325" r="30" fill="url(#diskRed)" />
+                  <circle cx="352" cy="325" r="20" fill="none" stroke="#ff9999" stroke-width="1.5" opacity="0.5" />
+                  <circle cx="352" cy="325" r="32" fill="url(#slotShadow)" />
                 </g>
+
+                <!-- 中段 -->
+                <g>
+                  <circle cx="160" cy="245" r="32" fill="#090d16" />
+                  <circle cx="160" cy="245" r="30" fill="url(#diskYellow)" />
+                  <circle cx="160" cy="245" r="20" fill="none" stroke="#fffda8" stroke-width="1.5" opacity="0.5" />
+                  <circle cx="160" cy="245" r="32" fill="url(#slotShadow)" />
+
+                  <circle cx="256" cy="245" r="32" fill="#090d16" />
+                  <circle cx="256" cy="245" r="30" fill="url(#diskRed)" />
+                  <circle cx="256" cy="245" r="20" fill="none" stroke="#ff9999" stroke-width="1.5" opacity="0.5" />
+                  <circle cx="256" cy="245" r="32" fill="url(#slotShadow)" />
+
+                  <circle cx="352" cy="245" r="32" fill="#090d16" />
+                  <circle cx="352" cy="245" r="32" fill="url(#slotShadow)" />
+                </g>
+
+                <!-- 上段 -->
+                <g>
+                  <circle cx="160" cy="165" r="32" fill="#090d16" />
+                  <circle cx="160" cy="165" r="32" fill="url(#slotShadow)" />
+
+                  <circle cx="256" cy="165" r="32" fill="#090d16" />
+                  <circle cx="256" cy="165" r="32" fill="url(#slotShadow)" />
+
+                  <circle cx="352" cy="165" r="32" fill="#090d16" />
+                  <circle cx="352" cy="165" r="32" fill="url(#slotShadow)" />
+                </g>
+              </g>
+
+              <g filter="url(#floatShadow)">
+                <circle cx="105" cy="390" r="44" fill="url(#diskYellow)" stroke="#ffffff" stroke-width="2.5" />
+                <circle cx="105" cy="390" r="28" fill="none" stroke="#fffda8" stroke-width="2" opacity="0.7" />
+                <circle cx="105" cy="390" r="14" fill="none" stroke="#a16207" stroke-width="2.5" />
+              </g>
+
+              <g filter="url(#floatShadow)">
+                <circle cx="395" cy="140" r="50" fill="url(#diskRed)" stroke="#ffffff" stroke-width="3" />
+                <circle cx="395" cy="140" r="32" fill="none" stroke="#ff9999" stroke-width="2.5" opacity="0.8" />
+                <circle cx="395" cy="140" r="16" fill="none" stroke="#7f1d1d" stroke-width="3" />
               </g>
             </svg>
           </div>
@@ -600,7 +646,6 @@
     }
 
     function syncAllSettings() {
-      // 共通キー群にコネクト4（c4）も追加
       ['clubhouse', '2048', 'bg', 'bj', 'c4'].forEach(prefix => {
         localStorage.setItem(`${prefix}_lang`, currentLang);
         localStorage.setItem(`${prefix}_muted`, isMuted);
