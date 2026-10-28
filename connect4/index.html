@@ -18,9 +18,141 @@
     <a href="../" class="portal-nav" id="btn-back-clubhouse">‹ CLUB HOUSEへ戻る</a>
     
     <div class="title-hero">
-      <div class="symbol-wrapper">
-        <img src="./icon.svg" alt="Connect 4" class="game-symbol">
+      <!-- アプリアイコン枠を廃止し、本物のボードゲームジオラマを直接配置 -->
+      <div class="game-diorama">
+        <svg viewBox="0 0 320 180" class="diorama-svg">
+          <defs>
+            <linearGradient id="dioBlue" x1="0%" y1="0%" x2="0%" y2="100%">
+              <stop offset="0%" stop-color="#3b82f6"/>
+              <stop offset="40%" stop-color="#1d4ed8"/>
+              <stop offset="100%" stop-color="#0f2b66"/>
+            </linearGradient>
+            <linearGradient id="dioYellowLeg" x1="0%" y1="0%" x2="0%" y2="100%">
+              <stop offset="0%" stop-color="#fde047"/>
+              <stop offset="40%" stop-color="#eab308"/>
+              <stop offset="100%" stop-color="#854d0e"/>
+            </linearGradient>
+            <radialGradient id="dioRedDisk" cx="35%" cy="30%" r="70%">
+              <stop offset="0%" stop-color="#ff8585"/>
+              <stop offset="35%" stop-color="#ef4444"/>
+              <stop offset="75%" stop-color="#b91c1c"/>
+              <stop offset="100%" stop-color="#580e0e"/>
+            </radialGradient>
+            <radialGradient id="dioYelDisk" cx="35%" cy="30%" r="70%">
+              <stop offset="0%" stop-color="#fffec4"/>
+              <stop offset="35%" stop-color="#facc15"/>
+              <stop offset="75%" stop-color="#ca8a04"/>
+              <stop offset="100%" stop-color="#713f12"/>
+            </radialGradient>
+            <radialGradient id="dioHole" cx="50%" cy="50%" r="50%">
+              <stop offset="65%" stop-color="#000000" stop-opacity="0"/>
+              <stop offset="90%" stop-color="#000000" stop-opacity="0.8"/>
+              <stop offset="100%" stop-color="#000000"/>
+            </radialGradient>
+            <filter id="dioShadow" x="-20%" y="-10%" width="140%" height="130%">
+              <feDropShadow dx="0" dy="16" stdDeviation="14" flood-color="#000000" flood-opacity="0.85"/>
+            </filter>
+          </defs>
+
+          <!-- テーブル接地影 -->
+          <ellipse cx="160" cy="165" rx="140" ry="14" fill="#000000" opacity="0.6"/>
+
+          <g filter="url(#dioShadow)">
+            <!-- 左右の黄色スタンド脚 -->
+            <path d="M 54 158 L 78 50 L 96 50 L 80 162 Z" fill="url(#dioYellowLeg)" stroke="#854d0e" stroke-width="1.5"/>
+            <path d="M 266 158 L 242 50 L 224 50 L 240 162 Z" fill="url(#dioYellowLeg)" stroke="#854d0e" stroke-width="1.5"/>
+            <rect x="46" y="154" width="46" height="12" rx="5" fill="#ca8a04"/>
+            <rect x="228" y="154" width="46" height="12" rx="5" fill="#ca8a04"/>
+
+            <!-- 青色の縦型グリッドボード本体（5列×3行の立体ミニチュア） -->
+            <rect x="74" y="24" width="172" height="128" rx="14" fill="url(#dioBlue)" stroke="#60a5fa" stroke-width="2.5"/>
+            <path d="M 86 26 L 234 26" stroke="#93c5fd" stroke-width="2" stroke-linecap="round" opacity="0.6"/>
+            <!-- 底のイエローリリースバー -->
+            <rect x="70" y="146" width="180" height="9" rx="3" fill="url(#dioYellowLeg)" stroke="#854d0e" stroke-width="1"/>
+
+            <!-- 盤面の穴とコマ（斜め4連が揃った立体配置） -->
+            <!-- 1段目（底） -->
+            <circle cx="94"  cy="124" r="13" fill="#050811"/>
+            <circle cx="94"  cy="124" r="12" fill="url(#dioYelDisk)"/>
+            <circle cx="94"  cy="124" r="13" fill="url(#dioHole)"/>
+
+            <circle cx="127" cy="124" r="13" fill="#050811"/>
+            <circle cx="127" cy="124" r="12" fill="url(#dioRedDisk)"/>
+            <circle cx="127" cy="124" r="13" fill="url(#dioHole)"/>
+
+            <circle cx="160" cy="124" r="13" fill="#050811"/>
+            <circle cx="160" cy="124" r="12" fill="url(#dioYelDisk)"/>
+            <circle cx="160" cy="124" r="13" fill="url(#dioHole)"/>
+
+            <circle cx="193" cy="124" r="13" fill="#050811"/>
+            <circle cx="193" cy="124" r="12" fill="url(#dioRedDisk)"/>
+            <circle cx="193" cy="124" r="13" fill="url(#dioHole)"/>
+
+            <circle cx="226" cy="124" r="13" fill="#050811"/>
+            <circle cx="226" cy="124" r="13" fill="url(#dioHole)"/>
+
+            <!-- 2段目（中） -->
+            <circle cx="94"  cy="88" r="13" fill="#050811"/>
+            <circle cx="94"  cy="88" r="13" fill="url(#dioHole)"/>
+
+            <circle cx="127" cy="88" r="13" fill="#050811"/>
+            <circle cx="127" cy="88" r="12" fill="url(#dioYelDisk)"/>
+            <circle cx="127" cy="88" r="13" fill="url(#dioHole)"/>
+
+            <circle cx="160" cy="88" r="13" fill="#050811"/>
+            <circle cx="160" cy="12" fill="url(#dioRedDisk)" r="12"/>
+            <circle cx="160" cy="88" r="13" fill="url(#dioHole)"/>
+
+            <circle cx="193" cy="88" r="13" fill="#050811"/>
+            <circle cx="193" cy="88" r="13" fill="url(#dioHole)"/>
+
+            <circle cx="226" cy="88" r="13" fill="#050811"/>
+            <circle cx="226" cy="88" r="13" fill="url(#dioHole)"/>
+
+            <!-- 3段目（上） -->
+            <circle cx="94"  cy="52" r="13" fill="#050811"/>
+            <circle cx="94"  cy="52" r="13" fill="url(#dioHole)"/>
+
+            <circle cx="127" cy="52" r="13" fill="#050811"/>
+            <circle cx="127" cy="52" r="13" fill="url(#dioHole)"/>
+
+            <circle cx="160" cy="52" r="13" fill="#050811"/>
+            <circle cx="160" cy="52" r="13" fill="url(#dioHole)"/>
+
+            <circle cx="193" cy="52" r="13" fill="#050811"/>
+            <circle cx="193" cy="52" r="12" fill="url(#dioRedDisk)"/>
+            <circle cx="193" cy="52" r="13" fill="url(#dioHole)"/>
+
+            <circle cx="226" cy="52" r="13" fill="#050811"/>
+            <circle cx="226" cy="52" r="13" fill="url(#dioHole)"/>
+          </g>
+
+          <!-- ボードの脇に積み上げられた本物のディスクの山（手札感） -->
+          <!-- 左側：赤ディスクのスタック -->
+          <g filter="url(#dioShadow)">
+            <ellipse cx="38" cy="156" rx="18" ry="7" fill="url(#dioRedDisk)" stroke="#ffffff" stroke-width="0.8" opacity="0.9"/>
+            <ellipse cx="38" cy="149" rx="18" ry="7" fill="url(#dioRedDisk)" stroke="#ffffff" stroke-width="0.8" opacity="0.9"/>
+            <ellipse cx="38" cy="142" rx="18" ry="7" fill="url(#dioRedDisk)" stroke="#ffffff" stroke-width="1.2"/>
+            <ellipse cx="38" cy="142" rx="10" ry="4" fill="none" stroke="#ff8585" stroke-width="1" opacity="0.7"/>
+          </g>
+
+          <!-- 右側：黄ディスクのスタック -->
+          <g filter="url(#dioShadow)">
+            <ellipse cx="282" cy="156" rx="18" ry="7" fill="url(#dioYelDisk)" stroke="#ffffff" stroke-width="0.8" opacity="0.9"/>
+            <ellipse cx="282" cy="149" rx="18" ry="7" fill="url(#dioYelDisk)" stroke="#ffffff" stroke-width="0.8" opacity="0.9"/>
+            <ellipse cx="282" cy="142" rx="18" ry="7" fill="url(#dioYelDisk)" stroke="#ffffff" stroke-width="1.2"/>
+            <ellipse cx="282" cy="142" rx="10" ry="4" fill="none" stroke="#fffec4" stroke-width="1" opacity="0.7"/>
+          </g>
+
+          <!-- 上空からスロットへと吸い込まれる決定打ディスクのアクション -->
+          <g>
+            <line x1="193" y1="4" x2="193" y2="34" stroke="#facc15" stroke-width="2" stroke-dasharray="3,3" opacity="0.9"/>
+            <circle cx="193" cy="14" r="12" fill="url(#dioRedDisk)" stroke="#fef08a" stroke-width="1.5"/>
+            <circle cx="193" cy="14" r="7" fill="none" stroke="#ffffff" stroke-width="1" opacity="0.7"/>
+          </g>
+        </svg>
       </div>
+
       <div class="logo-box">
         <h1 class="game-logo">CONNECT <span class="logo-accent">4</span></h1>
         <p class="subtitle" data-i18n="tagline">四目並べ 重力ストラテジー</p>
