@@ -1,7 +1,11 @@
 /**
  * Games Clubhouse - Checkers Engine & Application Coordinator
- * Fixed Layout Shifts on 2P Mode, Real-Time Achievement Unlock Toasts,
- * Custom Skins Reward System, and Flawless Start Sequence.
+ * Updated:
+ * - "つづきから" (Resume) & "ゲームスタート" (Start Match) Button Labels
+ * - Overwrite Warning when clicking "ゲームスタート" with existing saved data
+ * - Safe Confirm Modal when returning to title:
+ *   "タイトルへ戻りますか？"
+ *   "現在の進行状況は自動保存されます。"
  */
 
 // ============================================================================
@@ -18,8 +22,8 @@ const I18N = {
     diff_easy: "Easy",
     diff_normal: "Normal",
     diff_hard: "Hard",
-    btn_resume: "RESUME MATCH",
-    btn_start_match: "START MATCH",
+    btn_resume: "Resume",
+    btn_start_match: "Start Game",
     btn_rules: "How to Play",
     btn_stats: "Stats & Records",
     btn_settings: "⚙️ Settings",
@@ -82,6 +86,10 @@ const I18N = {
     confirm_title: "Confirm Action",
     confirm_resign: "Are you sure you want to resign this match?",
     confirm_reset: "Reset all saved statistics and records? This cannot be undone.",
+    confirm_overwrite_title: "Start a New Game?",
+    confirm_overwrite_msg: "Your saved progress will be overwritten. Do you want to continue?",
+    confirm_back_title: "Return to Title?",
+    confirm_back_msg: "Your current progress will be automatically saved.",
     btn_cancel: "Cancel",
     btn_confirm: "OK",
     victory_title: "Victory!",
@@ -104,8 +112,8 @@ const I18N = {
     diff_easy: "初級",
     diff_normal: "中級",
     diff_hard: "上級",
-    btn_resume: "つづきから再開",
-    btn_start_match: "対局を開始する",
+    btn_resume: "つづきから",
+    btn_start_match: "ゲームスタート",
     btn_rules: "あそびかた",
     btn_stats: "戦績・実績",
     btn_settings: "⚙️ 設定",
@@ -131,7 +139,7 @@ const I18N = {
     seq_tie_text: "同点です！もう一度振ります...",
     seq_win_you: "あなたの勝ち！先手（赤駒）に決定しました。",
     seq_win_opp: "相手の勝ち！後手（黒駒）に決定しました。",
-    seq_btn_play: "対局を開始する",
+    seq_btn_play: "対局開始",
     rules_modal_title: "あそびかた（図解）",
     rule1_title: "1. 斜め前方への移動",
     rule1_desc: "駒は濃い色のマスだけを斜め前方に1マス進めます。",
@@ -168,6 +176,10 @@ const I18N = {
     confirm_title: "確認",
     confirm_resign: "対局を投了しますか？",
     confirm_reset: "戦績や実績データをリセットしますか？この操作は取り消せません。",
+    confirm_overwrite_title: "新しいゲームを始めますか？",
+    confirm_overwrite_msg: "保存されている「つづきから」の対局データが上書きされます。よろしいですか？",
+    confirm_back_title: "タイトルへ戻りますか？",
+    confirm_back_msg: "現在の進行状況は自動保存されます。",
     btn_cancel: "キャンセル",
     btn_confirm: "OK",
     victory_title: "勝利！",
@@ -190,8 +202,8 @@ const I18N = {
     diff_easy: "初级",
     diff_normal: "中级",
     diff_hard: "高级",
-    btn_resume: "继续对局",
-    btn_start_match: "开始对局",
+    btn_resume: "继续游戏",
+    btn_start_match: "开始新游戏",
     btn_rules: "游戏规则",
     btn_stats: "战绩与成就",
     btn_settings: "⚙️ 设置",
@@ -254,6 +266,10 @@ const I18N = {
     confirm_title: "确认操作",
     confirm_resign: "确定要投降认输吗？",
     confirm_reset: "确定要清除所有战绩和成就吗？此操作不可撤销。",
+    confirm_overwrite_title: "开始新游戏？",
+    confirm_overwrite_msg: "已保存的游戏进度将被覆盖。确定继续吗？",
+    confirm_back_title: "返回主页？",
+    confirm_back_msg: "当前的对局进度将会自动保存。",
     btn_cancel: "取消",
     btn_confirm: "确定",
     victory_title: "胜利！",
@@ -276,8 +292,8 @@ const I18N = {
     diff_easy: "初級",
     diff_normal: "中級",
     diff_hard: "高級",
-    btn_resume: "繼續對局",
-    btn_start_match: "開始對局",
+    btn_resume: "繼續遊戲",
+    btn_start_match: "開始新遊戲",
     btn_rules: "遊戲規則",
     btn_stats: "戰績與成就",
     btn_settings: "⚙️ 設定",
@@ -340,6 +356,10 @@ const I18N = {
     confirm_title: "確認操作",
     confirm_resign: "確定要投降認輸嗎？",
     confirm_reset: "確定要清除所有戰績和成就嗎？此操作不可撤銷。",
+    confirm_overwrite_title: "開始新遊戲？",
+    confirm_overwrite_msg: "已儲存的遊戲進度將被覆蓋。確定繼續嗎？",
+    confirm_back_title: "返回主頁？",
+    confirm_back_msg: "當前的對局進度將會自動儲存。",
     btn_cancel: "取消",
     btn_confirm: "確定",
     victory_title: "勝利！",
@@ -363,7 +383,7 @@ const I18N = {
     diff_normal: "중급",
     diff_hard: "고급",
     btn_resume: "이어하기",
-    btn_start_match: "대국 시작",
+    btn_start_match: "게임 시작",
     btn_rules: "게임 방법",
     btn_stats: "전적 및 업적",
     btn_settings: "⚙️ 설정",
@@ -426,6 +446,10 @@ const I18N = {
     confirm_title: "확인",
     confirm_resign: "정말 기권하시겠습니까?",
     confirm_reset: "모든 전적과 업적을 초기화하시겠습니까? 되돌릴 수 없습니다.",
+    confirm_overwrite_title: "새 게임을 시작하시겠습니까?",
+    confirm_overwrite_msg: "저장된 이어하기 데이터가 덮어씌워집니다. 계속하시겠습니까?",
+    confirm_back_title: "타이틀로 돌아가시겠습니까?",
+    confirm_back_msg: "현재 진행 상황은 자동으로 저장됩니다.",
     btn_cancel: "취소",
     btn_confirm: "확인",
     victory_title: "승리!",
@@ -448,8 +472,8 @@ const I18N = {
     diff_easy: "Fácil",
     diff_normal: "Normal",
     diff_hard: "Difícil",
-    btn_resume: "CONTINUAR PARTIDA",
-    btn_start_match: "INICIAR PARTIDA",
+    btn_resume: "Continuar",
+    btn_start_match: "Iniciar Juego",
     btn_rules: "Cómo Jugar",
     btn_stats: "Estadísticas",
     btn_settings: "⚙️ Ajustes",
@@ -512,6 +536,10 @@ const I18N = {
     confirm_title: "Confirmar Acción",
     confirm_resign: "¿Seguro que deseas rendirte?",
     confirm_reset: "¿Reiniciar estadísticas? Esta acción no se puede deshacer.",
+    confirm_overwrite_title: "¿Iniciar nueva partida?",
+    confirm_overwrite_msg: "Se sobrescribirá la partida guardada. ¿Deseas continuar?",
+    confirm_back_title: "¿Volver al menú?",
+    confirm_back_msg: "El progreso actual se guardará automáticamente.",
     btn_cancel: "Cancelar",
     btn_confirm: "OK",
     victory_title: "¡Victoria!",
@@ -534,8 +562,8 @@ const I18N = {
     diff_easy: "Facile",
     diff_normal: "Normal",
     diff_hard: "Difficile",
-    btn_resume: "REPRENDRE LA PARTIE",
-    btn_start_match: "COMMENCER LE MATCH",
+    btn_resume: "Reprendre",
+    btn_start_match: "Nouvelle Partie",
     btn_rules: "Règles du jeu",
     btn_stats: "Statistiques",
     btn_settings: "⚙️ Paramètres",
@@ -598,6 +626,10 @@ const I18N = {
     confirm_title: "Confirmation",
     confirm_resign: "Voulez-vous vraiment abandonner ?",
     confirm_reset: "Réinitialiser toutes les données ?",
+    confirm_overwrite_title: "Commencer une nouvelle partie ?",
+    confirm_overwrite_msg: "Votre partie enregistrée sera écrasée. Voulez-vous continuer ?",
+    confirm_back_title: "Retourner à l'accueil ?",
+    confirm_back_msg: "Votre progression actuelle sera automatiquement enregistrée.",
     btn_cancel: "Annuler",
     btn_confirm: "Valider",
     victory_title: "Victoire !",
@@ -620,8 +652,8 @@ const I18N = {
     diff_easy: "Fácil",
     diff_normal: "Normal",
     diff_hard: "Difícil",
-    btn_resume: "CONTINUAR PARTIDA",
-    btn_start_match: "INICIAR PARTIDA",
+    btn_resume: "Continuar",
+    btn_start_match: "Iniciar Jogo",
     btn_rules: "Como Jogar",
     btn_stats: "Estatísticas",
     btn_settings: "⚙️ Configurações",
@@ -684,6 +716,10 @@ const I18N = {
     confirm_title: "Confirmar Ação",
     confirm_resign: "Tem certeza que deseja desistir?",
     confirm_reset: "Redefinir estatísticas? Isso não poderá ser desfeito.",
+    confirm_overwrite_title: "Iniciar um novo jogo?",
+    confirm_overwrite_msg: "O progresso salvo atual será substituído. Deseja continuar?",
+    confirm_back_title: "Voltar ao início?",
+    confirm_back_msg: "O progresso atual será salvo automaticamente.",
     btn_cancel: "Cancelar",
     btn_confirm: "OK",
     victory_title: "Vitória!",
@@ -841,7 +877,6 @@ class SingleDiceDropEngine {
     const pips = {
       1: [[128, 128]],
       2: [[68, 68], [188, 188]],
-      3: [[68, 68], [188, 188]],
       3: [[68, 68], [128, 128], [188, 188]],
       4: [[68, 68], [188, 68], [68, 188], [188, 188]],
       5: [[66, 66], [190, 66], [128, 128], [66, 190], [190, 190]],
@@ -971,8 +1006,8 @@ class SingleDiceDropEngine {
 // 3. Checkers Logic Engine
 // ============================================================================
 const PIECE_NONE = 0;
-const PIECE_RED = 1;     // Player 1
-const PIECE_BLACK = 2;   // Player 2 / CPU
+const PIECE_RED = 1;
+const PIECE_BLACK = 2;
 const KING_MASK = 4;
 
 class CheckersEngine {
@@ -1366,10 +1401,9 @@ class AppCoordinator {
     }
   }
 
-  // 実績解除チェック＆トースト表示（ファンファーレ音なし）
   unlockAchievement(key) {
     const stats = window.storageManager.getStats();
-    if (stats.achievements[key]) return; // 既に獲得済
+    if (stats.achievements[key]) return;
 
     stats.achievements[key] = true;
     window.storageManager.saveStats(stats);
@@ -1382,7 +1416,6 @@ class AppCoordinator {
       grandmaster: dict.achieve_gm
     };
 
-    // 音は鳴らさず、木質の軽いアクション音のみ
     window.soundEffects.playMove();
     this.vibrate([40, 60, 40]);
     this.showToast(`${dict.achieve_unlocked_toast} [${nameMap[key]}]`);
@@ -1390,7 +1423,7 @@ class AppCoordinator {
   }
 
   bindEvents() {
-    // 2P対戦選択時：画面ズレを起こさないよう非表示にせず半透明・操作無効化
+    // Mode selection
     document.getElementById('modeSelector').addEventListener('click', (e) => {
       const btn = e.target.closest('.pill-tab');
       if (!btn) return;
@@ -1415,11 +1448,35 @@ class AppCoordinator {
       this.updateHUD();
     });
 
-    document.getElementById('btnStartGame').addEventListener('click', () => this.openSequenceModal());
+    // 「ゲームスタート」押下時：セーブデータがある場合は上書き確認を挟む
+    document.getElementById('btnStartGame').addEventListener('click', () => {
+      const savedState = window.storageManager.getMatchState();
+      if (savedState && savedState.board) {
+        const dict = I18N[this.lang];
+        this.showConfirm(
+          dict.confirm_overwrite_title,
+          dict.confirm_overwrite_msg,
+          () => this.openSequenceModal()
+        );
+      } else {
+        this.openSequenceModal();
+      }
+    });
+
+    // 「つづきから」押下時
     document.getElementById('btnResumeGame').addEventListener('click', () => this.resumeSavedMatch());
+
+    // ゲーム中から「タイトルへ」戻る際：自動保存の確認モーダル
     document.getElementById('btnGameToTitle').addEventListener('click', () => {
-      this.showScreen('title');
-      this.checkResumeAvailability();
+      const dict = I18N[this.lang];
+      this.showConfirm(
+        dict.confirm_back_title,
+        dict.confirm_back_msg,
+        () => {
+          this.showScreen('title');
+          this.checkResumeAvailability();
+        }
+      );
     });
 
     document.getElementById('btnResignMatch').addEventListener('click', () => {
@@ -1728,7 +1785,6 @@ class AppCoordinator {
       window.soundEffects.playCapture();
       this.vibrate(60);
 
-      // 実績チェック: 3連ジャンプ達成時
       if (this.engine.currentComboCount >= 3) {
         this.unlockAchievement('triple_strike');
       }
@@ -1738,7 +1794,6 @@ class AppCoordinator {
 
     if (res.crowned) {
       window.soundEffects.playKing();
-      // 実績チェック: 3個以上キング作成時
       if (this.engine.kingsCreatedInMatch >= 3) {
         this.unlockAchievement('crown_master');
       }
