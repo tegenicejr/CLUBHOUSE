@@ -8,7 +8,6 @@ class StorageManager {
   }
 
   getSettings() {
-    // 1. デフォルト設定
     const defaults = {
       lang: 'en',
       sound: true,
@@ -18,48 +17,114 @@ class StorageManager {
 
     let current = { ...defaults };
 
-    // 2. 既存のローカル保存を読み出し
+    // 1. コネクトフォーの古いローカル保存をベースとして取得
     try {
       const local = JSON.parse(localStorage.getItem(this.KEY_SETTINGS));
       if (local) current = { ...current, ...local };
     } catch (e) {}
 
-    // 3. クラブハウスおよび他ゲームの共通キーを最優先で同期
+    // 2. 他ゲーム（2048, BG, BJ）やクラブハウスの更新を最優先で吸い上げる
     try {
-      const globalLang = localStorage.getItem('c4_lang') ||
-                         localStorage.getItem('clubhouse_lang') ||
-                         localStorage.getItem('bj_lang') ||
-                         localStorage.getItem('bg_lang') ||
-                         localStorage.getItem('2048_lang');
-      if (globalLang) {
-        current.lang = globalLang;
+      // --- A. 言語 (Lang) ---
+      let targetLang = null;
+      const langKeys = ['clubhouse_lang', 'bj_lang', 'bg_lang', '2048_lang', 'c4_lang'];
+      for (const k of langKeys) {
+        const val = localStorage.getItem(k);
+        if (val) {
+          targetLang = val;
+          break;
+        }
+      }
+      // BJ固有オブジェクトキー (clubhouse_settings)
+      if (!targetLang) {
+        try {
+          const bjObj = JSON.parse(localStorage.getItem('clubhouse_settings'));
+          if (bjObj && bjObj.lang) targetLang = bjObj.lang;
+        } catch (e) {}
+      }
+      // BG固有オブジェクトキー (gch_bg_settings)
+      if (!targetLang) {
+        try {
+          const bgObj = JSON.parse(localStorage.getItem('gch_bg_settings'));
+          if (bgObj && bgObj.lang) targetLang = bgObj.lang;
+        } catch (e) {}
+      }
+      if (targetLang) {
+        current.lang = targetLang;
       }
 
-      const globalMuted = localStorage.getItem('c4_muted') ??
-                          localStorage.getItem('clubhouse_muted') ??
-                          localStorage.getItem('bj_muted') ??
-                          localStorage.getItem('bg_muted') ??
-                          localStorage.getItem('2048_muted');
-      if (globalMuted !== null && globalMuted !== undefined) {
-        current.sound = (globalMuted !== 'true' && globalMuted !== true);
+      // --- B. 効果音 (Sound) ---
+      let targetSound = null;
+      const mutedKeys = ['clubhouse_muted', 'bj_muted', 'bg_muted', '2048_muted', 'c4_muted'];
+      for (const k of mutedKeys) {
+        const val = localStorage.getItem(k);
+        if (val !== null && val !== undefined) {
+          targetSound = (val !== 'true' && val !== true);
+          break;
+        }
+      }
+      if (targetSound === null) {
+        try {
+          const bjObj = JSON.parse(localStorage.getItem('clubhouse_settings'));
+          if (bjObj && bjObj.sound !== undefined) targetSound = !!bjObj.sound;
+        } catch (e) {}
+      }
+      if (targetSound === null) {
+        try {
+          const bgObj = JSON.parse(localStorage.getItem('gch_bg_settings'));
+          if (bgObj && bgObj.sound !== undefined) targetSound = !!bgObj.sound;
+        } catch (e) {}
+      }
+      if (targetSound !== null) {
+        current.sound = targetSound;
       }
 
-      const globalVib = localStorage.getItem('c4_vibration') ??
-                        localStorage.getItem('clubhouse_vibration') ??
-                        localStorage.getItem('bj_vibration') ??
-                        localStorage.getItem('bg_vibration') ??
-                        localStorage.getItem('2048_vibration');
-      if (globalVib !== null && globalVib !== undefined) {
-        current.vibration = (globalVib !== 'false' && globalVib !== false);
+      // --- C. 振動 (Vibration) ---
+      let targetVib = null;
+      const vibKeys = ['clubhouse_vibration', 'bj_vibration', 'bg_vibration', '2048_vibration', 'c4_vibration'];
+      for (const k of vibKeys) {
+        const val = localStorage.getItem(k);
+        if (val !== null && val !== undefined) {
+          targetVib = (val !== 'false' && val !== false);
+          break;
+        }
+      }
+      if (targetVib === null) {
+        try {
+          const bjObj = JSON.parse(localStorage.getItem('clubhouse_settings'));
+          if (bjObj && (bjObj.vibrate !== undefined || bjObj.vibration !== undefined)) {
+            targetVib = bjObj.vibrate !== undefined ? !!bjObj.vibrate : !!bjObj.vibration;
+          }
+        } catch (e) {}
+      }
+      if (targetVib === null) {
+        try {
+          const bgObj = JSON.parse(localStorage.getItem('gch_bg_settings'));
+          if (bgObj && bgObj.haptics !== undefined) targetVib = !!bgObj.haptics;
+        } catch (e) {}
+      }
+      if (targetVib !== null) {
+        current.vibration = targetVib;
       }
 
-      const globalSpeed = localStorage.getItem('c4_speed') ||
-                          localStorage.getItem('clubhouse_speed') ||
-                          localStorage.getItem('bj_speed') ||
-                          localStorage.getItem('bg_speed') ||
-                          localStorage.getItem('2048_speed');
-      if (globalSpeed) {
-        current.fastAnim = (globalSpeed === 'fast');
+      // --- D. 速度 (fastAnim / Speed) ---
+      let targetFast = null;
+      const speedKeys = ['clubhouse_speed', 'bj_speed', 'bg_speed', '2048_speed', 'c4_speed'];
+      for (const k of speedKeys) {
+        const val = localStorage.getItem(k);
+        if (val) {
+          targetFast = (val === 'fast');
+          break;
+        }
+      }
+      if (targetFast === null) {
+        try {
+          const bgObj = JSON.parse(localStorage.getItem('gch_bg_settings'));
+          if (bgObj && bgObj.fastAnim !== undefined) targetFast = !!bgObj.fastAnim;
+        } catch (e) {}
+      }
+      if (targetFast !== null) {
+        current.fastAnim = targetFast;
       }
     } catch (e) {}
 
@@ -71,10 +136,10 @@ class StorageManager {
       const current = this.getSettings();
       const updated = { ...current, ...settings };
 
-      // コネクトフォー本体の保存キーに保存
+      // 1. コネクトフォー本体のローカル保存
       localStorage.setItem(this.KEY_SETTINGS, JSON.stringify(updated));
 
-      // クラブハウス共有キー（旧形式）も更新
+      // 2. クラブハウス共有キー（旧互換）
       try {
         const club = JSON.parse(localStorage.getItem(this.KEY_CLUBHOUSE)) || {};
         club.lang = updated.lang;
@@ -83,7 +148,7 @@ class StorageManager {
         localStorage.setItem(this.KEY_CLUBHOUSE, JSON.stringify(club));
       } catch (e) {}
 
-      // 全ゲーム共通キー（新形式）へ双方向同期
+      // 3. 全ゲーム共通キー群へ一括保存
       const lang = updated.lang || 'en';
       const isMuted = !updated.sound;
       const isVib = !!updated.vibration;
@@ -96,7 +161,7 @@ class StorageManager {
         localStorage.setItem(`${prefix}_speed`, speedStr);
       });
 
-      // バックギャモン独自キー（gch_bg_settings）も更新
+      // 4. バックギャモン固有キー（gch_bg_settings）も更新
       try {
         localStorage.setItem('gch_bg_settings', JSON.stringify({
           lang: lang,
@@ -106,7 +171,7 @@ class StorageManager {
         }));
       } catch (e) {}
 
-      // ブラックジャック独自キー（clubhouse_settings）も更新
+      // 5. ブラックジャック固有キー（clubhouse_settings）も更新
       try {
         localStorage.setItem('clubhouse_settings', JSON.stringify({
           lang: lang,
