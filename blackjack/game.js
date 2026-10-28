@@ -166,7 +166,7 @@ const I18N = {
     labelSpeed: "アニメーション速度",
     speedNormal: "通常",
     speedFast: "高速",
-    btnResetData: "戦績・データ初期化",
+    btnResetData: "データ初期化",
     btnCloseSettings: "閉じる",
 
     confirmTitleBack: "タイトルへ戻る",
