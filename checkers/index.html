@@ -67,7 +67,6 @@
             </div>
           </div>
 
-          <!-- Difficulty selection (2P時は半透明化) -->
           <div class="config-row" id="difficultyRow">
             <span class="config-label" data-i18n="label_difficulty">DIFFICULTY</span>
             <div class="pill-tabs" id="difficultySelector">
@@ -79,8 +78,8 @@
         </div>
 
         <div class="title-action-buttons">
-          <button type="button" id="btnResumeGame" class="btn-royal btn-resume hidden" data-i18n="btn_resume">RESUME MATCH</button>
-          <button type="button" id="btnStartGame" class="btn-royal btn-primary" data-i18n="btn_start_match">START MATCH</button>
+          <button type="button" id="btnResumeGame" class="btn-royal btn-resume hidden" data-i18n="btn_resume">つづきから</button>
+          <button type="button" id="btnStartGame" class="btn-royal btn-primary" data-i18n="btn_start_match">ゲームスタート</button>
           
           <div class="secondary-btn-grid">
             <button type="button" id="btnOpenRules" class="btn-secondary" data-i18n="btn_rules">How to Play</button>
@@ -328,7 +327,7 @@
       </div>
     </div>
 
-    <!-- SETTINGS MODAL (スキン変更機能統合) -->
+    <!-- SETTINGS MODAL -->
     <div id="settingsModal" class="app-modal-layer">
       <div class="modal-card settings-card">
         <header class="modal-card-header">
@@ -351,7 +350,6 @@
             </select>
           </div>
 
-          <!-- 解放スキン選択 -->
           <div class="form-item">
             <label for="settingThemeSkin" data-i18n="setting_skin_label">盤面・駒スキン（実績報酬）</label>
             <select id="settingThemeSkin" class="form-dropdown">
@@ -391,11 +389,11 @@
       </div>
     </div>
 
-    <!-- GENERAL CONFIRMATION DIALOG -->
+    <!-- GENERAL CONFIRMATION DIALOG (安全確認モーダル) -->
     <div id="confirmModal" class="app-modal-layer">
       <div class="modal-card confirm-card">
         <h3 id="confirmTitle">確認</h3>
-        <p id="confirmMessage">実行してもよろしいですか？</p>
+        <p id="confirmMessage" class="confirm-message-text">実行してもよろしいですか？</p>
         <div class="confirm-actions-row">
           <button type="button" id="btnConfirmCancel" class="btn-secondary" data-i18n="btn_cancel">キャンセル</button>
           <button type="button" id="btnConfirmOk" class="btn-royal btn-primary" data-i18n="btn_confirm">OK</button>
