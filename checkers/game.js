@@ -1,6 +1,6 @@
 /**
  * Games Clubhouse - Checkers Engine & Application Coordinator
- * Exact 3D Single Dice Drop Engine Implementation + Robust State Transition
+ * Fixed: Isolated Dice Triggers, Fixed Modal Click Bleed-through, Fully Functional Game Start.
  */
 
 // ============================================================================
@@ -682,7 +682,7 @@ const I18N = {
 };
 
 // ============================================================================
-// 2. Exact 3D Single Dice Drop Engine Implementation (Guarded & Robust)
+// 2. Exact 3D Single Dice Drop Engine Implementation (Self-Contained)
 // ============================================================================
 class SingleDiceDropEngine {
   constructor(canvasId, trayId) {
@@ -728,7 +728,6 @@ class SingleDiceDropEngine {
       }
     };
 
-    // Fallback dimension check
     const width = this.tray.clientWidth || 320;
     const height = this.tray.clientHeight || 190;
 
@@ -1027,9 +1026,9 @@ class CheckersEngine {
       if (king) {
         dirs.push([-1, -1], [-1, 1], [1, -1], [1, 1]);
       } else if (player === PIECE_RED) {
-        dirs.push([-1, -1], [-1, 1]); // Red moves up (-1)
+        dirs.push([-1, -1], [-1, 1]);
       } else {
-        dirs.push([1, -1], [1, 1]);   // Black moves down (+1)
+        dirs.push([1, -1], [1, 1]);
       }
 
       for (const [dr, dc] of dirs) {
@@ -1257,7 +1256,6 @@ class AppCoordinator {
     this.cacheDom();
     this.loadStateAndSettings();
     this.bindEvents();
-    this.renderBoard();
     this.checkResumeAvailability();
   }
 
@@ -1319,6 +1317,7 @@ class AppCoordinator {
   }
 
   bindEvents() {
+    // Mode selection
     document.getElementById('modeSelector').addEventListener('click', (e) => {
       const btn = e.target.closest('.pill-tab');
       if (!btn) return;
@@ -1329,6 +1328,7 @@ class AppCoordinator {
       this.updateHUD();
     });
 
+    // Difficulty selection (独立動作・ダイスは回さない)
     document.getElementById('difficultySelector').addEventListener('click', (e) => {
       const btn = e.target.closest('.pill-tab');
       if (!btn) return;
@@ -1420,10 +1420,16 @@ class AppCoordinator {
       );
     });
 
-    // 3D Dice Events
-    document.getElementById('btnRollDice').addEventListener('click', () => this.handleDiceRollClick());
-    document.getElementById('tray').addEventListener('click', () => this.handleDiceRollClick());
-    document.getElementById('btnStartGameConfirmed').addEventListener('click', () => this.finalizeMatchStart());
+    // 【重要修正】サイコロはボタン押下時のみ実行（トレイクリックは完全無効化）
+    document.getElementById('btnRollDice').addEventListener('click', (e) => {
+      e.stopPropagation();
+      this.handleDiceRollClick();
+    });
+
+    document.getElementById('btnStartGameConfirmed').addEventListener('click', (e) => {
+      e.stopPropagation();
+      this.finalizeMatchStart();
+    });
 
     document.getElementById('btnCurtainDismiss').addEventListener('click', () => {
       this.domPassCurtain.classList.remove('active');
@@ -1444,7 +1450,7 @@ class AppCoordinator {
   }
 
   // ==========================================================================
-  // 3-Stage First Player Determination (Guaranteed Rendering)
+  // 3-Stage First Player Determination
   // ==========================================================================
   openSequenceModal() {
     const dict = I18N[this.lang];
@@ -1466,7 +1472,7 @@ class AppCoordinator {
 
     this.domSequenceModal.classList.add('active');
 
-    // DOM描画完了後に確実にThree.jsを初期化
+    // DOM表示後にThree.jsを初期化
     requestAnimationFrame(() => {
       setTimeout(() => {
         if (!this.diceEngine.initialized) {
@@ -1572,7 +1578,10 @@ class AppCoordinator {
         const move = targetSquares.get(i);
         cell.classList.add(move.isJump ? 'valid-jump' : 'valid-move');
         cell.classList.add('clickable');
-        cell.addEventListener('click', () => this.handleCellClick(i));
+        cell.addEventListener('click', (e) => {
+          e.stopPropagation();
+          this.handleCellClick(i);
+        });
       }
 
       const pieceVal = this.engine.board[i];
@@ -1593,6 +1602,7 @@ class AppCoordinator {
           pieceEl.classList.add('selected');
         }
 
+        // 駒タップ時の処理（ダイスは一切回さない）
         if (this.engine.turn === color && (this.mode === 'pass' || color === PIECE_RED)) {
           pieceEl.addEventListener('click', (e) => {
             e.stopPropagation();
@@ -1952,7 +1962,7 @@ class AppCoordinator {
   }
 }
 
-// Ensure startup when DOM is fully loaded
+// 起動
 window.addEventListener('DOMContentLoaded', () => {
   window.app = new AppCoordinator();
 });
