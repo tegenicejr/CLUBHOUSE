@@ -10,7 +10,6 @@
   <link rel="manifest" href="manifest.json">
   <link rel="icon" href="icon.svg" type="image/svg+xml">
   <link rel="stylesheet" href="style.css">
-  <!-- Three.js CDN -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 </head>
 <body>
@@ -20,7 +19,7 @@
       <header class="title-header">
         <a href="../" class="clubhouse-back-btn" id="btnBackToClubhouse" aria-label="Back to Clubhouse">
           <span class="back-arrow">‹</span>
-          <span data-i18n="back_to_clubhouse">CLUB HOUSE</span>
+          <span data-i18n="back_to_clubhouse">CLUB HOUSEへ戻る</span>
         </a>
       </header>
 
@@ -68,12 +67,13 @@
             </div>
           </div>
 
+          <!-- Difficulty selection (2P時は半透明化) -->
           <div class="config-row" id="difficultyRow">
             <span class="config-label" data-i18n="label_difficulty">DIFFICULTY</span>
             <div class="pill-tabs" id="difficultySelector">
-              <button type="button" class="pill-tab" data-diff="easy" data-i18n="diff_easy">Easy</button>
-              <button type="button" class="pill-tab active" data-diff="normal" data-i18n="diff_normal">Normal</button>
-              <button type="button" class="pill-tab" data-diff="hard" data-i18n="diff_hard">Hard</button>
+              <button type="button" class="pill-tab data-diff-btn" data-diff="easy" data-i18n="diff_easy">Easy</button>
+              <button type="button" class="pill-tab data-diff-btn active" data-diff="normal" data-i18n="diff_normal">Normal</button>
+              <button type="button" class="pill-tab data-diff-btn" data-diff="hard" data-i18n="diff_hard">Hard</button>
             </div>
           </div>
         </div>
@@ -96,7 +96,7 @@
       <header class="game-nav-header">
         <button type="button" id="btnGameToTitle" class="icon-nav-btn" aria-label="Title Screen">
           <span class="back-arrow">‹</span>
-          <span data-i18n="nav_title">Title</span>
+          <span data-i18n="nav_title">タイトルへ</span>
         </button>
 
         <div class="player-hud-card" id="hudOpponent">
@@ -127,7 +127,7 @@
 
       <!-- BOARD WORKSPACE -->
       <main class="board-workspace">
-        <div class="checkerboard-frame">
+        <div class="checkerboard-frame" id="boardFrame">
           <div id="boardGrid" class="board-grid"></div>
         </div>
       </main>
@@ -164,7 +164,6 @@
           チェッカーズは【赤駒】が先手です。サイコロを振って出目の大きい方が先手となります！
         </p>
 
-        <!-- 3D Dice Tray (Felt Tray with Canvas) -->
         <div class="dice-tray" id="tray">
           <canvas id="webgl-canvas"></canvas>
           <div class="tray-tag" id="diceTurnTag">あなたの投下</div>
@@ -329,7 +328,7 @@
       </div>
     </div>
 
-    <!-- SETTINGS MODAL -->
+    <!-- SETTINGS MODAL (スキン変更機能統合) -->
     <div id="settingsModal" class="app-modal-layer">
       <div class="modal-card settings-card">
         <header class="modal-card-header">
@@ -349,6 +348,16 @@
               <option value="es">Español</option>
               <option value="fr">Français</option>
               <option value="pt">Português</option>
+            </select>
+          </div>
+
+          <!-- 解放スキン選択 -->
+          <div class="form-item">
+            <label for="settingThemeSkin" data-i18n="setting_skin_label">盤面・駒スキン（実績報酬）</label>
+            <select id="settingThemeSkin" class="form-dropdown">
+              <option value="classic">クラシック・マホガニー</option>
+              <option value="emerald" id="optSkinEmerald" disabled>エメラルド・ラウンジ (初陣勝利で解放)</option>
+              <option value="royal" id="optSkinRoyal" disabled>ロイヤル・ルビー (クラウンジュエルで解放)</option>
             </select>
           </div>
 
