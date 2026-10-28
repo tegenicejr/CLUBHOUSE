@@ -1,10 +1,10 @@
 /**
  * Games Clubhouse - Checkers Engine & Application Coordinator
- * With Integrated Three.js 3D Physics Dice Drop & Complete 8-Language I18N
+ * Exact 3D Single Dice Drop Engine Implementation + Robust State Transition
  */
 
 // ============================================================================
-// 1. I18N Dictionaries (All 8 Languages Fully Populated)
+// 1. I18N Dictionaries (8 Languages)
 // ============================================================================
 const I18N = {
   en: {
@@ -597,7 +597,7 @@ const I18N = {
   },
   pt: {
     back_to_clubhouse: "CLUB HOUSE",
-    subtitle_desc: "DAMAS CLÁSSICAS 8×8",
+    subtitle_desc: "DAMAS CLÁSICAS 8×8",
     label_mode: "MODO",
     mode_cpu: "vs CPU",
     mode_pass: "2P Passa e Joga",
@@ -682,26 +682,59 @@ const I18N = {
 };
 
 // ============================================================================
-// 2. Three.js 3D Dice Renderer (Felt Tray & Physics Drop)
+// 2. Exact 3D Single Dice Drop Engine Implementation (Guarded & Robust)
 // ============================================================================
-class ThreeDiceEngine {
-  constructor(canvasId, containerId) {
+class SingleDiceDropEngine {
+  constructor(canvasId, trayId) {
     this.canvas = document.getElementById(canvasId);
-    this.container = document.getElementById(containerId);
-    this.isRolling = false;
+    this.tray = document.getElementById(trayId);
     this.initialized = false;
+    this.isRolling = false;
   }
 
   init() {
-    if (this.initialized || !this.canvas || !this.container) return;
-    this.initialized = true;
+    if (this.initialized || !this.canvas || !this.tray) return;
 
-    const width = this.container.clientWidth || 320;
-    const height = this.container.clientHeight || 180;
+    // Web Audio 着地音
+    this.AudioEngine = {
+      ctx: null,
+      init() {
+        if (!this.ctx) {
+          const AC = window.AudioContext || window.webkitAudioContext;
+          if (AC) this.ctx = new AC();
+        }
+        if (this.ctx && this.ctx.state === 'suspended') this.ctx.resume();
+      },
+      playHit(vol = 0.3, pitch = 140) {
+        if (window.soundEffects && !window.soundEffects.enabled) return;
+        this.init();
+        if (!this.ctx) return;
+        const now = this.ctx.currentTime;
+        const osc = this.ctx.createOscillator();
+        const gain = this.ctx.createGain();
+
+        osc.type = 'triangle';
+        osc.frequency.setValueAtTime(pitch + (Math.random() * 30 - 15), now);
+        osc.frequency.exponentialRampToValueAtTime(40, now + 0.05);
+
+        gain.gain.setValueAtTime(vol, now);
+        gain.gain.exponentialRampToValueAtTime(0.001, now + 0.05);
+
+        osc.connect(gain);
+        gain.connect(this.ctx.destination);
+
+        osc.start(now);
+        osc.stop(now + 0.05);
+      }
+    };
+
+    // Fallback dimension check
+    const width = this.tray.clientWidth || 320;
+    const height = this.tray.clientHeight || 190;
 
     this.renderer = new THREE.WebGLRenderer({ canvas: this.canvas, antialias: true, alpha: true });
     this.renderer.setSize(width, height);
-    this.renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+    this.renderer.setPixelRatio(window.devicePixelRatio || 1);
     this.renderer.shadowMap.enabled = true;
     this.renderer.shadowMap.type = THREE.PCFSoftShadowMap;
 
@@ -751,21 +784,25 @@ class ThreeDiceEngine {
     this.diceMesh.visible = false;
     this.scene.add(this.diceMesh);
 
+    this.initialized = true;
+
     const renderLoop = () => {
       requestAnimationFrame(renderLoop);
-      this.renderer.render(this.scene, this.camera);
+      if (this.renderer && this.scene && this.camera) {
+        this.renderer.render(this.scene, this.camera);
+      }
     };
     renderLoop();
   }
 
   resize() {
-    if (!this.renderer || !this.container) return;
-    const width = this.container.clientWidth;
-    const height = this.container.clientHeight;
-    if (width > 0 && height > 0) {
-      this.camera.aspect = width / height;
+    if (!this.initialized || !this.renderer || !this.tray) return;
+    const w = this.tray.clientWidth || 320;
+    const h = this.tray.clientHeight || 190;
+    if (w > 0 && h > 0) {
+      this.camera.aspect = w / h;
       this.camera.updateProjectionMatrix();
-      this.renderer.setSize(width, height);
+      this.renderer.setSize(w, h);
     }
   }
 
@@ -838,8 +875,8 @@ class ThreeDiceEngine {
     return geo;
   }
 
-  roll(targetValue, onComplete) {
-    if (this.isRolling) return;
+  animateSingleDrop(targetValue, onComplete) {
+    if (!this.initialized) this.init();
     this.isRolling = true;
     this.diceMesh.visible = true;
 
@@ -855,6 +892,7 @@ class ThreeDiceEngine {
     const extraTurnsY = Math.floor(Math.random() * 2) + 3;
     const totalAngleX = extraTurnsX * Math.PI * 2;
     const totalAngleY = extraTurnsY * Math.PI * 2;
+
     const driftX = (Math.random() - 0.5) * 0.4;
 
     let soundBounced1 = false;
@@ -870,14 +908,14 @@ class ThreeDiceEngine {
         y = startY * (1 - p * p);
       } else if (progress < 0.74) {
         if (!soundBounced1) {
-          window.soundEffects.playMove();
+          if (this.AudioEngine) this.AudioEngine.playHit(0.35, 170);
           soundBounced1 = true;
         }
         const p = (progress - 0.44) / 0.3;
         y = Math.sin(p * Math.PI) * 1.15;
       } else if (progress < 0.92) {
         if (!soundBounced2) {
-          window.soundEffects.playMove();
+          if (this.AudioEngine) this.AudioEngine.playHit(0.2, 220);
           soundBounced2 = true;
         }
         const p = (progress - 0.74) / 0.18;
@@ -901,7 +939,7 @@ class ThreeDiceEngine {
       if (progress < 1) {
         requestAnimationFrame(frame);
       } else {
-        window.soundEffects.playMove();
+        if (this.AudioEngine) this.AudioEngine.playHit(0.08, 260);
         this.diceMesh.position.set(targetX, 0, 0);
         this.diceMesh.quaternion.copy(targetQuat);
         this.isRolling = false;
@@ -917,8 +955,8 @@ class ThreeDiceEngine {
 // 3. Checkers Logic Engine
 // ============================================================================
 const PIECE_NONE = 0;
-const PIECE_RED = 1;     // Player 1 (Starts)
-const PIECE_BLACK = 2;   // Player 2 / CPU
+const PIECE_RED = 1;     // Player 1 (Red starts)
+const PIECE_BLACK = 2;   // Player 2 / CPU (Black)
 const KING_MASK = 4;
 
 class CheckersEngine {
@@ -989,9 +1027,9 @@ class CheckersEngine {
       if (king) {
         dirs.push([-1, -1], [-1, 1], [1, -1], [1, 1]);
       } else if (player === PIECE_RED) {
-        dirs.push([-1, -1], [-1, 1]); // Red moves up
+        dirs.push([-1, -1], [-1, 1]); // Red moves up (-1)
       } else {
-        dirs.push([1, -1], [1, 1]);   // Black moves down
+        dirs.push([1, -1], [1, 1]);   // Black moves down (+1)
       }
 
       for (const [dr, dc] of dirs) {
@@ -1210,9 +1248,8 @@ class AppCoordinator {
     this.ruleStep = 1;
     this.cpuThinkingTimer = null;
 
-    // Dice Toss State
-    this.diceEngine = new ThreeDiceEngine('webgl-canvas', 'diceTrayContainer');
-    this.rollPhase = 1; // 1: P1 roll, 2: P2 roll
+    this.diceEngine = new SingleDiceDropEngine('webgl-canvas', 'tray');
+    this.rollPhase = 1;
     this.rollP1 = 0;
     this.rollP2 = 0;
     this.firstPlayerDecided = PIECE_RED;
@@ -1385,7 +1422,7 @@ class AppCoordinator {
 
     // 3D Dice Events
     document.getElementById('btnRollDice').addEventListener('click', () => this.handleDiceRollClick());
-    document.getElementById('diceTrayContainer').addEventListener('click', () => this.handleDiceRollClick());
+    document.getElementById('tray').addEventListener('click', () => this.handleDiceRollClick());
     document.getElementById('btnStartGameConfirmed').addEventListener('click', () => this.finalizeMatchStart());
 
     document.getElementById('btnCurtainDismiss').addEventListener('click', () => {
@@ -1407,7 +1444,7 @@ class AppCoordinator {
   }
 
   // ==========================================================================
-  // 3-Stage First Player Determination (Integrated Three.js Drop)
+  // 3-Stage First Player Determination (Guaranteed Rendering)
   // ==========================================================================
   openSequenceModal() {
     const dict = I18N[this.lang];
@@ -1419,8 +1456,8 @@ class AppCoordinator {
     document.getElementById('diceLabelP2').textContent = this.mode === 'cpu' ? dict.badge_cpu : dict.badge_p2;
     document.getElementById('diceValP1').textContent = '-';
     document.getElementById('diceValP2').textContent = '-';
-    document.getElementById('diceTrayTurnTag').textContent = `${document.getElementById('diceLabelP1').textContent} の投下`;
-    document.getElementById('seqResultText').textContent = "「サイコロを振る」を押してください";
+    document.getElementById('diceTurnTag').textContent = `${document.getElementById('diceLabelP1').textContent} の投下`;
+    document.getElementById('seqResultText').textContent = "ボタンを押してサイコロを振ってください";
 
     const btnRoll = document.getElementById('btnRollDice');
     const btnPlay = document.getElementById('btnStartGameConfirmed');
@@ -1429,10 +1466,16 @@ class AppCoordinator {
 
     this.domSequenceModal.classList.add('active');
 
-    setTimeout(() => {
-      this.diceEngine.init();
-      this.diceEngine.resize();
-    }, 60);
+    // DOM描画完了後に確実にThree.jsを初期化
+    requestAnimationFrame(() => {
+      setTimeout(() => {
+        if (!this.diceEngine.initialized) {
+          this.diceEngine.init();
+        } else {
+          this.diceEngine.resize();
+        }
+      }, 50);
+    });
   }
 
   handleDiceRollClick() {
@@ -1440,21 +1483,21 @@ class AppCoordinator {
 
     const dict = I18N[this.lang];
     const val = Math.floor(Math.random() * 6) + 1;
-    document.getElementById('seqResultText').textContent = "サイコロを振っています...";
+    document.getElementById('seqResultText').textContent = "振っています...";
 
-    this.diceEngine.roll(val, () => {
+    this.diceEngine.animateSingleDrop(val, () => {
       if (this.rollPhase === 1) {
         this.rollP1 = val;
         document.getElementById('diceValP1').textContent = val;
         this.rollPhase = 2;
         const p2Name = document.getElementById('diceLabelP2').textContent;
-        document.getElementById('diceTrayTurnTag').textContent = `${p2Name} の投下`;
+        document.getElementById('diceTurnTag').textContent = `${p2Name} の投下`;
 
         if (this.mode === 'cpu') {
           document.getElementById('seqResultText').textContent = "CPUがサイコロを振ります...";
-          setTimeout(() => this.handleDiceRollClick(), 700);
+          setTimeout(() => this.handleDiceRollClick(), 800);
         } else {
-          document.getElementById('seqResultText').textContent = `${p2Name}の番です。振ってください！`;
+          document.getElementById('seqResultText').textContent = `${p2Name}の番です。サイコロを振ってください！`;
         }
       } else if (this.rollPhase === 2) {
         this.rollP2 = val;
@@ -1466,7 +1509,7 @@ class AppCoordinator {
             this.rollPhase = 1;
             document.getElementById('diceValP1').textContent = '-';
             document.getElementById('diceValP2').textContent = '-';
-            document.getElementById('diceTrayTurnTag').textContent = `${document.getElementById('diceLabelP1').textContent} の投下`;
+            document.getElementById('diceTurnTag').textContent = `${document.getElementById('diceLabelP1').textContent} の投下`;
             document.getElementById('seqResultText').textContent = "もう一度サイコロを振ってください";
           }, 1200);
           return;
@@ -1909,6 +1952,7 @@ class AppCoordinator {
   }
 }
 
+// Ensure startup when DOM is fully loaded
 window.addEventListener('DOMContentLoaded', () => {
   window.app = new AppCoordinator();
 });
