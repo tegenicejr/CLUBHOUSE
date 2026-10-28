@@ -1,11 +1,10 @@
 /**
  * Games Clubhouse - Checkers Engine & Application Coordinator
- * Compliant with Master Specification: 8-language I18N, 3-stage sequence,
- * minimax CPU, illustrated guide, touch safety, and state persistence.
+ * With Integrated Three.js 3D Physics Dice Drop & Complete 8-Language I18N
  */
 
 // ============================================================================
-// 1. I18N Dictionaries (8 Global Languages)
+// 1. I18N Dictionaries (All 8 Languages Fully Populated)
 // ============================================================================
 const I18N = {
   en: {
@@ -36,14 +35,14 @@ const I18N = {
     curtain_desc: "Please pass the device. Tap anywhere when you are ready to play.",
     curtain_ready: "I'm Ready",
     seq_title: "Determining First Player",
-    seq_rule_desc: "In Checkers, the Dark/Red pieces move first. Roll the dice to decide who plays first!",
+    seq_rule_desc: "In Checkers, Red pieces move first. Roll the dice to decide who plays first!",
     badge_you: "You",
     badge_cpu: "CPU",
     badge_p1: "Player 1",
     badge_p2: "Player 2",
     seq_btn_roll: "Roll the Dice",
     seq_tie_text: "A tie! Rolling again...",
-    seq_win_you: "You rolled higher! You move first.",
+    seq_win_you: "You rolled higher! You move first (Red).",
     seq_win_opp: "Opponent rolled higher! They move first.",
     seq_btn_play: "Start Match",
     rules_modal_title: "How to Play Checkers",
@@ -120,7 +119,7 @@ const I18N = {
     curtain_desc: "相手に端末を渡してください。準備ができたらタップしてください。",
     curtain_ready: "準備完了",
     seq_title: "先手・後手決定",
-    seq_rule_desc: "チェッカーズは【濃色（赤）駒】が先手です。サイコロを振って出目の大きい方が先手となります！",
+    seq_rule_desc: "チェッカーズは【赤駒】が先手です。サイコロを振って出目の大きい方が先手となります！",
     badge_you: "あなた",
     badge_cpu: "CPU",
     badge_p1: "1P",
@@ -172,7 +171,7 @@ const I18N = {
     p2_win_title: "プレイヤー2の勝利！",
     victory_reason_wipe: "相手のすべての駒を獲得しました。",
     victory_reason_trapped: "相手の手番で合法手がなくなりました。",
-    btn_share_x: "X（旧Twitter）で共有",
+    btn_share_x: "Xで共有",
     btn_play_again: "もう一度遊ぶ",
     btn_back_menu: "メニューへ戻る"
   },
@@ -204,14 +203,14 @@ const I18N = {
     curtain_desc: "请将设备交给对方，准备就绪后点击屏幕。",
     curtain_ready: "准备就绪",
     seq_title: "先手裁定",
-    seq_rule_desc: "西洋跳棋中深色（红）棋子先手。掷骰子点数大者先走！",
+    seq_rule_desc: "西洋跳棋中红棋先手。掷骰子点数大者先走！",
     badge_you: "您",
     badge_cpu: "电脑",
     badge_p1: "玩家 1",
     badge_p2: "玩家 2",
     seq_btn_roll: "掷骰子",
     seq_tie_text: "平局！重新掷骰子...",
-    seq_win_you: "您赢了！您获得先手权。",
+    seq_win_you: "您赢了！您获得先手权（红棋）。",
     seq_win_opp: "对手获胜！对手获得先手权。",
     seq_btn_play: "进入棋盘",
     rules_modal_title: "图解规则说明",
@@ -288,14 +287,14 @@ const I18N = {
     curtain_desc: "請將裝置交給對方，準備就緒後點擊螢幕。",
     curtain_ready: "準備就緒",
     seq_title: "先手裁定",
-    seq_rule_desc: "西洋跳棋中深色（紅）棋子先手。擲骰子點數大者先走！",
+    seq_rule_desc: "西洋跳棋中紅棋先手。擲骰子點數大者先走！",
     badge_you: "您",
     badge_cpu: "電腦",
     badge_p1: "玩家 1",
     badge_p2: "玩家 2",
     seq_btn_roll: "擲骰子",
     seq_tie_text: "平局！重新擲骰子...",
-    seq_win_you: "您贏了！您獲得先手權。",
+    seq_win_you: "您贏了！您獲得先手權（紅棋）。",
     seq_win_opp: "對手獲勝！對手獲得先手權。",
     seq_btn_play: "進入棋盤",
     rules_modal_title: "圖解規則說明",
@@ -372,7 +371,7 @@ const I18N = {
     curtain_desc: "기기를 상대에게 넘겨주세요. 준비되면 화면을 터치하세요.",
     curtain_ready: "준비 완료",
     seq_title: "선공 결정",
-    seq_rule_desc: "체커스는 어두운(빨간) 말이 선공입니다. 주사위를 굴려 높은 쪽이 선공이 됩니다!",
+    seq_rule_desc: "체커스는 빨간 말이 선공입니다. 주사위를 굴려 높은 쪽이 선공이 됩니다!",
     badge_you: "나",
     badge_cpu: "CPU",
     badge_p1: "1P",
@@ -456,14 +455,14 @@ const I18N = {
     curtain_desc: "Pasa el dispositivo. Toca cuando estés listo para jugar.",
     curtain_ready: "Listo",
     seq_title: "Determinar Quién Inicia",
-    seq_rule_desc: "En las damas, las fichas oscuras (rojas) mueven primero. ¡Lanza el dado!",
+    seq_rule_desc: "En las damas, las rojas mueven primero. ¡Lanza el dado!",
     badge_you: "Tú",
     badge_cpu: "CPU",
     badge_p1: "Jugador 1",
     badge_p2: "Jugador 2",
     seq_btn_roll: "Lanzar Dado",
     seq_tie_text: "¡Empate! Volviendo a lanzar...",
-    seq_win_you: "¡Ganaste el tiro! Mueves primero.",
+    seq_win_you: "¡Ganaste el tiro! Mueves primero (Rojas).",
     seq_win_opp: "El rival ganó el tiro. Mueve primero.",
     seq_btn_play: "Empezar Juego",
     rules_modal_title: "Cómo Jugar Damas",
@@ -540,14 +539,14 @@ const I18N = {
     curtain_desc: "Passez l'appareil. Touchez l'écran quand vous êtes prêt.",
     curtain_ready: "Je suis prêt",
     seq_title: "Tirage au sort",
-    seq_rule_desc: "Aux dames, les pions sombres (rouges) débutent. Lancez le dé !",
+    seq_rule_desc: "Aux dames, les pions rouges débutent. Lancez le dé !",
     badge_you: "Vous",
     badge_cpu: "CPU",
     badge_p1: "Joueur 1",
     badge_p2: "Joueur 2",
     seq_btn_roll: "Lancer le dé",
     seq_tie_text: "Égalité ! Nouveau lancer...",
-    seq_win_you: "Vous commencez la partie !",
+    seq_win_you: "Vous commencez la partie (Rouges) !",
     seq_win_opp: "L'adversaire commence la partie.",
     seq_btn_play: "Aller au damier",
     rules_modal_title: "Règles des Dames",
@@ -624,14 +623,14 @@ const I18N = {
     curtain_desc: "Passe o dispositivo. Toque na tela quando estiver pronto.",
     curtain_ready: "Estou Pronto",
     seq_title: "Decisão do Primeiro a Jogar",
-    seq_rule_desc: "Nas damas, as peças escuras (vermelhas) começam. Role o dado!",
+    seq_rule_desc: "Nas damas, as vermelhas começam. Role o dado!",
     badge_you: "Você",
     badge_cpu: "CPU",
     badge_p1: "Jogador 1",
     badge_p2: "Jogador 2",
     seq_btn_roll: "Rolar Dado",
     seq_tie_text: "Empate! Rolando de novo...",
-    seq_win_you: "Você tirou mais alto! Começa jogando.",
+    seq_win_you: "Você tirou mais alto! Começa jogando (Vermelhas).",
     seq_win_opp: "Oponente tirou mais alto! Ele começa.",
     seq_btn_play: "Ir ao Tabuleiro",
     rules_modal_title: "Como Jogar Damas",
@@ -683,10 +682,242 @@ const I18N = {
 };
 
 // ============================================================================
-// 2. Core Game Logic Engine
+// 2. Three.js 3D Dice Renderer (Felt Tray & Physics Drop)
+// ============================================================================
+class ThreeDiceEngine {
+  constructor(canvasId, containerId) {
+    this.canvas = document.getElementById(canvasId);
+    this.container = document.getElementById(containerId);
+    this.isRolling = false;
+    this.initialized = false;
+  }
+
+  init() {
+    if (this.initialized || !this.canvas || !this.container) return;
+    this.initialized = true;
+
+    const width = this.container.clientWidth || 320;
+    const height = this.container.clientHeight || 180;
+
+    this.renderer = new THREE.WebGLRenderer({ canvas: this.canvas, antialias: true, alpha: true });
+    this.renderer.setSize(width, height);
+    this.renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+    this.renderer.shadowMap.enabled = true;
+    this.renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+
+    this.scene = new THREE.Scene();
+    this.camera = new THREE.PerspectiveCamera(35, width / height, 0.1, 100);
+    this.camera.position.set(0, 0, 7.8);
+    this.camera.lookAt(0, 0, 0);
+
+    const ambientLight = new THREE.AmbientLight(0xffffff, 0.95);
+    this.scene.add(ambientLight);
+
+    const dirLight = new THREE.DirectionalLight(0xffffff, 0.45);
+    dirLight.position.set(2, 6, 8);
+    dirLight.castShadow = true;
+    dirLight.shadow.mapSize.width = 1024;
+    dirLight.shadow.mapSize.height = 1024;
+    this.scene.add(dirLight);
+
+    const floorGeo = new THREE.PlaneGeometry(15, 15);
+    const floorMat = new THREE.ShadowMaterial({ opacity: 0.45 });
+    const floor = new THREE.Mesh(floorGeo, floorMat);
+    floor.position.set(0, 0, -0.6);
+    floor.receiveShadow = true;
+    this.scene.add(floor);
+
+    this.materials = [
+      new THREE.MeshLambertMaterial({ map: this.createDiceFaceTexture(2) }),
+      new THREE.MeshLambertMaterial({ map: this.createDiceFaceTexture(5) }),
+      new THREE.MeshLambertMaterial({ map: this.createDiceFaceTexture(3) }),
+      new THREE.MeshLambertMaterial({ map: this.createDiceFaceTexture(4) }),
+      new THREE.MeshLambertMaterial({ map: this.createDiceFaceTexture(1) }),
+      new THREE.MeshLambertMaterial({ map: this.createDiceFaceTexture(6) })
+    ];
+
+    this.FaceRotations = {
+      1: new THREE.Euler(0, 0, 0),
+      2: new THREE.Euler(0, -Math.PI / 2, 0),
+      3: new THREE.Euler(Math.PI / 2, 0, 0),
+      4: new THREE.Euler(-Math.PI / 2, 0, 0),
+      5: new THREE.Euler(0, Math.PI / 2, 0),
+      6: new THREE.Euler(0, Math.PI, 0)
+    };
+
+    const roundedGeo = this.createRoundedDiceGeometry(1.3, 0.2, 7);
+    this.diceMesh = new THREE.Mesh(roundedGeo, this.materials);
+    this.diceMesh.castShadow = true;
+    this.diceMesh.visible = false;
+    this.scene.add(this.diceMesh);
+
+    const renderLoop = () => {
+      requestAnimationFrame(renderLoop);
+      this.renderer.render(this.scene, this.camera);
+    };
+    renderLoop();
+  }
+
+  resize() {
+    if (!this.renderer || !this.container) return;
+    const width = this.container.clientWidth;
+    const height = this.container.clientHeight;
+    if (width > 0 && height > 0) {
+      this.camera.aspect = width / height;
+      this.camera.updateProjectionMatrix();
+      this.renderer.setSize(width, height);
+    }
+  }
+
+  createDiceFaceTexture(val) {
+    const c = document.createElement('canvas');
+    c.width = 256;
+    c.height = 256;
+    const ctx = c.getContext('2d');
+
+    ctx.fillStyle = '#f8f8fa';
+    ctx.fillRect(0, 0, 256, 256);
+
+    ctx.strokeStyle = '#d2d5dc';
+    ctx.lineWidth = 12;
+    ctx.strokeRect(0, 0, 256, 256);
+
+    const isOne = (val === 1);
+    const pipRadius = isOne ? 44 : 23;
+    const pipColor = isOne ? '#e02418' : '#141517';
+
+    const pips = {
+      1: [[128, 128]],
+      2: [[68, 68], [188, 188]],
+      3: [[68, 68], [128, 128], [188, 188]],
+      4: [[68, 68], [188, 68], [68, 188], [188, 188]],
+      5: [[66, 66], [190, 66], [128, 128], [66, 190], [190, 190]],
+      6: [[68, 62], [188, 62], [68, 128], [188, 128], [68, 194], [188, 194]]
+    }[val];
+
+    pips.forEach(([x, y]) => {
+      ctx.beginPath();
+      ctx.arc(x, y, pipRadius, 0, Math.PI * 2);
+      ctx.fillStyle = pipColor;
+      ctx.fill();
+
+      ctx.beginPath();
+      ctx.arc(x - pipRadius * 0.2, y - pipRadius * 0.2, pipRadius * 0.35, 0, Math.PI * 2);
+      ctx.fillStyle = isOne ? 'rgba(255,255,255,0.25)' : 'rgba(255,255,255,0.15)';
+      ctx.fill();
+    });
+
+    return new THREE.CanvasTexture(c);
+  }
+
+  createRoundedDiceGeometry(size = 1.3, radius = 0.2, segments = 7) {
+    const geo = new THREE.BoxGeometry(size, size, size, segments, segments, segments);
+    const pos = geo.attributes.position;
+    const half = size / 2;
+    const innerHalf = half - radius;
+
+    for (let i = 0; i < pos.count; i++) {
+      let x = pos.getX(i);
+      let y = pos.getY(i);
+      let z = pos.getZ(i);
+
+      let cx = Math.max(-innerHalf, Math.min(innerHalf, x));
+      let cy = Math.max(-innerHalf, Math.min(innerHalf, y));
+      let cz = Math.max(-innerHalf, Math.min(innerHalf, z));
+
+      let dx = x - cx;
+      let dy = y - cy;
+      let dz = z - cz;
+
+      let len = Math.sqrt(dx * dx + dy * dy + dz * dz);
+      if (len > 0) {
+        pos.setXYZ(i, cx + (dx / len) * radius, cy + (dy / len) * radius, cz + (dz / len) * radius);
+      }
+    }
+    geo.computeVertexNormals();
+    return geo;
+  }
+
+  roll(targetValue, onComplete) {
+    if (this.isRolling) return;
+    this.isRolling = true;
+    this.diceMesh.visible = true;
+
+    const startTime = performance.now();
+    const duration = 1050;
+    const startY = 4.5;
+    const targetX = 0;
+
+    const targetEuler = this.FaceRotations[targetValue];
+    const targetQuat = new THREE.Quaternion().setFromEuler(targetEuler);
+
+    const extraTurnsX = Math.floor(Math.random() * 2) + 3;
+    const extraTurnsY = Math.floor(Math.random() * 2) + 3;
+    const totalAngleX = extraTurnsX * Math.PI * 2;
+    const totalAngleY = extraTurnsY * Math.PI * 2;
+    const driftX = (Math.random() - 0.5) * 0.4;
+
+    let soundBounced1 = false;
+    let soundBounced2 = false;
+
+    const frame = (now) => {
+      const elapsed = now - startTime;
+      const progress = Math.min(elapsed / duration, 1);
+
+      let y = 0;
+      if (progress < 0.44) {
+        const p = progress / 0.44;
+        y = startY * (1 - p * p);
+      } else if (progress < 0.74) {
+        if (!soundBounced1) {
+          window.soundEffects.playMove();
+          soundBounced1 = true;
+        }
+        const p = (progress - 0.44) / 0.3;
+        y = Math.sin(p * Math.PI) * 1.15;
+      } else if (progress < 0.92) {
+        if (!soundBounced2) {
+          window.soundEffects.playMove();
+          soundBounced2 = true;
+        }
+        const p = (progress - 0.74) / 0.18;
+        y = Math.sin(p * Math.PI) * 0.3;
+      } else {
+        y = 0;
+      }
+
+      const easeProgress = 1 - Math.pow(1 - progress, 3);
+      const remain = 1 - easeProgress;
+
+      const rotX = targetEuler.x + totalAngleX * remain;
+      const rotY = targetEuler.y + totalAngleY * remain;
+      const rotZ = targetEuler.z + Math.sin(progress * Math.PI) * 0.35;
+
+      this.diceMesh.rotation.set(rotX, rotY, rotZ);
+
+      const currentX = targetX + driftX * remain;
+      this.diceMesh.position.set(currentX, y, 0);
+
+      if (progress < 1) {
+        requestAnimationFrame(frame);
+      } else {
+        window.soundEffects.playMove();
+        this.diceMesh.position.set(targetX, 0, 0);
+        this.diceMesh.quaternion.copy(targetQuat);
+        this.isRolling = false;
+        if (onComplete) onComplete();
+      }
+    };
+
+    requestAnimationFrame(frame);
+  }
+}
+
+// ============================================================================
+// 3. Checkers Logic Engine
 // ============================================================================
 const PIECE_NONE = 0;
-const PIECE_RED = 1;     // Player 1 / User
+const PIECE_RED = 1;     // Player 1 (Starts)
 const PIECE_BLACK = 2;   // Player 2 / CPU
 const KING_MASK = 4;
 
@@ -738,7 +969,6 @@ class CheckersEngine {
     return piece & 3;
   }
 
-  // Generate legal moves
   getLegalMoves(player = this.turn, restrictSquare = this.multiJumpSquare) {
     const jumps = [];
     const steps = [];
@@ -755,21 +985,19 @@ class CheckersEngine {
       const col = sq % 8;
       const king = this.isKing(piece);
 
-      // Directions: Red normally moves up (-1), Black moves down (+1)
       const dirs = [];
       if (king) {
         dirs.push([-1, -1], [-1, 1], [1, -1], [1, 1]);
       } else if (player === PIECE_RED) {
-        dirs.push([-1, -1], [-1, 1]);
+        dirs.push([-1, -1], [-1, 1]); // Red moves up
       } else {
-        dirs.push([1, -1], [1, 1]);
+        dirs.push([1, -1], [1, 1]);   // Black moves down
       }
 
       for (const [dr, dc] of dirs) {
         const nr = row + dr;
         const nc = col + dc;
 
-        // Regular move
         if (restrictSquare === null && nr >= 0 && nr < 8 && nc >= 0 && nc < 8) {
           const target = nr * 8 + nc;
           if (this.board[target] === PIECE_NONE) {
@@ -777,7 +1005,6 @@ class CheckersEngine {
           }
         }
 
-        // Jump move
         const jumpR = row + dr * 2;
         const jumpC = col + dc * 2;
         if (jumpR >= 0 && jumpR < 8 && jumpC >= 0 && jumpC < 8) {
@@ -794,12 +1021,10 @@ class CheckersEngine {
       }
     }
 
-    // MANDATORY CAPTURE: Jumps override steps
     return jumps.length > 0 ? jumps : steps;
   }
 
   applyMove(move) {
-    // Record history snapshot for undo
     this.history.push({
       board: [...this.board],
       turn: this.turn,
@@ -815,7 +1040,6 @@ class CheckersEngine {
     let crowned = false;
     const destRow = Math.floor(move.to / 8);
 
-    // Crowning condition
     if (!this.isKing(piece)) {
       if ((this.turn === PIECE_RED && destRow === 0) || (this.turn === PIECE_BLACK && destRow === 7)) {
         placedPiece |= KING_MASK;
@@ -834,7 +1058,6 @@ class CheckersEngine {
         this.maxComboInMatch = this.currentComboCount;
       }
 
-      // If crowned during jump, turn ends according to English Draughts rules
       if (!crowned) {
         const nextJumps = this.getLegalMoves(this.turn, move.to);
         if (nextJumps.length > 0 && nextJumps[0].isJump) {
@@ -844,7 +1067,6 @@ class CheckersEngine {
       }
     }
 
-    // Turn handover
     this.currentComboCount = 0;
     this.multiJumpSquare = null;
     this.turn = this.turn === PIECE_RED ? PIECE_BLACK : PIECE_RED;
@@ -873,7 +1095,6 @@ class CheckersEngine {
     return { over: false };
   }
 
-  // Board evaluation for CPU (Minimax)
   evaluate(player) {
     let score = 0;
     for (let i = 0; i < 64; i++) {
@@ -883,11 +1104,9 @@ class CheckersEngine {
       const king = this.isKing(piece);
       let val = king ? 35 : 10;
 
-      // Position weights: center control
       const r = Math.floor(i / 8);
       const c = i % 8;
       if (r >= 2 && r <= 5 && c >= 2 && c <= 5) val += 3;
-      // Protect back rank
       if (!king) {
         if ((player === PIECE_BLACK && r === 0) || (player === PIECE_RED && r === 7)) {
           val += 4;
@@ -901,7 +1120,7 @@ class CheckersEngine {
 }
 
 // ============================================================================
-// 3. Minimax CPU Engine with Alpha-Beta Pruning
+// 4. Minimax AI Engine
 // ============================================================================
 class CheckersCPU {
   static getBestMove(engine, difficulty = 'normal') {
@@ -918,7 +1137,6 @@ class CheckersCPU {
     let bestMove = legalMoves[0];
 
     for (const move of legalMoves) {
-      // Simulate move
       const cloned = new CheckersEngine();
       cloned.board = [...engine.board];
       cloned.turn = engine.turn;
@@ -943,8 +1161,7 @@ class CheckersCPU {
       return engine.evaluate(cpuPlayer);
     }
 
-    const currentTurn = engine.turn;
-    const moves = engine.getLegalMoves(currentTurn);
+    const moves = engine.getLegalMoves(engine.turn);
 
     if (isMaximizing) {
       let maxEval = -Infinity;
@@ -981,17 +1198,23 @@ class CheckersCPU {
 }
 
 // ============================================================================
-// 4. Application Coordinator & UI Presenter
+// 5. Application Coordinator
 // ============================================================================
 class AppCoordinator {
   constructor() {
     this.engine = new CheckersEngine();
-    this.mode = 'cpu'; // 'cpu' or 'pass'
+    this.mode = 'cpu';
     this.difficulty = 'normal';
-    this.lang = 'en';
+    this.lang = 'ja';
+    this.speed = 'normal';
     this.ruleStep = 1;
     this.cpuThinkingTimer = null;
-    this.diceRollPending = false;
+
+    // Dice Toss State
+    this.diceEngine = new ThreeDiceEngine('webgl-canvas', 'diceTrayContainer');
+    this.rollPhase = 1; // 1: P1 roll, 2: P2 roll
+    this.rollP1 = 0;
+    this.rollP2 = 0;
     this.firstPlayerDecided = PIECE_RED;
 
     this.cacheDom();
@@ -1002,7 +1225,6 @@ class AppCoordinator {
   }
 
   cacheDom() {
-    // Screens & Modals
     this.domTitleScreen = document.getElementById('titleScreen');
     this.domGameScreen = document.getElementById('gameScreen');
     this.domSequenceModal = document.getElementById('sequenceModal');
@@ -1014,7 +1236,6 @@ class AppCoordinator {
     this.domPassCurtain = document.getElementById('passCurtainModal');
     this.domToast = document.getElementById('toastNotification');
 
-    // Board & HUD
     this.domBoardGrid = document.getElementById('boardGrid');
     this.domTurnBadge = document.getElementById('turnDiscBadge');
     this.domTurnText = document.getElementById('turnStatusText');
@@ -1024,7 +1245,6 @@ class AppCoordinator {
     this.domOpponentName = document.getElementById('opponentNameLabel');
     this.domCpuThinking = document.getElementById('cpuThinkingIndicator');
 
-    // Settings elements
     this.domSettingLang = document.getElementById('settingLanguage');
     this.domSettingSound = document.getElementById('settingSoundToggle');
     this.domSettingVibrate = document.getElementById('settingVibrateToggle');
@@ -1034,7 +1254,8 @@ class AppCoordinator {
 
   loadStateAndSettings() {
     const settings = window.storageManager.getSettings();
-    this.lang = settings.lang || 'en';
+    this.lang = settings.lang || 'ja';
+    this.speed = settings.speed || 'normal';
     this.applyLanguage(this.lang);
 
     window.soundEffects.setEnabled(settings.sound !== false);
@@ -1042,15 +1263,14 @@ class AppCoordinator {
     if (this.domSettingVibrate) this.domSettingVibrate.checked = settings.vibrate !== false;
     if (this.domSettingLang) this.domSettingLang.value = this.lang;
 
-    this.updateSpeedUI(settings.speed || 'normal');
+    this.updateSpeedUI(this.speed);
     this.updateAudioIcon(settings.sound !== false);
   }
 
   applyLanguage(lang) {
-    this.lang = I18N[lang] ? lang : 'en';
+    this.lang = I18N[lang] ? lang : 'ja';
     const dict = I18N[this.lang];
 
-    // Synchronize all data-i18n elements in DOM
     document.querySelectorAll('[data-i18n]').forEach((el) => {
       const key = el.getAttribute('data-i18n');
       if (dict[key]) el.innerHTML = dict[key];
@@ -1062,7 +1282,6 @@ class AppCoordinator {
   }
 
   bindEvents() {
-    // Mode selection
     document.getElementById('modeSelector').addEventListener('click', (e) => {
       const btn = e.target.closest('.pill-tab');
       if (!btn) return;
@@ -1073,7 +1292,6 @@ class AppCoordinator {
       this.updateHUD();
     });
 
-    // Difficulty selection
     document.getElementById('difficultySelector').addEventListener('click', (e) => {
       const btn = e.target.closest('.pill-tab');
       if (!btn) return;
@@ -1083,15 +1301,8 @@ class AppCoordinator {
       this.updateHUD();
     });
 
-    // Main action buttons
-    document.getElementById('btnStartGame').addEventListener('click', () => {
-      this.openSequenceModal();
-    });
-
-    document.getElementById('btnResumeGame').addEventListener('click', () => {
-      this.resumeSavedMatch();
-    });
-
+    document.getElementById('btnStartGame').addEventListener('click', () => this.openSequenceModal());
+    document.getElementById('btnResumeGame').addEventListener('click', () => this.resumeSavedMatch());
     document.getElementById('btnGameToTitle').addEventListener('click', () => {
       this.showScreen('title');
       this.checkResumeAvailability();
@@ -1109,7 +1320,7 @@ class AppCoordinator {
       if (this.mode === 'cpu' && this.engine.turn === PIECE_BLACK) return;
       if (this.engine.undo()) {
         if (this.mode === 'cpu' && this.engine.turn === PIECE_BLACK) {
-          this.engine.undo(); // Undo CPU step as well
+          this.engine.undo();
         }
         window.soundEffects.playMove();
         this.renderBoard();
@@ -1118,7 +1329,6 @@ class AppCoordinator {
       }
     });
 
-    // Audio toggle
     document.getElementById('btnAudioToggle').addEventListener('click', () => {
       const next = !window.soundEffects.enabled;
       window.soundEffects.setEnabled(next);
@@ -1127,7 +1337,6 @@ class AppCoordinator {
       this.updateAudioIcon(next);
     });
 
-    // Modals
     document.getElementById('btnOpenRules').addEventListener('click', () => this.openRulesModal());
     document.getElementById('btnCloseRules').addEventListener('click', () => this.closeRulesModal());
     document.getElementById('btnPrevRule').addEventListener('click', () => this.changeRuleStep(-1));
@@ -1139,7 +1348,6 @@ class AppCoordinator {
     document.getElementById('btnOpenSettings').addEventListener('click', () => this.openSettingsModal());
     document.getElementById('btnCloseSettings').addEventListener('click', () => this.closeSettingsModal());
 
-    // Settings triggers
     this.domSettingLang.addEventListener('change', (e) => {
       this.applyLanguage(e.target.value);
       window.storageManager.saveSettings({ lang: e.target.value });
@@ -1175,16 +1383,15 @@ class AppCoordinator {
       );
     });
 
-    // First player sequence
-    document.getElementById('btnRollDice').addEventListener('click', () => this.executeDiceRollSequence());
+    // 3D Dice Events
+    document.getElementById('btnRollDice').addEventListener('click', () => this.handleDiceRollClick());
+    document.getElementById('diceTrayContainer').addEventListener('click', () => this.handleDiceRollClick());
     document.getElementById('btnStartGameConfirmed').addEventListener('click', () => this.finalizeMatchStart());
 
-    // Pass and play curtain
     document.getElementById('btnCurtainDismiss').addEventListener('click', () => {
       this.domPassCurtain.classList.remove('active');
     });
 
-    // Results modal
     document.getElementById('btnRematch').addEventListener('click', () => {
       this.domResultModal.classList.remove('active');
       this.openSequenceModal();
@@ -1200,7 +1407,100 @@ class AppCoordinator {
   }
 
   // ==========================================================================
-  // Board Rendering & Interaction
+  // 3-Stage First Player Determination (Integrated Three.js Drop)
+  // ==========================================================================
+  openSequenceModal() {
+    const dict = I18N[this.lang];
+    this.rollPhase = 1;
+    this.rollP1 = 0;
+    this.rollP2 = 0;
+
+    document.getElementById('diceLabelP1').textContent = this.mode === 'cpu' ? dict.badge_you : dict.badge_p1;
+    document.getElementById('diceLabelP2').textContent = this.mode === 'cpu' ? dict.badge_cpu : dict.badge_p2;
+    document.getElementById('diceValP1').textContent = '-';
+    document.getElementById('diceValP2').textContent = '-';
+    document.getElementById('diceTrayTurnTag').textContent = `${document.getElementById('diceLabelP1').textContent} の投下`;
+    document.getElementById('seqResultText').textContent = "「サイコロを振る」を押してください";
+
+    const btnRoll = document.getElementById('btnRollDice');
+    const btnPlay = document.getElementById('btnStartGameConfirmed');
+    btnRoll.classList.remove('hidden');
+    btnPlay.classList.add('hidden');
+
+    this.domSequenceModal.classList.add('active');
+
+    setTimeout(() => {
+      this.diceEngine.init();
+      this.diceEngine.resize();
+    }, 60);
+  }
+
+  handleDiceRollClick() {
+    if (this.diceEngine.isRolling) return;
+
+    const dict = I18N[this.lang];
+    const val = Math.floor(Math.random() * 6) + 1;
+    document.getElementById('seqResultText').textContent = "サイコロを振っています...";
+
+    this.diceEngine.roll(val, () => {
+      if (this.rollPhase === 1) {
+        this.rollP1 = val;
+        document.getElementById('diceValP1').textContent = val;
+        this.rollPhase = 2;
+        const p2Name = document.getElementById('diceLabelP2').textContent;
+        document.getElementById('diceTrayTurnTag').textContent = `${p2Name} の投下`;
+
+        if (this.mode === 'cpu') {
+          document.getElementById('seqResultText').textContent = "CPUがサイコロを振ります...";
+          setTimeout(() => this.handleDiceRollClick(), 700);
+        } else {
+          document.getElementById('seqResultText').textContent = `${p2Name}の番です。振ってください！`;
+        }
+      } else if (this.rollPhase === 2) {
+        this.rollP2 = val;
+        document.getElementById('diceValP2').textContent = val;
+
+        if (this.rollP1 === this.rollP2) {
+          document.getElementById('seqResultText').textContent = dict.seq_tie_text;
+          setTimeout(() => {
+            this.rollPhase = 1;
+            document.getElementById('diceValP1').textContent = '-';
+            document.getElementById('diceValP2').textContent = '-';
+            document.getElementById('diceTrayTurnTag').textContent = `${document.getElementById('diceLabelP1').textContent} の投下`;
+            document.getElementById('seqResultText').textContent = "もう一度サイコロを振ってください";
+          }, 1200);
+          return;
+        }
+
+        const p1Won = this.rollP1 > this.rollP2;
+        this.firstPlayerDecided = p1Won ? PIECE_RED : PIECE_BLACK;
+
+        document.getElementById('seqResultText').textContent = p1Won ? dict.seq_win_you : dict.seq_win_opp;
+        document.getElementById('btnRollDice').classList.add('hidden');
+        document.getElementById('btnStartGameConfirmed').classList.remove('hidden');
+      }
+    });
+  }
+
+  finalizeMatchStart() {
+    this.domSequenceModal.classList.remove('active');
+    this.engine.reset();
+    this.showScreen('game');
+    this.renderBoard();
+    this.updateHUD();
+    this.persistGameState();
+
+    if (this.firstPlayerDecided === PIECE_BLACK) {
+      if (this.mode === 'cpu') {
+        this.scheduleCpuMove();
+      } else {
+        this.showPassCurtain();
+      }
+    }
+  }
+
+  // ==========================================================================
+  // Board Rendering & Move Interaction
   // ==========================================================================
   renderBoard() {
     this.domBoardGrid.innerHTML = '';
@@ -1225,7 +1525,6 @@ class AppCoordinator {
       cell.className = `board-cell ${isDark ? 'dark' : 'light'}`;
       cell.dataset.index = i;
 
-      // Legal moves targets
       if (targetSquares.has(i)) {
         const move = targetSquares.get(i);
         cell.classList.add(move.isJump ? 'valid-jump' : 'valid-move');
@@ -1242,7 +1541,6 @@ class AppCoordinator {
         pieceEl.className = `piece ${color === PIECE_RED ? 'red' : 'black'}`;
         if (isKing) pieceEl.classList.add('king');
 
-        // Highlight selection & movable state
         if (this.engine.turn === color && movableSquares.has(i)) {
           pieceEl.classList.add('selectable');
           if (hasJumps) pieceEl.classList.add('must-jump');
@@ -1252,9 +1550,7 @@ class AppCoordinator {
           pieceEl.classList.add('selected');
         }
 
-        // Tap piece to select
         if (this.engine.turn === color && (this.mode === 'pass' || color === PIECE_RED)) {
-          pieceEl.style.cursor = 'pointer';
           pieceEl.addEventListener('click', (e) => {
             e.stopPropagation();
             this.handlePieceClick(i);
@@ -1321,13 +1617,11 @@ class AppCoordinator {
       return;
     }
 
-    // Pass and Play curtain
     if (this.mode === 'pass' && !res.multiJump) {
       this.showPassCurtain();
       return;
     }
 
-    // CPU Turn Trigger
     if (this.mode === 'cpu' && this.engine.turn === PIECE_BLACK) {
       this.scheduleCpuMove();
     }
@@ -1335,7 +1629,7 @@ class AppCoordinator {
 
   scheduleCpuMove() {
     this.domCpuThinking.classList.remove('hidden');
-    const delay = this.speed === 'fast' ? 500 : 950;
+    const delay = this.speed === 'fast' ? 450 : 900;
 
     clearTimeout(this.cpuThinkingTimer);
     this.cpuThinkingTimer = setTimeout(() => {
@@ -1348,107 +1642,7 @@ class AppCoordinator {
   }
 
   // ==========================================================================
-  // 3-Stage Sequence Modal (First/Second Player)
-  // ==========================================================================
-  openSequenceModal() {
-    const dict = I18N[this.lang];
-    document.getElementById('seqStepExplain').classList.add('active');
-    document.getElementById('seqStepResult').classList.remove('active');
-
-    // Label tags
-    document.getElementById('diceTagP1').textContent = this.mode === 'cpu' ? dict.badge_you : dict.badge_p1;
-    document.getElementById('diceTagP2').textContent = this.mode === 'cpu' ? dict.badge_cpu : dict.badge_p2;
-
-    this.renderStandardDie(document.getElementById('diceP1'), 1);
-    this.renderStandardDie(document.getElementById('diceP2'), 1);
-
-    this.domSequenceModal.classList.add('active');
-  }
-
-  executeDiceRollSequence() {
-    if (this.diceRollPending) return;
-    this.diceRollPending = true;
-
-    window.soundEffects.playDiceRoll();
-    const d1 = document.getElementById('diceP1');
-    const d2 = document.getElementById('diceP2');
-    d1.classList.add('rolling');
-    d2.classList.add('rolling');
-
-    setTimeout(() => {
-      d1.classList.remove('rolling');
-      d2.classList.remove('rolling');
-
-      const roll1 = Math.floor(Math.random() * 6) + 1;
-      let roll2 = Math.floor(Math.random() * 6) + 1;
-
-      // Handle tie reroll
-      if (roll1 === roll2) {
-        this.showToast(I18N[this.lang].seq_tie_text);
-        this.diceRollPending = false;
-        return;
-      }
-
-      document.getElementById('seqStepExplain').classList.remove('active');
-      document.getElementById('seqStepResult').classList.add('active');
-
-      const resD1 = document.getElementById('diceResP1');
-      const resD2 = document.getElementById('diceResP2');
-      this.renderStandardDie(resD1, roll1);
-      this.renderStandardDie(resD2, roll2);
-
-      document.getElementById('diceValP1').textContent = roll1;
-      document.getElementById('diceValP2').textContent = roll2;
-
-      const p1Won = roll1 > roll2;
-      this.firstPlayerDecided = p1Won ? PIECE_RED : PIECE_BLACK;
-
-      const banner = document.getElementById('seqResultText');
-      banner.textContent = p1Won ? I18N[this.lang].seq_win_you : I18N[this.lang].seq_win_opp;
-
-      this.diceRollPending = false;
-    }, 700);
-  }
-
-  // Japanese Standard White Die DOM Rendering
-  renderStandardDie(container, value) {
-    container.innerHTML = '';
-    container.className = `standard-die dice-val-${value}`;
-
-    if (value === 1) {
-      const pip = document.createElement('span');
-      pip.className = 'die-pip red';
-      container.appendChild(pip);
-      return;
-    }
-
-    for (let i = 0; i < value; i++) {
-      const pip = document.createElement('span');
-      pip.className = 'die-pip';
-      container.appendChild(pip);
-    }
-  }
-
-  finalizeMatchStart() {
-    this.domSequenceModal.classList.remove('active');
-    this.engine.reset();
-    this.showScreen('game');
-    this.renderBoard();
-    this.updateHUD();
-    this.persistGameState();
-
-    // If opponent won dice toss
-    if (this.firstPlayerDecided === PIECE_BLACK) {
-      if (this.mode === 'cpu') {
-        this.scheduleCpuMove();
-      } else {
-        this.showPassCurtain();
-      }
-    }
-  }
-
-  // ==========================================================================
-  // HUD, Modals, State Persistence & Audio
+  // HUD & Persistence
   // ==========================================================================
   updateHUD() {
     const dict = I18N[this.lang];
@@ -1573,9 +1767,6 @@ class AppCoordinator {
     }
   }
 
-  // ==========================================================================
-  // Illustrated How to Play Carousel
-  // ==========================================================================
   openRulesModal() {
     this.ruleStep = 1;
     this.updateRuleCarousel();
@@ -1602,9 +1793,6 @@ class AppCoordinator {
     });
   }
 
-  // ==========================================================================
-  // Stats & Achievements
-  // ==========================================================================
   openStatsModal() {
     const stats = window.storageManager.getStats();
     document.getElementById('statMatchesPlayed').textContent = stats.matchesPlayed;
@@ -1650,9 +1838,6 @@ class AppCoordinator {
     });
   }
 
-  // ==========================================================================
-  // Settings & Utilities
-  // ==========================================================================
   openSettingsModal() {
     this.domSettingsModal.classList.add('active');
   }
@@ -1680,19 +1865,20 @@ class AppCoordinator {
     const okBtn = document.getElementById('btnConfirmOk');
     const cancelBtn = document.getElementById('btnConfirmCancel');
 
+    const cleanup = () => {
+      this.domConfirmModal.classList.remove('active');
+      okBtn.removeEventListener('click', handleOk);
+      cancelBtn.removeEventListener('click', handleCancel);
+    };
+
     const handleOk = () => {
       cleanup();
       onOk();
     };
+
     const handleCancel = () => {
       cleanup();
     };
-
-    function cleanup() {
-      document.getElementById('confirmModal').classList.remove('active');
-      okBtn.removeEventListener('click', handleOk);
-      cancelBtn.removeEventListener('click', handleCancel);
-    }
 
     okBtn.addEventListener('click', handleOk);
     cancelBtn.addEventListener('click', handleCancel);
@@ -1717,13 +1903,12 @@ class AppCoordinator {
   }
 
   shareOnX() {
-    const text = encodeURIComponent("Checkers match completed on Games Clubhouse! 👑🔴⚪️");
+    const text = encodeURIComponent("Checkers match completed on Games Clubhouse! 👑🔴⚫️");
     const url = encodeURIComponent(window.location.href);
     window.open(`https://twitter.com/intent/tweet?text=${text}&url=${url}`, '_blank');
   }
 }
 
-// Start application when DOM is ready
 window.addEventListener('DOMContentLoaded', () => {
   window.app = new AppCoordinator();
 });
