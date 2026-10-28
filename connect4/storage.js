@@ -1,29 +1,30 @@
 class StorageManager {
   constructor() {
-    this.SETTINGS_KEY = 'clubhouse_c4_settings';
-    this.STATS_KEY = 'clubhouse_c4_stats';
-    this.GAME_STATE_KEY = 'clubhouse_c4_active_save';
+    this.KEY_SETTINGS = 'gch_c4_settings';
+    this.KEY_SAVE = 'gch_c4_saved_game';
+    this.KEY_STATS = 'gch_c4_stats';
+    this.KEY_ACHIEVEMENTS = 'gch_c4_achievements';
+    this.KEY_CLUBHOUSE = 'gch_clubhouse_shared_settings';
   }
 
   getSettings() {
-    // 既存のゲーム実装が壊れないよう両方の形式（数値speed・真偽値fastAnim）を保持
+    // 1. デフォルト設定
     const defaults = {
       lang: 'en',
       sound: true,
-      vibrate: true,
-      speed: 1.0,
+      vibration: true,
       fastAnim: false
     };
 
     let current = { ...defaults };
+
+    // 2. 既存のローカル保存を読み出し
     try {
-      const saved = localStorage.getItem(this.SETTINGS_KEY);
-      if (saved) {
-        current = { ...current, ...JSON.parse(saved) };
-      }
+      const local = JSON.parse(localStorage.getItem(this.KEY_SETTINGS));
+      if (local) current = { ...current, ...local };
     } catch (e) {}
 
-    // クラブハウス・他ゲーム共通キーからの上書き同期
+    // 3. クラブハウスおよび他ゲームの共通キーを最優先で同期
     try {
       const globalLang = localStorage.getItem('c4_lang') ||
                          localStorage.getItem('clubhouse_lang') ||
@@ -49,7 +50,7 @@ class StorageManager {
                         localStorage.getItem('bg_vibration') ??
                         localStorage.getItem('2048_vibration');
       if (globalVib !== null && globalVib !== undefined) {
-        current.vibrate = (globalVib !== 'false' && globalVib !== false);
+        current.vibration = (globalVib !== 'false' && globalVib !== false);
       }
 
       const globalSpeed = localStorage.getItem('c4_speed') ||
@@ -58,9 +59,7 @@ class StorageManager {
                           localStorage.getItem('bg_speed') ||
                           localStorage.getItem('2048_speed');
       if (globalSpeed) {
-        const isFast = (globalSpeed === 'fast' || globalSpeed > 1.0);
-        current.speed = isFast ? 1.5 : 1.0;
-        current.fastAnim = isFast;
+        current.fastAnim = (globalSpeed === 'fast');
       }
     } catch (e) {}
 
@@ -70,21 +69,25 @@ class StorageManager {
   saveSettings(settings) {
     try {
       const current = this.getSettings();
-      const isFast = settings.fastAnim || settings.speed > 1.0 || settings.speed === 'fast';
-      const updated = {
-        ...current,
-        ...settings,
-        fastAnim: !!isFast,
-        speed: isFast ? 1.5 : 1.0
-      };
+      const updated = { ...current, ...settings };
 
-      localStorage.setItem(this.SETTINGS_KEY, JSON.stringify(updated));
+      // コネクトフォー本体の保存キーに保存
+      localStorage.setItem(this.KEY_SETTINGS, JSON.stringify(updated));
 
-      // クラブハウス共通キー群への同期
+      // クラブハウス共有キー（旧形式）も更新
+      try {
+        const club = JSON.parse(localStorage.getItem(this.KEY_CLUBHOUSE)) || {};
+        club.lang = updated.lang;
+        club.sound = updated.sound;
+        club.vibration = updated.vibration;
+        localStorage.setItem(this.KEY_CLUBHOUSE, JSON.stringify(club));
+      } catch (e) {}
+
+      // 全ゲーム共通キー（新形式）へ双方向同期
       const lang = updated.lang || 'en';
       const isMuted = !updated.sound;
-      const isVib = !!updated.vibrate;
-      const speedStr = isFast ? 'fast' : 'normal';
+      const isVib = !!updated.vibration;
+      const speedStr = updated.fastAnim ? 'fast' : 'normal';
 
       ['clubhouse', 'c4', 'bj', 'bg', '2048'].forEach(prefix => {
         localStorage.setItem(`${prefix}_lang`, lang);
@@ -93,13 +96,23 @@ class StorageManager {
         localStorage.setItem(`${prefix}_speed`, speedStr);
       });
 
-      // 他ゲーム独自キーへの同期
+      // バックギャモン独自キー（gch_bg_settings）も更新
+      try {
+        localStorage.setItem('gch_bg_settings', JSON.stringify({
+          lang: lang,
+          sound: updated.sound,
+          haptics: isVib,
+          fastAnim: updated.fastAnim
+        }));
+      } catch (e) {}
+
+      // ブラックジャック独自キー（clubhouse_settings）も更新
       try {
         localStorage.setItem('clubhouse_settings', JSON.stringify({
           lang: lang,
           sound: updated.sound,
           vibrate: isVib,
-          speed: updated.speed
+          speed: updated.fastAnim ? 1.5 : 1.0
         }));
       } catch (e) {}
 
@@ -109,47 +122,77 @@ class StorageManager {
     }
   }
 
-  getStats() {
-    const defaults = { gamesPlayed: 0, player1Wins: 0, player2Wins: 0, draws: 0 };
+  getSavedGame() {
     try {
-      const saved = localStorage.getItem(this.STATS_KEY);
-      return saved ? { ...defaults, ...JSON.parse(saved) } : defaults;
-    } catch (e) {
-      return defaults;
-    }
-  }
-
-  saveStats(stats) {
-    try {
-      localStorage.setItem(this.STATS_KEY, JSON.stringify(stats));
-    } catch (e) {}
-  }
-
-  saveGameState(state) {
-    try {
-      localStorage.setItem(this.GAME_STATE_KEY, JSON.stringify(state));
-    } catch (e) {}
-  }
-
-  getSavedGameState() {
-    try {
-      const saved = localStorage.getItem(this.GAME_STATE_KEY);
-      return saved ? JSON.parse(saved) : null;
+      return JSON.parse(localStorage.getItem(this.KEY_SAVE));
     } catch (e) {
       return null;
     }
   }
 
-  clearGameState() {
+  saveGame(state) {
     try {
-      localStorage.removeItem(this.GAME_STATE_KEY);
+      if (!state) {
+        localStorage.removeItem(this.KEY_SAVE);
+      } else {
+        localStorage.setItem(this.KEY_SAVE, JSON.stringify(state));
+      }
     } catch (e) {}
   }
 
-  resetAllData() {
+  getStats() {
     try {
-      localStorage.removeItem(this.STATS_KEY);
-      localStorage.removeItem(this.GAME_STATE_KEY);
+      return JSON.parse(localStorage.getItem(this.KEY_STATS)) || {
+        totalGames: 0,
+        wins: 0,
+        losses: 0,
+        draws: 0,
+        winStreak: 0,
+        bestStreak: 0
+      };
+    } catch (e) {
+      return { totalGames: 0, wins: 0, losses: 0, draws: 0, winStreak: 0, bestStreak: 0 };
+    }
+  }
+
+  saveStats(stats) {
+    try {
+      localStorage.setItem(this.KEY_STATS, JSON.stringify(stats));
+    } catch (e) {}
+  }
+
+  getAchievements() {
+    try {
+      return JSON.parse(localStorage.getItem(this.KEY_ACHIEVEMENTS)) || {
+        firstWin: false,
+        allDirections: false,
+        quickWin: false,
+        hardWin: false,
+        centerWin: false
+      };
+    } catch (e) {
+      return {
+        firstWin: false,
+        allDirections: false,
+        quickWin: false,
+        hardWin: false,
+        centerWin: false
+      };
+    }
+  }
+
+  saveAchievements(ach) {
+    try {
+      localStorage.setItem(this.KEY_ACHIEVEMENTS, JSON.stringify(ach));
+    } catch (e) {}
+  }
+
+  clearAllData() {
+    try {
+      localStorage.removeItem(this.KEY_SETTINGS);
+      localStorage.removeItem(this.KEY_SAVE);
+      localStorage.removeItem(this.KEY_STATS);
+      localStorage.removeItem(this.KEY_ACHIEVEMENTS);
     } catch (e) {}
   }
 }
