@@ -10,7 +10,7 @@
   <link rel="manifest" href="manifest.json">
   <link rel="icon" href="icon.svg" type="image/svg+xml">
   <link rel="stylesheet" href="style.css">
-  <!-- Three.js CDN for 3D Dice -->
+  <!-- Three.js CDN -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 </head>
 <body>
@@ -156,7 +156,7 @@
       </footer>
     </section>
 
-    <!-- 3-STAGE FIRST/SECOND SEQUENCE MODAL (3D DICE DROP EMBEDDED) -->
+    <!-- 3-STAGE FIRST/SECOND SEQUENCE MODAL (3D DICE DROP) -->
     <div id="sequenceModal" class="app-modal-layer">
       <div class="modal-card sequence-card">
         <h2 class="sequence-title" data-i18n="seq_title">先手・後手決定</h2>
@@ -164,10 +164,10 @@
           チェッカーズは【赤駒】が先手です。サイコロを振って出目の大きい方が先手となります！
         </p>
 
-        <!-- 3D Dice Tray Canvas -->
-        <div class="dice-tray-box" id="diceTrayContainer">
+        <!-- 3D Dice Tray (Felt Tray with Canvas) -->
+        <div class="dice-tray" id="tray">
           <canvas id="webgl-canvas"></canvas>
-          <div class="tray-turn-tag" id="diceTrayTurnTag">あなた（1P）の投下</div>
+          <div class="tray-tag" id="diceTurnTag">あなたの投下</div>
         </div>
 
         <div class="dice-score-compare">
@@ -182,11 +182,11 @@
           </div>
         </div>
 
-        <p class="seq-result-banner" id="seqResultText">サイコロを振ってください</p>
+        <div class="result-label" id="seqResultText">ボタンを押してサイコロを振ってください</div>
 
         <div class="sequence-action-buttons">
-          <button type="button" id="btnRollDice" class="btn-royal btn-primary" data-i18n="seq_btn_roll">サイコロを振る</button>
-          <button type="button" id="btnStartGameConfirmed" class="btn-royal btn-resume hidden" data-i18n="seq_btn_play">対局開始</button>
+          <button type="button" class="roll-trigger-btn" id="btnRollDice" data-i18n="seq_btn_roll">サイコロを振る</button>
+          <button type="button" class="btn-royal btn-resume hidden" id="btnStartGameConfirmed" data-i18n="seq_btn_play">対局開始</button>
         </div>
       </div>
     </div>
