@@ -116,7 +116,7 @@ const I18N = {
     lang: "言語",
     sound: "効果音",
     vibration: "振動",
-    resetData: "全データ初期化",
+    resetData: "データ初期化",
     resetBtn: "初期化",
     close: "とじる",
     cancel: "キャンセル",
