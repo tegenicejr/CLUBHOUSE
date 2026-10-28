@@ -1,35 +1,154 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="100%" height="100%">
   <defs>
-    <radialGradient id="bgGrad" cx="50%" cy="30%" r="75%">
-      <stop offset="0%" stop-color="#1e293b"/>
-      <stop offset="100%" stop-color="#090d16"/>
+    <!-- 背景：落ち着いた深みのあるトイスタジオ背景 -->
+    <radialGradient id="toyStudioBg" cx="50%" cy="30%" r="85%">
+      <stop offset="0%" stop-color="#2a201c" />
+      <stop offset="50%" stop-color="#181210" />
+      <stop offset="100%" stop-color="#0a0706" />
     </radialGradient>
-    <radialGradient id="redDisk" cx="35%" cy="35%" r="65%">
-      <stop offset="0%" stop-color="#ff7b72"/>
-      <stop offset="60%" stop-color="#ef4444"/>
-      <stop offset="100%" stop-color="#991b1b"/>
-    </radialGradient>
-    <radialGradient id="yellowDisk" cx="35%" cy="35%" r="65%">
-      <stop offset="0%" stop-color="#fef08a"/>
-      <stop offset="60%" stop-color="#eab308"/>
-      <stop offset="100%" stop-color="#a16207"/>
-    </radialGradient>
-    <linearGradient id="boardGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" stop-color="#3b82f6"/>
-      <stop offset="100%" stop-color="#1d4ed8"/>
+
+    <!-- プラスチックブルーフレーム（3D成型色） -->
+    <linearGradient id="framePlastic" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#3b82f6" />
+      <stop offset="25%" stop-color="#2563eb" />
+      <stop offset="70%" stop-color="#1d4ed8" />
+      <stop offset="100%" stop-color="#172554" />
     </linearGradient>
-    <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%">
-      <feDropShadow dx="0" dy="16" stdDeviation="16" flood-color="#000" flood-opacity="0.55"/>
+
+    <!-- イエローサポートスタンド -->
+    <linearGradient id="standPlastic" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#fef08a" />
+      <stop offset="35%" stop-color="#eab308" />
+      <stop offset="100%" stop-color="#854d0e" />
+    </linearGradient>
+
+    <!-- レッドディスク（本物の成型樹脂＆光沢リブ） -->
+    <radialGradient id="diskRed" cx="35%" cy="30%" r="70%">
+      <stop offset="0%" stop-color="#ff9999" />
+      <stop offset="30%" stop-color="#ef4444" />
+      <stop offset="75%" stop-color="#b91c1c" />
+      <stop offset="100%" stop-color="#450a0a" />
+    </radialGradient>
+
+    <!-- イエローディスク（本物の成型樹脂＆光沢リブ） -->
+    <radialGradient id="diskYellow" cx="35%" cy="30%" r="70%">
+      <stop offset="0%" stop-color="#fffec4" />
+      <stop offset="30%" stop-color="#facc15" />
+      <stop offset="75%" stop-color="#ca8a04" />
+      <stop offset="100%" stop-color="#713f12" />
+    </radialGradient>
+
+    <!-- スロット内部の深み影 -->
+    <radialGradient id="slotShadow" cx="50%" cy="50%" r="50%">
+      <stop offset="65%" stop-color="#000000" stop-opacity="0" />
+      <stop offset="90%" stop-color="#000000" stop-opacity="0.75" />
+      <stop offset="100%" stop-color="#000000" />
+    </radialGradient>
+
+    <!-- パッケージ風トイシャドウ -->
+    <filter id="popShadow" x="-25%" y="-20%" width="150%" height="150%">
+      <feDropShadow dx="0" dy="22" stdDeviation="18" flood-color="#000000" flood-opacity="0.85" />
+    </filter>
+
+    <!-- 前面に飛び出すディスク用ハイライトシャドウ -->
+    <filter id="floatShadow" x="-30%" y="-30%" width="160%" height="160%">
+      <feDropShadow dx="0" dy="16" stdDeviation="12" flood-color="#000000" flood-opacity="0.75" />
     </filter>
   </defs>
-  <rect width="512" height="512" rx="110" fill="url(#bgGrad)"/>
-  <g filter="url(#shadow)">
-    <rect x="56" y="86" width="400" height="340" rx="36" fill="url(#boardGrad)" stroke="#60a5fa" stroke-width="6"/>
-    <circle cx="156" cy="186" r="48" fill="url(#redDisk)"/>
-    <circle cx="256" cy="186" r="48" fill="url(#yellowDisk)"/>
-    <circle cx="356" cy="186" r="48" fill="url(#redDisk)"/>
-    <circle cx="156" cy="306" r="48" fill="url(#yellowDisk)"/>
-    <circle cx="256" cy="306" r="48" fill="url(#redDisk)"/>
-    <circle cx="356" cy="306" r="48" fill="url(#yellowDisk)"/>
+
+  <!-- アイコン台座背景 -->
+  <rect width="512" height="512" rx="112" fill="url(#toyStudioBg)" />
+  
+  <!-- スポットライト光 -->
+  <ellipse cx="256" cy="140" rx="200" ry="120" fill="#fef08a" opacity="0.08" />
+
+  <!-- メイン玩具オブジェクト（トイパッケージ斜めパース構図） -->
+  <g filter="url(#popShadow)" transform="rotate(-6 256 256)">
+    
+    <!-- 左右の黄色スタンド脚（本体を支える脚） -->
+    <path d="M 64 395 L 102 180 L 132 180 L 106 405 Z" fill="url(#standPlastic)" stroke="#a16207" stroke-width="2" />
+    <path d="M 448 395 L 410 180 L 380 180 L 406 405 Z" fill="url(#standPlastic)" stroke="#a16207" stroke-width="2" />
+    <rect x="52" y="392" width="70" height="20" rx="8" fill="#ca8a04" />
+    <rect x="390" y="392" width="70" height="20" rx="8" fill="#ca8a04" />
+
+    <!-- ブルーグリッドフレーム本体 -->
+    <rect x="88" y="110" width="336" height="275" rx="24" fill="url(#framePlastic)" stroke="#60a5fa" stroke-width="3" />
+
+    <!-- 天面ハイライト線（射出成型エッジ） -->
+    <path d="M 112 113 L 400 113" stroke="#93c5fd" stroke-width="3" stroke-linecap="round" opacity="0.6" />
+
+    <!-- 底部のスライドラッチバー（実機同様の黄色いレバー） -->
+    <rect x="82" y="375" width="348" height="18" rx="5" fill="url(#standPlastic)" stroke="#854d0e" stroke-width="1.5" />
+
+    <!-- 盤面スロット穴 & ディスク配置（3×3マス） -->
+    <!-- 下段 -->
+    <g>
+      <!-- (1,3) 赤 -->
+      <circle cx="160" cy="325" r="32" fill="#090d16" />
+      <circle cx="160" cy="325" r="30" fill="url(#diskRed)" />
+      <circle cx="160" cy="325" r="20" fill="none" stroke="#ff9999" stroke-width="1.5" opacity="0.5" />
+      <circle cx="160" cy="325" r="32" fill="url(#slotShadow)" />
+
+      <!-- (2,3) 黄 -->
+      <circle cx="256" cy="325" r="32" fill="#090d16" />
+      <circle cx="256" cy="325" r="30" fill="url(#diskYellow)" />
+      <circle cx="256" cy="325" r="20" fill="none" stroke="#fffda8" stroke-width="1.5" opacity="0.5" />
+      <circle cx="256" cy="325" r="32" fill="url(#slotShadow)" />
+
+      <!-- (3,3) 赤 -->
+      <circle cx="352" cy="325" r="32" fill="#090d16" />
+      <circle cx="352" cy="325" r="30" fill="url(#diskRed)" />
+      <circle cx="352" cy="325" r="20" fill="none" stroke="#ff9999" stroke-width="1.5" opacity="0.5" />
+      <circle cx="352" cy="325" r="32" fill="url(#slotShadow)" />
+    </g>
+
+    <!-- 中段 -->
+    <g>
+      <!-- (1,2) 黄 -->
+      <circle cx="160" cy="245" r="32" fill="#090d16" />
+      <circle cx="160" cy="245" r="30" fill="url(#diskYellow)" />
+      <circle cx="160" cy="245" r="20" fill="none" stroke="#fffda8" stroke-width="1.5" opacity="0.5" />
+      <circle cx="160" cy="245" r="32" fill="url(#slotShadow)" />
+
+      <!-- (2,2) 赤 -->
+      <circle cx="256" cy="245" r="32" fill="#090d16" />
+      <circle cx="256" cy="245" r="30" fill="url(#diskRed)" />
+      <circle cx="256" cy="245" r="20" fill="none" stroke="#ff9999" stroke-width="1.5" opacity="0.5" />
+      <circle cx="256" cy="245" r="32" fill="url(#slotShadow)" />
+
+      <!-- (3,2) 空穴 -->
+      <circle cx="352" cy="245" r="32" fill="#090d16" />
+      <circle cx="352" cy="245" r="32" fill="url(#slotShadow)" />
+    </g>
+
+    <!-- 上段 -->
+    <g>
+      <!-- (1,1) 空穴 -->
+      <circle cx="160" cy="165" r="32" fill="#090d16" />
+      <circle cx="160" cy="165" r="32" fill="url(#slotShadow)" />
+
+      <!-- (2,1) 空穴 -->
+      <circle cx="256" cy="165" r="32" fill="#090d16" />
+      <circle cx="256" cy="165" r="32" fill="url(#slotShadow)" />
+
+      <!-- (3,1) 空穴 -->
+      <circle cx="352" cy="165" r="32" fill="#090d16" />
+      <circle cx="352" cy="165" r="32" fill="url(#slotShadow)" />
+    </g>
+  </g>
+
+  <!-- 手前に飛び出してくるダイナミックなアクションディスク（パッケージ特有の立体演出） -->
+  <!-- 手前の浮遊黄色ディスク（左下） -->
+  <g filter="url(#floatShadow)">
+    <circle cx="105" cy="390" r="44" fill="url(#diskYellow)" stroke="#ffffff" stroke-width="2.5" />
+    <circle cx="105" cy="390" r="28" fill="none" stroke="#fffda8" stroke-width="2" opacity="0.7" />
+    <circle cx="105" cy="390" r="14" fill="none" stroke="#a16207" stroke-width="2.5" />
+  </g>
+
+  <!-- 手前に大きく飛び出す決定打・赤ディスク（右上・勝利のダイナミズム） -->
+  <g filter="url(#floatShadow)">
+    <circle cx="395" cy="140" r="50" fill="url(#diskRed)" stroke="#ffffff" stroke-width="3" />
+    <circle cx="395" cy="140" r="32" fill="none" stroke="#ff9999" stroke-width="2.5" opacity="0.8" />
+    <circle cx="395" cy="140" r="16" fill="none" stroke="#7f1d1d" stroke-width="3" />
   </g>
 </svg>
