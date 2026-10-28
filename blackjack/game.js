@@ -5,10 +5,12 @@
  * - Independent bankrolls for 2P-4P (500 chips, refill when empty)
  * - Exact win/loss chip calculation per seat
  * - Direct table start, no dice roll
+ * - Full multi-language support for "Back to CLUBHOUSE"
  */
 
 const I18N = {
   en: {
+    backToClubhouse: "‹ Back to CLUBHOUSE",
     btnStart: "Start Game",
     btnResume: "Resume Game",
     btnRules: "How to Play",
@@ -96,10 +98,11 @@ const I18N = {
     shareTweet: "Playing Blackjack on Games Clubhouse! Chips: {chips} ♠️🎲"
   },
   ja: {
+    backToClubhouse: "‹ CLUBHOUSEへ戻る",
     btnStart: "ゲームスタート",
     btnResume: "つづきから",
     btnRules: "あそびかた",
-    btnRecords: "戦績・実績",
+    btnRecords: "戦績・役",
     btnSettings: "⚙️ 設定",
     btnBackTitle: "‹ タイトルへ",
     shoeLabel: "シュー残",
@@ -157,20 +160,20 @@ const I18N = {
     badgeFiveCard: "ファイブカード",
     badgeFiveCardDesc: "バーストせずに5枚引く",
     settingsTitle: "⚙️ 設定",
-    labelLanguage: "言語 (Language)",
-    labelSound: "効果音 (BGM/SE)",
-    labelHaptics: "振動 (Vibration)",
-    labelSpeed: "速度 (Speed)",
+    labelLanguage: "言語",
+    labelSound: "効果音",
+    labelHaptics: "振動",
+    labelSpeed: "アニメーション速度",
     speedNormal: "通常",
     speedFast: "高速",
-    btnResetData: "データ初期化",
+    btnResetData: "戦績・データ初期化",
     btnCloseSettings: "閉じる",
 
-    confirmTitleBack: "タイトルへ戻りますか？",
-    confirmTitleBackMsg: "現在の進行状況は自動保存されます。",
+    confirmTitleBack: "タイトルへ戻る",
+    confirmTitleBackMsg: "現在の対局状況は自動保存されます。\nいつでも「つづきから」再開できます。",
 
     confirmOverwriteTitle: "新しくゲームを開始しますか？",
-    confirmOverwriteMsg: "前回のプレイデータは上書きされ、\n最初からスタートします。",
+    confirmOverwriteMsg: "保存されている進行中のデータが消去されます。\nよろしいですか？",
 
     confirmResetTitle: "データを初期化しますか？",
     confirmResetMsg: "戦績や進行状況がすべて消去されます。\n元には戻せません。",
@@ -183,6 +186,7 @@ const I18N = {
     shareTweet: "Games Clubhouseでブラックジャックをプレイ中！所持チップ: {chips}枚 ♠️🎲"
   },
   "zh-CN": {
+    backToClubhouse: "‹ 返回 CLUBHOUSE",
     btnStart: "开始游戏",
     btnResume: "继续游戏",
     btnRules: "游戏规则",
@@ -263,6 +267,7 @@ const I18N = {
     shareTweet: "在 Games Clubhouse 畅玩 21 点！筹码：{chips} ♠️🎲"
   },
   "zh-TW": {
+    backToClubhouse: "‹ 返回 CLUBHOUSE",
     btnStart: "開始遊戲",
     btnResume: "繼續遊戲",
     btnRules: "遊玩說明",
@@ -343,6 +348,7 @@ const I18N = {
     shareTweet: "在 Games Clubhouse 暢玩二十一點！籌碼: {chips} ♠️🎲"
   },
   ko: {
+    backToClubhouse: "‹ CLUBHOUSE로 돌아가기",
     btnStart: "게임 시작",
     btnResume: "이어하기",
     btnRules: "게임 방법",
@@ -423,6 +429,7 @@ const I18N = {
     shareTweet: "Games Clubhouse에서 블랙잭 플레이 중! 칩: {chips} ♠️🎲"
   },
   es: {
+    backToClubhouse: "‹ Volver a CLUBHOUSE",
     btnStart: "Iniciar Juego",
     btnResume: "Reanudar",
     btnRules: "Cómo Jugar",
@@ -503,6 +510,7 @@ const I18N = {
     shareTweet: "¡Blackjack en Games Clubhouse! Fichas: {chips} ♠️🎲"
   },
   fr: {
+    backToClubhouse: "‹ Retour au CLUBHOUSE",
     btnStart: "Commencer",
     btnResume: "Reprendre",
     btnRules: "Comment Jouer",
@@ -583,6 +591,7 @@ const I18N = {
     shareTweet: "Blackjack sur Games Clubhouse ! Jetons : {chips} ♠️🎲"
   },
   pt: {
+    backToClubhouse: "‹ Voltar ao CLUBHOUSE",
     btnStart: "Iniciar Jogo",
     btnResume: "Continuar",
     btnRules: "Como Jogar",
@@ -693,11 +702,9 @@ class BlackjackEngine {
   }
 
   initDOM() {
-    // 画面
     this.titleScreen = document.getElementById('title-screen');
     this.gameScreen = document.getElementById('game-screen');
 
-    // タイトルボタン
     this.btnResumeGame = document.getElementById('btn-resume-game');
     this.btnStartGame = document.getElementById('btn-start-game');
     this.btnRules = document.getElementById('btn-rules');
@@ -705,7 +712,6 @@ class BlackjackEngine {
     this.btnSettingsTitle = document.getElementById('btn-settings-title');
     this.titleChipsDisplay = document.getElementById('title-chips-display');
 
-    // 盤面ヘッダー
     this.btnToTitle = document.getElementById('btn-to-title');
     this.btnSoundToggle = document.getElementById('btn-sound-toggle');
     this.btnSettingsTable = document.getElementById('btn-settings-table');
@@ -715,12 +721,10 @@ class BlackjackEngine {
     this.tableToast = document.getElementById('table-toast');
     this.toastText = document.getElementById('toast-text');
 
-    // フッター情報
     this.playerChipsEl = document.getElementById('player-chips');
     this.playerBetEl = document.getElementById('player-bet');
     this.activeTurnIndicator = document.getElementById('active-turn-indicator');
 
-    // 操作パネル
     this.chipControls = document.getElementById('chip-controls');
     this.actionControls = document.getElementById('action-controls');
     this.btnClearBet = document.getElementById('btn-clear-bet');
@@ -729,11 +733,9 @@ class BlackjackEngine {
     this.btnStand = document.getElementById('btn-stand');
     this.btnDouble = document.getElementById('btn-double');
 
-    // チップ補給モーダル
     this.modalRefill = document.getElementById('modal-refill');
     this.btnRefillChips = document.getElementById('btn-refill-chips');
 
-    // 設定モーダル
     this.modalSettings = document.getElementById('modal-settings');
     this.btnCloseSettings = document.getElementById('btn-close-settings');
     this.btnSaveSettings = document.getElementById('btn-save-settings');
@@ -743,17 +745,14 @@ class BlackjackEngine {
     this.selectSpeed = document.getElementById('select-speed');
     this.btnResetData = document.getElementById('btn-reset-data');
 
-    // あそびかたモーダル
     this.modalRules = document.getElementById('modal-rules');
     this.btnCloseRules = document.getElementById('btn-close-rules');
     this.btnRulesAck = document.getElementById('btn-rules-ack');
 
-    // 実績モーダル
     this.modalAchievements = document.getElementById('modal-achievements');
     this.btnCloseAchievements = document.getElementById('btn-close-achievements');
     this.btnStatsAck = document.getElementById('btn-stats-ack');
 
-    // 汎用確認ダイアログ
     this.modalConfirm = document.getElementById('modal-confirm');
     this.confirmTitle = document.getElementById('confirm-title');
     this.confirmBox = document.getElementById('confirm-box');
@@ -761,7 +760,6 @@ class BlackjackEngine {
     this.btnConfirmCancel = document.getElementById('btn-confirm-cancel');
     this.btnConfirmOk = document.getElementById('btn-confirm-ok');
 
-    // リザルトモーダル
     this.modalRoundResult = document.getElementById('modal-round-result');
     this.resultHeadline = document.getElementById('result-headline');
     this.resultPayoutText = document.getElementById('result-payout-text');
@@ -773,14 +771,12 @@ class BlackjackEngine {
   }
 
   bindEvents() {
-    // つづきから
     if (this.btnResumeGame) {
       this.btnResumeGame.addEventListener('click', () => {
         this.resumeSavedGame();
       });
     }
 
-    // ゲームスタート
     if (this.btnStartGame) {
       this.btnStartGame.addEventListener('click', () => {
         const saved = window.storageManager.getSavedGameState();
@@ -806,7 +802,6 @@ class BlackjackEngine {
       });
     }
 
-    // 座席切り替え
     document.querySelectorAll('.slot-type-btn').forEach(btn => {
       btn.addEventListener('click', (e) => {
         const seatIdx = parseInt(e.target.dataset.seat, 10);
@@ -839,7 +834,6 @@ class BlackjackEngine {
       });
     });
 
-    // チップベット
     document.querySelectorAll('.casino-chip').forEach(btn => {
       btn.addEventListener('click', () => {
         const val = parseInt(btn.dataset.value, 10);
@@ -861,7 +855,6 @@ class BlackjackEngine {
       });
     }
 
-    // チップ補給
     if (this.btnRefillChips) {
       this.btnRefillChips.addEventListener('click', () => {
         this.stats.chips += 500;
@@ -873,7 +866,6 @@ class BlackjackEngine {
       });
     }
 
-    // タイトルへ戻る
     if (this.btnToTitle) {
       this.btnToTitle.addEventListener('click', () => {
         const dict = I18N[this.settings.lang] || I18N.en;
@@ -896,7 +888,6 @@ class BlackjackEngine {
       });
     }
 
-    // 確認モーダルボタン
     if (this.btnConfirmCancel) {
       this.btnConfirmCancel.addEventListener('click', () => {
         this.modalConfirm.classList.add('hidden');
@@ -914,12 +905,10 @@ class BlackjackEngine {
       });
     }
 
-    // あそびかた
     if (this.btnRules) this.btnRules.addEventListener('click', () => this.modalRules.classList.remove('hidden'));
     if (this.btnCloseRules) this.btnCloseRules.addEventListener('click', () => this.modalRules.classList.add('hidden'));
     if (this.btnRulesAck) this.btnRulesAck.addEventListener('click', () => this.modalRules.classList.add('hidden'));
 
-    // 戦績
     if (this.btnAchievements) {
       this.btnAchievements.addEventListener('click', () => {
         this.updateStatsUI();
@@ -929,7 +918,6 @@ class BlackjackEngine {
     if (this.btnCloseAchievements) this.btnCloseAchievements.addEventListener('click', () => this.modalAchievements.classList.add('hidden'));
     if (this.btnStatsAck) this.btnStatsAck.addEventListener('click', () => this.modalAchievements.classList.add('hidden'));
 
-    // 設定
     if (this.btnSettingsTitle) this.btnSettingsTitle.addEventListener('click', () => this.modalSettings.classList.remove('hidden'));
     if (this.btnSettingsTable) this.btnSettingsTable.addEventListener('click', () => this.modalSettings.classList.remove('hidden'));
     if (this.btnCloseSettings) this.btnCloseSettings.addEventListener('click', () => this.modalSettings.classList.add('hidden'));
@@ -970,7 +958,6 @@ class BlackjackEngine {
       });
     }
 
-    // データ初期化
     if (this.btnResetData) {
       this.btnResetData.addEventListener('click', () => {
         const dict = I18N[this.settings.lang] || I18N.en;
